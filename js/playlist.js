@@ -1,0 +1,83 @@
+/* Halaman Playlist (dinamis: playlist.html?nama=Rock%20n%20Roll) */
+(() => {
+    const { $, $$, say, isPlayingTitle, isPlaying, playTitle, setPlaying, playlists, getSongs, setSongs, removePlaylist } = MR;
+    const name = new URLSearchParams(location.search).get('nama');
+    const ADDED = ['Hari ini', 'Hari ini', 'Kemarin', 'Kemarin', '3 hari lalu', 'Minggu lalu', 'Minggu lalu', 'Bulan lalu'];
+    const hue = str => [...str].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+    const grad = str => { const h = hue(str); return `linear-gradient(135deg,hsl(${h},55%,62%),hsl(${(h + 50) % 360},50%,32%))`; };
+    const secs = d => { const [m, x] = d.split(':'); return +m * 60 + +x; };
+
+    if (!name || !playlists.includes(name)) {
+        $('#plView').classList.add('d-none'); $('#plMissing').classList.remove('d-none');
+        document.title = 'Playlist tidak ditemukan — MoodRoom'; return;
+    }
+    document.title = name + ' — MoodRoom';
+    $('#plTitle').textContent = name;
+    $('#plDesc').textContent = 'Koleksi lagu ' + name + ' pilihanmu.';
+    $('#plCover').style.background = grad(name);
+
+    const st = { q: '', sort: 'new' };
+    const rowsEl = $('#plRows');
+
+    function render() {
+        const all = getSongs(name).map((s, i) => ({ s, i }));
+        const q = st.q.trim().toLowerCase(), gq = $('#searchInput').value.trim().toLowerCase();
+        const list = all.filter(({ s }) => [q, gq].every(k => !k || (s[0] + ' ' + s[1] + ' ' + s[2]).toLowerCase().includes(k)));
+        if (st.sort === 'az') list.sort((a, b) => a.s[0].localeCompare(b.s[0]));
+        if (st.sort === 'artist') list.sort((a, b) => a.s[1].localeCompare(b.s[1]));
+        if (st.sort === 'dur') list.sort((a, b) => secs(b.s[3]) - secs(a.s[3]));
+        $('#plCount').textContent = all.length;
+        $('#plMin').textContent = Math.round(all.reduce((t, { s }) => t + secs(s[3]), 0) / 60);
+        $('#plHead').classList.toggle('d-none', !all.length);
+        $('#plEmpty').classList.toggle('d-none', all.length > 0);
+        $('#plNoMatch').classList.toggle('d-none', !(all.length && !list.length));
+        $$('#plActions .btn-pink, #shuffleAll').forEach(b => b.disabled = !all.length);
+        rowsEl.innerHTML = list.map(({ s, i }, n) => `
+      <div class="song-row liked${isPlayingTitle(s[0] + ' - ' + s[1]) ? ' is-playing' : ''}" data-title="${s[0]} - ${s[1]}" tabindex="0" role="button" aria-label="Putar ${s[0]}">
+        <div class="c-num"><span class="rownum">${n + 1}</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+        <div class="c-title d-flex align-items-center gap-3 min-w-0">
+          <span class="cov" style="background:${grad(s[2])}"></span>
+          <div class="min-w-0"><div class="tt text-truncate">${s[0]}</div><div class="sub text-truncate">${s[1]}</div></div>
+        </div>
+        <div class="c-album sub text-truncate">${s[2]}</div>
+        <div class="c-added sub">${ADDED[i] || 'Lama'}</div>
+        <div class="c-heart"><button class="ibtn" data-toggle="bi-heart" aria-label="Suka"><i class="bi bi-heart"></i></button></div>
+        <div class="c-dur sub">${s[3]}</div>
+        <div class="c-act d-flex justify-content-end">
+          <div class="dropdown"><button class="ibtn" data-bs-toggle="dropdown" data-bs-strategy="fixed" aria-label="Menu lagu"><i class="bi bi-three-dots"></i></button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"><li><button class="dropdown-item row-act" data-remove="${i}">Hapus dari playlist</button></li><li><button class="dropdown-item row-act">Bagikan</button></li></ul></div>
+        </div>
+      </div>`).join('');
+        MR.refreshCards();
+    }
+
+    document.addEventListener('click', e => {
+        const rm = e.target.closest('[data-remove]');
+        if (rm) {
+            const list = [...getSongs(name)]; const [gone] = list.splice(+rm.dataset.remove, 1);
+            setSongs(name, list); render(); say('Dihapus dari ' + name + (gone ? ': ' + gone[0] : ''));
+        } else if (e.target.closest('.row-act')) say('Bagikan — segera hadir');
+        const it = e.target.closest('[data-dd] .dropdown-item');
+        if (it) {
+            e.preventDefault();
+            const dd = it.closest('[data-dd]');
+            $$('.dropdown-item', dd).forEach(x => x.classList.toggle('active', x === it));
+            $('.dd-label', dd).textContent = it.dataset.l; st[dd.dataset.dd] = it.dataset.v; render();
+        }
+    });
+    $('#plSearch').addEventListener('input', e => { st.q = e.target.value; render(); });
+    $('#searchInput').addEventListener('input', render);
+    $('#playAll').addEventListener('click', () => {
+        const r = rowsEl.querySelector('.song-row'); if (!r) return;
+        if (r.classList.contains('is-playing')) { if (!isPlaying()) setPlaying(true); } else playTitle(r.dataset.title, r);
+        say('Memutar ' + name);
+    });
+    $('#shuffleAll').addEventListener('click', () => {
+        const rows = $$('.song-row', rowsEl); if (!rows.length) return;
+        const r = rows[Math.floor(Math.random() * rows.length)]; playTitle(r.dataset.title, r);
+    });
+    $('#deletePl').addEventListener('click', () => {
+        if (confirm('Hapus playlist "' + name + '"?')) { removePlaylist(name); location.href = 'index.html'; }
+    });
+    render();
+})();
