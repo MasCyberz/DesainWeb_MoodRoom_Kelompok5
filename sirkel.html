@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MoodRoom — Sirkel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/sirkel.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="shell">
+
+    <!-- Top bar (mobile/tablet) -->
+    <header class="d-lg-none d-flex align-items-center justify-content-between p-3 mr-topbar">
+      <button class="btn btn-mr" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+      <span class="fw-bold fs-5"><img class="mr-brand-mark" src="assets/logo_moodroom.png" alt=""> MoodRoom</span>
+      <div class="d-flex align-items-center gap-2">
+        <button class="icon-btn" data-bell aria-label="Notifikasi">
+          <i class="bi bi-bell"></i><span class="dot"></span>
+        </button>
+        <span class="avatar" style="width:38px;height:38px"></span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="offcanvas-lg offcanvas-start mr-sidebar" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header d-lg-none">
+          <button class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Tutup"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+          <div class="side-head mb-2">
+            <div class="logo">
+              <img class="mr-brand-mark" src="assets/logo_moodroom.png" alt="">
+              <span class="lbl"> MoodRoom</span>
+            </div>
+            <button class="side-toggle d-none d-lg-grid" id="sideToggle" aria-label="Ciutkan sidebar" aria-expanded="true">
+              <i class="bi bi-chevron-double-left"></i>
+            </button>
+          </div>
+
+          <h6 class="side-title">Menu utama</h6>
+          <nav class="d-grid gap-2 mb-4" id="mainNav">
+            <a href="index.html" class="side-item"><i class="bi bi-house"></i><span class="lbl">Home</span></a>
+            <a href="#" class="side-item"><i class="bi bi-compass"></i><span class="lbl">Jelajah Playlist</span></a>
+            <a href="sirkel.html" class="side-item active"><i class="bi bi-people"></i><span class="lbl">Sirkel</span></a>
+          </nav>
+
+          <h6 class="side-title">Koleksi Pribadi</h6>
+          <div class="d-grid gap-3 mb-4">
+            <a href="lagu_disukai.html" class="side-item">
+              <i class="bi bi-heart"></i><span class="lbl">Lagu disukai</span>
+            </a>
+            <a href="#" class="side-item">
+              <i class="bi bi-suit-heart-fill text-pink"></i><span class="lbl">MoodCard Saya</span>
+            </a>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center pl-head">
+            <h6 class="side-title mb-0">Playlistku</h6>
+            <button class="btn p-0 text-white-50 fs-4" id="addPlaylist" aria-label="Tambah playlist">
+              <i class="bi bi-plus-circle-fill" style="color:#6c4fe0"></i>
+            </button>
+          </div>
+
+          <div class="d-grid gap-2 my-2 pl-wrap" id="playlists">
+            <a href="#" class="side-item plain">
+              <i class="bi bi-music-note-list"></i><span class="lbl">Rock n Roll</span>
+            </a>
+            <a href="#" class="side-item plain">
+              <i class="bi bi-music-note-list"></i><span class="lbl">Dangdut</span>
+            </a>
+          </div>
+
+          <div class="mt-auto pt-3">
+            <div class="plan-badge mb-3" role="status">
+              <i class="bi bi-person-badge"></i><span class="lbl">Akun Gratis</span>
+            </div>
+            <div class="premium">
+              <i class="bi bi-star-fill premium-ico"></i>
+              <div class="fw-semibold small pt"><i class="bi bi-star-fill me-1"></i>MoodRoom Premium</div>
+              <p class="mb-2 mt-1" style="font-size:.7rem">Nikmati audio kualitas HD tanpa iklan terputus.</p>
+              <button class="btn btn-light btn-sm w-100 rounded-pill py-0" id="upgradeBtn" style="font-size:.75rem">
+                Upgrade Sekarang
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="mr-main sirkel-main">
+        <div class="sirkel-topline">
+          <div>
+            <div class="eyebrow">DENGARKAN BARENG, RASAKAN BARENG</div>
+            <h1 class="sirkel-page-title">Sirkel Kita</h1>
+            <p class="sirkel-subtitle">Pilih ruang, bagikan cerita, temukan lagu dan teman yang punya vibe musik.</p>
+          </div>
+          <div class="sirkel-actions">
+            <span class="live-pill"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+            <button class="btn btn-pink btn-sm" data-sirkel-view="mine">
+              <i class="bi bi-plus-lg"></i> Sirkel Saya
+            </button>
+          </div>
+        </div>
+
+        <div class="sirkel-tabs d-none" role="tablist">
+          <button class="sirkel-tab active" data-sirkel-view="discover">Sirkel Kita</button>
+          <button class="sirkel-tab" data-sirkel-view="mine">Sirkel Sendiri</button>
+        </div>
+
+        <!-- SIRKEL KITA -->
+        <section id="sirkelDiscover" class="sirkel-view">
+          <div class="sirkel-search-row">
+            <div class="sirkel-search-main">
+              <i class="bi bi-search"></i>
+              <input id="sirkelSearch" placeholder="Cari nama room, host, atau lagu..." aria-label="Cari sirkel">
+            </div>
+            <div class="sirkel-filter-chips" aria-label="Filter kategori">
+              <button class="room-filter active" data-room-filter="all">Semua</button>
+              <button class="room-filter" data-room-filter="emosi">Emosi</button>
+              <button class="room-filter" data-room-filter="indie">Indie</button>
+              <button class="room-filter" data-room-filter="pop">Pop</button>
+              <button class="room-filter" data-room-filter="rock">Rock</button>
+              <button class="room-filter" data-room-filter="santai">Santai</button>
+            </div>
+          </div>
+
+          <div class="sirkel-heading-row">
+            <div>
+              <h2 class="sec-title mb-1">Sedang mengudara</h2>
+              <p class="small text-white-50 mb-0">Room publik yang sedang aktif dan siap kamu kunjungi</p>
+            </div>
+            <span class="room-count"><i class="bi bi-broadcast-pin"></i> 8 room sedang aktif</span>
+          </div>
+
+          <div class="row g-3" id="publicRoomList">
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="waktunya jam 1 malam galau emosi indie hindia" data-room-category="emosi indie">
+              <article class="public-room-card">
+                <div class="room-art art-night">
+                  <span class="art-tag">MOOD: GALAU</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-one"></div><div class="art-shape shape-two"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> EMOSI · INDIE</span>
+                    <span><i class="bi bi-people-fill"></i> 12</span>
+                  </div>
+                  <h3>Waktunya Jam 1 Malam</h3>
+                  <p>Temani malam panjang dengan lagu yang paling relate.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@senja_manis · Hindia, Nadin</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Waktunya Jam 1 Malam">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="pulang pelan pelan santai pop perjalanan" data-room-category="santai pop">
+              <article class="public-room-card">
+                <div class="room-art art-road">
+                  <span class="art-tag">MOOD: SANTAI</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-three"></div><div class="art-shape shape-four"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> SANTAI · POP</span>
+                    <span><i class="bi bi-people-fill"></i> 8</span>
+                  </div>
+                  <h3>Pulang Pelan-Pelan</h3>
+                  <p>Lagu hangat untuk perjalanan pulang yang panjang.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@raka.wav · Tulus, Kunto Aji</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Pulang Pelan-Pelan">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="galau tanpa sebab patah hati emosi pop" data-room-category="emosi pop">
+              <article class="public-room-card">
+                <div class="room-art art-cloud">
+                  <span class="art-tag">MOOD: SENDU</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-two"></div><div class="art-shape shape-five"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> EMOSI · POP</span>
+                    <span><i class="bi bi-people-fill"></i> 6</span>
+                  </div>
+                  <h3>Galau Tanpa Sebab</h3>
+                  <p>Kalau belum bisa cerita, biar lagu yang mewakili.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@ruangsendu · Mahalini, Juicy Luicy</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Galau Tanpa Sebab">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="senja di teras rumah akustik santai indie" data-room-category="santai indie">
+              <article class="public-room-card">
+                <div class="room-art art-sunset">
+                  <span class="art-tag">MOOD: HANGAT</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-four"></div><div class="art-shape shape-one"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> SANTAI · INDIE</span>
+                    <span><i class="bi bi-people-fill"></i> 9</span>
+                  </div>
+                  <h3>Senja di Teras Rumah</h3>
+                  <p>Putar lagu akustik sambil berbagi cerita.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@nadine.mp3 · Fourtwnty, Payung Teduh</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Senja di Teras Rumah">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="revisi sampai pagi begadang fokus rock" data-room-category="rock">
+              <article class="public-room-card">
+                <div class="room-art art-morning">
+                  <span class="art-tag">MOOD: FOKUS</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-five"></div><div class="art-shape shape-three"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> FOKUS · ROCK</span>
+                    <span><i class="bi bi-people-fill"></i> 15</span>
+                  </div>
+                  <h3>Revisi Sampai Pagi</h3>
+                  <p>Teman begadang dan pejuang deadline berkumpul.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@deadlineclub · .Feast, Hindia</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Revisi Sampai Pagi">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="ruang rindu 2000 an nostalgia pop" data-room-category="pop">
+              <article class="public-room-card">
+                <div class="room-art art-retro">
+                  <span class="art-tag">MOOD: NOSTALGIA</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-one"></div><div class="art-shape shape-two"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> NOSTALGIA · POP</span>
+                    <span><i class="bi bi-people-fill"></i> 4</span>
+                  </div>
+                  <h3>Ruang Rindu 2000-an</h3>
+                  <p>Lagu lama, kenangan lama, teman baru.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@kasetpita · Sheila On 7, Peterpan</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Ruang Rindu 2000-an">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="distorsi selepas kerja santai rock" data-room-category="santai rock">
+              <article class="public-room-card">
+                <div class="room-art art-retro">
+                  <span class="art-tag">MOOD: ENERGI</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-three"></div><div class="art-shape shape-five"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> ROCK · SANTAI</span>
+                    <span><i class="bi bi-people-fill"></i> 7</span>
+                  </div>
+                  <h3>Distorsi Selepas Kerja</h3>
+                  <p>Lepaskan penat setelah hari yang panjang.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@kerjaterus · .Feast, Seringai</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Distorsi Selepas Kerja">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3 public-room-wrap"
+              data-room-search="teman begadang malam indie santai" data-room-category="santai indie">
+              <article class="public-room-card">
+                <div class="room-art art-sunset">
+                  <span class="art-tag">MOOD: LATE NIGHT</span>
+                  <span class="art-live"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+                  <div class="art-shape shape-two"></div><div class="art-shape shape-four"></div>
+                </div>
+                <div class="room-card-body">
+                  <div class="room-card-meta">
+                    <span><i class="bi bi-music-note-beamed"></i> INDIE · SANTAI</span>
+                    <span><i class="bi bi-people-fill"></i> 5</span>
+                  </div>
+                  <h3>Teman Begadang</h3>
+                  <p>Masih terjaga? Kita dengarkan lagu bareng.</p>
+                  <div class="room-host"><span class="avatar s"></span><span>@midnight.fm · Nadin, Sal Priadi</span></div>
+                  <button class="btn btn-pink w-100 btn-sm join-public" data-room="Teman Begadang">
+                    <i class="bi bi-headphones"></i> Gabung Nongkrong
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+          <p class="small text-center text-white-50 d-none mt-3" id="sirkelNoResult">Sirkel tidak ditemukan.</p>
+        </section>
+
+        <!-- SIRKEL SENDIRI -->
+        <section id="sirkelMine" class="sirkel-view d-none">
+          <div class="sirkel-heading-row">
+            <div>
+              <h2 class="sec-title mb-1">Sirkel Sendiri</h2>
+              <p class="small text-white-50 mb-0">Buat ruang privat atau masuk ke ruang temanmu.</p>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-outline-pink btn-sm" data-sirkel-view="discover">
+                <i class="bi bi-arrow-left"></i> Sirkel Kita
+              </button>
+              <span class="private-chip"><i class="bi bi-shield-lock-fill"></i> PRIVATE ROOM</span>
+            </div>
+          </div>
+
+          <div class="create-room-panel">
+            <div>
+              <span class="eyebrow">RUANG PUNYAMU</span>
+              <h3>Bikin ruang untuk sirkel kecilmu.</h3>
+              <p class="small text-white-50 mb-0">Atur musik, undang teman, dan nikmati waktu bersama.</p>
+            </div>
+            <button class="btn btn-pink" id="createRoomBtn">
+              <i class="bi bi-plus-circle"></i> Buat Room Baru
+            </button>
+          </div>
+
+          <div class="row g-3 mt-1">
+            <div class="col-12 col-xl-6">
+              <article class="private-room-card">
+                <div class="private-art">
+                  <span class="private-label">ROOM KAMU</span>
+                  <i class="bi bi-broadcast-pin"></i>
+                  <span class="private-dots">• &nbsp; • &nbsp; •</span>
+                </div>
+                <div class="private-body">
+                  <span class="room-card-meta">4 MEMBER <span>PRIVATE</span></span>
+                  <h3>Kost Mamang</h3>
+                  <p>Tempat singgah buat cerita, dengerin lagu, dan saling nemenin.</p>
+                  <div class="queue-line">
+                    <span class="queue-cover"></span>
+                    <span><small>SEDANG DIPUTAR</small><b>Evaluasi — Hindia</b></span>
+                    <span class="ms-auto small">3:31</span>
+                  </div>
+                  <div class="d-flex gap-2 mt-3">
+                    <button class="btn btn-pink flex-fill open-room" data-room="Kost Mamang">Masuk Room</button>
+                    <button class="btn btn-outline-pink" id="sharePrivate">
+                      <i class="bi bi-link-45deg"></i> Bagikan Link
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="col-12 col-xl-6">
+              <article class="private-room-card join-room-card">
+                <div class="private-art join-art">
+                  <span class="private-label">PUNYA TEMAN</span>
+                  <i class="bi bi-lock-fill"></i>
+                  <span class="private-dots">• &nbsp; • &nbsp; •</span>
+                </div>
+                <div class="private-body">
+                  <span class="room-card-meta">MASUK DENGAN KODE</span>
+                  <h3>Pulang Bareng</h3>
+                  <p>Masuk ke ruang privat temanmu menggunakan kode undangan.</p>
+                  <label class="small fw-semibold mb-2" for="roomCode">Kode room</label>
+                  <div class="input-group">
+                    <input id="roomCode" class="form-control room-code-input" placeholder="#MASUK-KODE">
+                    <button class="btn btn-pink" id="joinByCode">Gabung</button>
+                  </div>
+                  <div class="small text-white-50 mt-3">
+                    <i class="bi bi-info-circle"></i> Minta kode room kepada teman yang mengundangmu.
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- DETAIL ROOM -->
+        <section id="sirkelRoom" class="sirkel-view d-none">
+          <div class="room-detail-head">
+            <button class="btn btn-sm btn-outline-pink" id="backSirkel">
+              <i class="bi bi-arrow-left"></i> Kembali ke Sirkel
+            </button>
+            <div class="room-detail-tools">
+              <span class="private-chip"><i class="bi bi-lock-fill"></i> ROOM PRIVATE</span>
+              <button class="btn btn-sm btn-outline-pink" id="copyRoomCode">
+                <i class="bi bi-link-45deg"></i> Bagikan Link
+              </button>
+              <button class="btn btn-sm btn-outline-pink" id="leaveRoom">
+                <i class="bi bi-box-arrow-right"></i> Keluar Room
+              </button>
+            </div>
+          </div>
+
+          <div class="room-detail-grid">
+            <div class="room-center">
+              <div class="room-now-card">
+                <div class="eyebrow">SEDANG DIPUTAR · KOST MAMANG</div>
+                <div class="room-now-content">
+                  <div class="album-art-placeholder"><i class="bi bi-vinyl-fill"></i></div>
+                  <div class="flex-grow-1">
+                    <h2 id="roomName">Kost Mamang</h2>
+                    <p class="text-white-50 small">Ruang nongkrong privat · Host @hapisganteng</p>
+                    <div class="room-track">
+                      <span class="eq"><i></i><i></i><i></i><i></i></span>
+                      <div><b>Evaluasi</b><small>Hindia · Menari Dengan Bayangan</small></div>
+                      <span class="ms-auto small">3:31</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="room-play-actions">
+                  <button class="btn btn-pink" id="roomPlay"><i class="bi bi-play-fill"></i> Putar Bersama</button>
+                  <button class="btn btn-outline-pink" id="roomQueue">
+                    <i class="bi bi-music-note-list"></i> Lihat Antrean
+                  </button>
+                </div>
+              </div>
+
+              <div class="room-queue-panel">
+                <div class="d-flex justify-content-between">
+                  <h3>Antrean lagu</h3><span class="small text-white-50">3 lagu berikutnya</span>
+                </div>
+                <div class="queue-song">
+                  <span class="queue-cover q1"></span>
+                  <span><b>Evaluasi</b><small>Hindia</small></span><span class="ms-auto">3:31</span>
+                </div>
+                <div class="queue-song">
+                  <span class="queue-cover q2"></span>
+                  <span><b>Secukupnya</b><small>Hindia</small></span><span class="ms-auto">3:25</span>
+                </div>
+                <div class="queue-song">
+                  <span class="queue-cover q3"></span>
+                  <span><b>Rehat</b><small>Kunto Aji</small></span><span class="ms-auto">5:28</span>
+                </div>
+              </div>
+            </div>
+
+            <aside class="room-chat-panel">
+              <div class="d-flex justify-content-between align-items-center">
+                <h3><i class="bi bi-chat-dots-fill text-pink"></i> Obrolan Room</h3>
+                <span class="small text-white-50">
+                  <i class="bi bi-people-fill"></i> <span id="roomMemberCount">4</span>
+                </span>
+              </div>
+              <div class="room-members">
+                <span class="avatar s"></span><span class="avatar s"></span>
+                <span class="avatar s"></span><span class="avatar s"></span>
+                <small>Hapis, Rina, Andi, Kamu</small>
+              </div>
+              <div class="chat-messages" id="chatMessages">
+                <div class="chat-msg"><b>@hapisganteng</b><p>Welcome di Kost Mamang! 🎧</p><small>01:12</small></div>
+                <div class="chat-msg"><b>@rinaaa</b><p>lagunya relate banget 😭</p><small>01:14</small></div>
+                <div class="chat-msg mine"><b>@kamu</b><p>izin nimbrung yaa!</p><small>01:15</small></div>
+              </div>
+              <form id="chatForm" class="chat-compose">
+                <input id="chatInput" class="form-control" placeholder="Tulis pesan..." maxlength="180">
+                <button class="btn btn-pink" aria-label="Kirim pesan"><i class="bi bi-send-fill"></i></button>
+              </form>
+            </aside>
+          </div>
+        </section>
+
+        <!-- PILIH JENIS SIRKEL -->
+        <section id="sirkelChoose" class="sirkel-view d-none">
+          <div class="eyebrow">MULAI TERHUBUNG</div>
+          <h2 class="sec-title mt-2">Pilih cara kamu berkumpul</h2>
+          <p class="small text-white-50">Pilih jenis sirkel yang ingin kamu masuki.</p>
+          <div class="row g-3 choose-grid">
+            <div class="col-12 col-md-6">
+              <article class="choose-card">
+                <div class="choose-art"><i class="bi bi-broadcast"></i><span>PUBLIC</span></div>
+                <h3>Sirkel Kita</h3>
+                <p>Temukan ruang terbuka, dengarkan musik bersama, dan kenalan dengan teman baru.</p>
+                <button class="btn btn-pink w-100" data-sirkel-view="discover">Jelajahi Sirkel Kita</button>
+              </article>
+            </div>
+            <div class="col-12 col-md-6">
+              <article class="choose-card">
+                <div class="choose-art locked"><i class="bi bi-lock-fill"></i><span>PRIVATE</span></div>
+                <h3>Sirkel Sendiri</h3>
+                <p>Buat ruang khusus atau gabung ke ruang privat teman lewat kode undangan.</p>
+                <button class="btn btn-pink w-100" data-sirkel-view="mine">Buka Sirkel Sendiri</button>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- RIGHT: room yang sedang ramai -->
+      <aside class="mr-right sirkel-right">
+        <div class="d-none d-lg-flex align-items-center justify-content-end gap-3 mb-3 top-actions">
+          <button class="icon-btn" data-bell aria-label="Notifikasi">
+            <i class="bi bi-bell"></i><span class="dot"></span>
+          </button>
+          <div class="profile">
+            <span class="avatar"></span>
+            <div class="lh-sm">
+              <div class="fw-bold">@dimas</div>
+              <span class="plan-chip">Akun Gratis</span>
+            </div>
+          </div>
+        </div>
+
+        <section class="live-room-side">
+          <div class="live-room-head">
+            <span class="live-pill"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+            <span class="small text-white-50"><i class="bi bi-people-fill"></i> <b id="listeners">42</b></span>
+          </div>
+          <div class="live-room-title">
+            <span class="live-room-cover"><i class="bi bi-moon-stars-fill"></i></span>
+            <div>
+              <h2>Waktunya Jam 1 Malam</h2>
+              <p>Host: @senja_manis · Indie / Galau</p>
+            </div>
+          </div>
+          <div class="live-room-status">
+            <span class="live-pulse"></span> Sedang mengudara <span class="ms-auto">12 pendengar</span>
+          </div>
+          <div class="live-chat-list">
+            <div class="live-chat-item">
+              <span class="chat-avatar ca1">S</span>
+              <div><b>@senja_manis</b><p>Selamat datang di ruang malam 🌙</p></div>
+            </div>
+            <div class="live-chat-item">
+              <span class="chat-avatar ca2">R</span>
+              <div><b>@raka.wav</b><p>Putar lagu Hindia dong!</p></div>
+            </div>
+            <div class="live-chat-item">
+              <span class="chat-avatar ca3">N</span>
+              <div><b>@nadine.mp3</b><p>lagu ini vibes-nya dapet banget</p></div>
+            </div>
+            <div class="live-chat-item">
+              <span class="chat-avatar ca4">A</span>
+              <div><b>@andii</b><p>ikut dengerin sambil nugas ✨</p></div>
+            </div>
+            <div class="live-chat-item">
+              <span class="chat-avatar ca2">R</span>
+              <div><b>@ruangsendu</b><p>next request lagu apa nih?</p></div>
+            </div>
+            <div class="live-chat-item">
+              <span class="chat-avatar ca3">N</span>
+              <div><b>@nanaa</b><p>malam ini jangan cepat selesai</p></div>
+            </div>
+          </div>
+          <div class="live-room-compose">
+            <input type="text" id="liveMessageInput" placeholder="Kirim pesan ke room..." aria-label="Kirim pesan ke room">
+            <button class="btn btn-pink" id="sendLiveMessage" aria-label="Kirim">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+          <button class="btn btn-pink w-100 mt-2" id="joinBtn">
+            <i class="bi bi-headphones"></i> Gabung Nongkrong
+          </button>
+          <button class="btn btn-outline-pink w-100 mt-2" id="shareBtn">
+            <i class="bi bi-share"></i> Bagikan Room
+          </button>
+        </section>
+        <div id="friendList" class="d-none"></div>
+      </aside>
+    </div>
+
+    <!-- PLAYER -->
+    <footer class="player">
+      <div class="progress-line"><span id="progBar"></span></div>
+      <div class="player-in">
+        <div class="p-left">
+          <span class="cover sm"></span>
+          <div class="p-info">
+            <div class="p-title" id="nowTitle">Evaluasi - Hindia</div>
+            <div class="p-time" id="timeNow">3:31</div>
+          </div>
+          <i class="bi bi-chevron-up p-exp d-lg-none" aria-hidden="true"></i>
+        </div>
+        <div class="p-ctrl">
+          <button class="pbtn d-none d-sm-block" id="shuffleBtn" aria-label="Acak"><i class="bi bi-shuffle"></i></button>
+          <button class="pbtn" id="prevBtn" aria-label="Sebelumnya"><i class="bi bi-skip-start-fill"></i></button>
+          <button class="pbtn play-main" id="playBtn" aria-label="Putar/Jeda"><i class="bi bi-pause-fill"></i></button>
+          <button class="pbtn" id="nextBtn" aria-label="Berikutnya"><i class="bi bi-skip-end-fill"></i></button>
+          <button class="pbtn d-none d-sm-block" id="repeatBtn" aria-label="Ulangi"><i class="bi bi-repeat"></i></button>
+        </div>
+        <div class="p-right d-none d-lg-flex">
+          <button class="pbtn fs-5" id="muteBtn" aria-label="Bisukan"><i class="bi bi-volume-up-fill"></i></button>
+          <div class="vol" id="vol" aria-label="Volume"></div>
+          <span class="vsep d-none d-xl-block"></span>
+          <div class="d-none d-xl-flex gap-2 fs-5">
+            <button class="pbtn" data-react="😊" aria-label="Emoji"><i class="bi bi-emoji-smile"></i></button>
+            <button class="pbtn text-pink" id="loveBtn" aria-label="Suka"><i class="bi bi-heart-fill"></i></button>
+            <button class="pbtn" data-react="🔥" aria-label="Api"><i class="bi bi-fire"></i></button>
+          </div>
+          <span class="vsep d-none d-xl-block"></span>
+          <button class="pbtn fs-5" data-react="chat" aria-label="Chat"><i class="bi bi-chat-dots-fill"></i></button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Panel pemutar (mobile/tablet) -->
+  <div class="offcanvas offcanvas-bottom player-sheet" tabindex="-1" id="playerSheet" aria-label="Pemutar musik">
+    <div class="offcanvas-body">
+      <div class="sheet-grab"></div>
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <span class="cover sm"></span>
+        <div class="min-w-0 flex-grow-1">
+          <div class="fw-bold text-truncate" id="sheetTitle">Evaluasi - Hindia</div>
+          <small class="text-white-50">Sedang diputar</small>
+        </div>
+        <button class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Tutup"></button>
+      </div>
+      <div class="sheet-prog"><span id="progBarM"></span></div>
+      <div class="d-flex justify-content-between small text-white-50 mt-1 mb-3">
+        <span id="timeCur">0:00</span><span>3:31</span>
+      </div>
+      <div class="sheet-ctrl">
+        <button class="pbtn" id="sShuffle" data-proxy="#shuffleBtn" aria-label="Acak"><i class="bi bi-shuffle"></i></button>
+        <button class="pbtn" data-proxy="#prevBtn" aria-label="Sebelumnya"><i class="bi bi-skip-start-fill"></i></button>
+        <button class="pbtn play-main" id="sPlay" data-proxy="#playBtn" aria-label="Putar/Jeda"><i class="bi bi-pause-fill"></i></button>
+        <button class="pbtn" data-proxy="#nextBtn" aria-label="Berikutnya"><i class="bi bi-skip-end-fill"></i></button>
+        <button class="pbtn" id="sRepeat" data-proxy="#repeatBtn" aria-label="Ulangi"><i class="bi bi-repeat"></i></button>
+      </div>
+      <div class="d-flex align-items-center gap-3 my-4">
+        <button class="pbtn fs-4" id="sMute" data-proxy="#muteBtn" aria-label="Bisukan"><i class="bi bi-volume-up-fill"></i></button>
+        <div class="vol flex-grow-1" aria-label="Volume"></div>
+      </div>
+      <div class="sheet-react">
+        <button class="pbtn" data-react="😊" aria-label="Emoji"><i class="bi bi-emoji-smile"></i></button>
+        <button class="pbtn" id="sLove" data-proxy="#loveBtn" aria-label="Suka"><i class="bi bi-heart-fill"></i></button>
+        <button class="pbtn" data-react="🔥" aria-label="Api"><i class="bi bi-fire"></i></button>
+        <button class="pbtn" data-react="chat" aria-label="Chat"><i class="bi bi-chat-dots-fill"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index:2000">
+    <div id="toast" class="toast mr-toast" role="status" aria-live="polite" aria-atomic="true">
+      <div class="toast-body"><i class="bi bi-check-lg"></i><span id="toastMsg"></span></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/sirkel.js"></script>
+</body>
+
+</html>
