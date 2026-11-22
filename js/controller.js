@@ -134,7 +134,7 @@
 
   $('#mcGotoStep1')?.addEventListener('click', () => window.MCController.go(1)); 
   $('#mcGotoStep2')?.addEventListener('click', () => window.MCController.go(2));
-  $('#mcEditFromPrev')?.addEventListener('click', () => window.MCController.go(2)); \
+  $('#mcEditFromPrev')?.addEventListener('click', () => window.MCController.go(2)); 
 
   $('#mcBackBtn')?.addEventListener('click', () => {
     const s = MCState.current.step;
