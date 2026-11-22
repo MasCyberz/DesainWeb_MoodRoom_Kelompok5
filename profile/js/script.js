@@ -8,11 +8,11 @@
   /* ---------- PENGATURAN YANG BISA DIUBAH TEMAN SATU KELOMPOK ---------- */
   var LINKS = {
     home: '../index.html',      // Home kelompok (di folder utama repo)
-    jelajah: '#',            // Jelajah Playlist
-    sirkel: '#',             // Sirkel
+    jelajah: '../playlist.html',            // Jelajah Playlist
+    sirkel: 'sirkel.html',             // Sirkel
     laguDisukai: '../lagu_disukai.html',
     moodcardSaya: '#',       // MoodCard Saya
-    playlist: '#'            // Playlistku
+    playlist: '../playlist.html'            // Playlistku
   };
   var LOGIN_URL = '';        // isi halaman login saat Keluar Akun, mis. '../login.html'
 
