@@ -1908,3 +1908,521 @@ a.round-btn {
 .pick-btn i {
    color: var(--pink);
 }
+
+/* ========================================================================== */
+/* ===== FITUR TAMBAHAN PLAYLIST MOODROOM (REDESIGN PANEL TENGAH) ====== */
+/* ========================================================================== */
+
+/* Header Cover & Meta */
+.plm-head .liked-cover {
+   border-radius: 1.25rem;
+   background: linear-gradient(135deg, #7a3fb0, #a05ab5);
+   box-shadow: 0 8px 24px rgba(122, 63, 176, 0.4);
+   font-size: 2.75rem;
+}
+.plm-head .liked-eyebrow {
+   font-size: 0.75rem;
+   font-weight: 700;
+   letter-spacing: 0.08em;
+   color: rgba(255, 255, 255, 0.8);
+}
+.plm-head .liked-title {
+   font-weight: 800;
+   letter-spacing: -0.02em;
+}
+
+/* Tombol Aksi Tambahan */
+.plm-pill-btn {
+   display: inline-flex;
+   align-items: center;
+   gap: 0.55rem;
+   padding: 0.48rem 1.15rem;
+   border-radius: 2rem;
+   font-size: 0.88rem;
+   font-weight: 600;
+   transition: all 0.2s ease;
+   border: 0;
+   cursor: pointer;
+}
+.plm-offline-pill {
+   background: var(--glass);
+   border: 1px solid var(--glass-bd);
+   color: #fff;
+}
+.plm-offline-pill:hover {
+   background: var(--glass-hi);
+}
+.plm-switch {
+   display: inline-block;
+   width: 32px;
+   height: 18px;
+   border-radius: 10px;
+   background: rgba(255, 255, 255, 0.25);
+   position: relative;
+   transition: background 0.25s;
+}
+.plm-switch::after {
+   content: "";
+   position: absolute;
+   width: 14px;
+   height: 14px;
+   border-radius: 50%;
+   top: 2px;
+   left: 2px;
+   background: #fff;
+   transition: transform 0.25s;
+}
+.plm-switch.is-on {
+   background: var(--pink);
+}
+.plm-switch.is-on::after {
+   transform: translateX(14px);
+}
+
+.plm-btn-share {
+   background: transparent;
+   border: 1px solid rgba(255, 255, 255, 0.25);
+   color: #fff;
+}
+.plm-btn-share:hover {
+   border-color: var(--pink);
+   color: var(--pink);
+   background: rgba(217, 111, 176, 0.08);
+}
+
+.plm-btn-room {
+   background: #6c4fe0;
+   color: #fff;
+   box-shadow: 0 4px 14px rgba(108, 79, 224, 0.35);
+}
+.plm-btn-room:hover {
+   background: #7e63ea;
+   color: #fff;
+}
+
+/* Panel Filter Multi-Tag */
+.plm-filter-panel {
+   background: rgba(35, 14, 60, 0.55);
+   border: 1px solid var(--glass-bd);
+   border-radius: 1rem;
+   padding: 1.15rem 1.35rem;
+   backdrop-filter: var(--blur);
+   -webkit-backdrop-filter: var(--blur);
+}
+.plm-filter-row {
+   display: flex;
+   align-items: center;
+   gap: 0.85rem;
+   margin-bottom: 0.75rem;
+   flex-wrap: wrap;
+}
+.plm-filter-row:last-child {
+   margin-bottom: 0;
+}
+.plm-filter-lbl {
+   font-size: 0.82rem;
+   font-weight: 600;
+   color: rgba(255, 255, 255, 0.75);
+   min-width: 80px;
+}
+.plm-chip-group {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 0.45rem;
+}
+.plm-chip {
+   border-radius: 2rem;
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   background: rgba(255, 255, 255, 0.06);
+   color: rgba(255, 255, 255, 0.85);
+   font-size: 0.82rem;
+   font-weight: 500;
+   padding: 0.35rem 0.95rem;
+   transition: all 0.2s ease;
+   cursor: pointer;
+}
+.plm-chip:hover {
+   background: var(--glass-hi);
+   color: #fff;
+}
+.plm-chip.active {
+   background: var(--pink);
+   border-color: var(--pink);
+   color: #fff;
+   font-weight: 600;
+   box-shadow: 0 4px 12px rgba(217, 111, 176, 0.35);
+}
+.plm-active-filter-row {
+   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   padding-bottom: 0.75rem;
+   margin-bottom: 0.9rem;
+}
+.plm-active-chips {
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 0.5rem;
+}
+.plm-filter-tag {
+   display: inline-flex;
+   align-items: center;
+   gap: 0.4rem;
+   background: var(--pink);
+   color: #fff;
+   border-radius: 2rem;
+   padding: 0.28rem 0.8rem;
+   font-size: 0.78rem;
+   font-weight: 600;
+   box-shadow: 0 2px 8px rgba(217, 111, 176, 0.3);
+}
+.plm-filter-tag i {
+   cursor: pointer;
+   font-size: 0.85rem;
+   opacity: 0.85;
+}
+.plm-filter-tag i:hover {
+   opacity: 1;
+}
+.plm-tag-plus {
+   font-size: 0.85rem;
+   color: rgba(255, 255, 255, 0.5);
+   font-weight: 700;
+}
+.plm-reset-btn {
+   background: none;
+   border: 0;
+   color: rgba(255, 255, 255, 0.55);
+   font-size: 0.82rem;
+   font-weight: 600;
+   cursor: pointer;
+   padding: 0.2rem 0.6rem;
+   border-radius: 0.4rem;
+   transition: color 0.2s;
+}
+.plm-reset-btn:hover {
+   color: var(--pink);
+}
+
+/* Mini Mood Pack */
+.plm-pack-box {
+   margin-bottom: 1.8rem;
+}
+.plm-sec-title {
+   font-size: 1.35rem;
+   font-weight: 700;
+   margin-bottom: 0.25rem;
+   color: #fff;
+}
+.plm-sec-sub {
+   font-size: 0.83rem;
+   color: rgba(255, 255, 255, 0.55);
+   margin-bottom: 0;
+}
+.plm-pack-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 1.15rem;
+}
+.plm-pack-card {
+   background: rgba(45, 20, 75, 0.55);
+   border: 1px solid var(--glass-bd);
+   border-radius: 1rem;
+   overflow: hidden;
+   display: flex;
+   flex-direction: column;
+   transition: transform 0.2s, box-shadow 0.2s;
+}
+.plm-pack-card:hover {
+   transform: translateY(-3px);
+   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+.plm-pack-header {
+   position: relative;
+   padding: 1.1rem 1.15rem;
+   height: 98px;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+}
+.plm-grad-galau {
+   background: linear-gradient(135deg, #a85590, #5a2060);
+}
+.plm-grad-fokus {
+   background: linear-gradient(135deg, #6050b0, #2c2060);
+}
+.plm-grad-semangat {
+   background: linear-gradient(135deg, #d96fb0, #7a3fb0);
+}
+.plm-pack-eyebrow {
+   font-size: 0.72rem;
+   font-weight: 600;
+   color: rgba(255, 255, 255, 0.85);
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+}
+.plm-pack-mood-title {
+   font-size: 1.5rem;
+   font-weight: 800;
+   color: #fff;
+   letter-spacing: 0.04em;
+   line-height: 1.1;
+}
+.plm-pack-play-btn {
+   position: absolute;
+   right: 1.15rem;
+   bottom: -20px;
+   width: 44px;
+   height: 44px;
+   border-radius: 50%;
+   background: var(--pink);
+   border: 3px solid #231238;
+   color: #fff;
+   display: grid;
+   place-items: center;
+   font-size: 1.25rem;
+   box-shadow: 0 4px 14px rgba(217, 111, 176, 0.5);
+   transition: transform 0.2s, background 0.2s;
+   z-index: 2;
+   cursor: pointer;
+}
+.plm-pack-play-btn:hover {
+   transform: scale(1.08);
+   background: #e583c0;
+}
+.plm-pack-body {
+   padding: 1.35rem 1.15rem 1.1rem;
+   flex-grow: 1;
+   display: flex;
+   flex-direction: column;
+}
+.plm-pack-name {
+   font-size: 0.98rem;
+   font-weight: 700;
+   margin-bottom: 0.35rem;
+   color: #fff;
+}
+.plm-pack-meta {
+   display: flex;
+   align-items: center;
+   gap: 0.4rem;
+}
+.plm-badge-pill {
+   display: inline-block;
+   background: var(--pink);
+   color: #fff;
+   border-radius: 2rem;
+   padding: 0.15rem 0.65rem;
+   font-size: 0.72rem;
+   font-weight: 700;
+}
+.plm-pack-tracklist {
+   display: flex;
+   flex-direction: column;
+   gap: 0.45rem;
+   margin-top: 0.6rem;
+}
+.plm-pack-track {
+   display: flex;
+   align-items: center;
+   gap: 0.65rem;
+   font-size: 0.8rem;
+   padding: 0.35rem 0.4rem;
+   border-radius: 0.4rem;
+   transition: background 0.15s;
+   cursor: pointer;
+}
+.plm-pack-track:hover {
+   background: rgba(255, 255, 255, 0.08);
+}
+.plm-pack-track .num {
+   color: rgba(255, 255, 255, 0.5);
+   width: 14px;
+   font-size: 0.75rem;
+}
+.plm-pack-track .tt {
+   flex-grow: 1;
+   font-weight: 600;
+   color: rgba(255, 255, 255, 0.92);
+}
+.plm-pack-track .dur {
+   color: rgba(255, 255, 255, 0.5);
+   font-size: 0.75rem;
+}
+.plm-pack-slot-empty {
+   border: 1px dashed rgba(255, 255, 255, 0.22);
+   border-radius: 0.4rem;
+   padding: 0.5rem 0.6rem;
+   text-align: center;
+   font-size: 0.75rem;
+   color: rgba(255, 255, 255, 0.4);
+}
+
+/* Tabs & Controls */
+.plm-view-tabs {
+   gap: 0.5rem;
+}
+.plm-tab-pill {
+   border-radius: 2rem;
+   border: 1px solid var(--glass-bd);
+   background: var(--glass);
+   color: rgba(255, 255, 255, 0.85);
+   font-size: 0.86rem;
+   font-weight: 600;
+   padding: 0.45rem 1.15rem;
+   transition: all 0.2s ease;
+   cursor: pointer;
+}
+.plm-tab-pill:hover {
+   background: var(--glass-hi);
+   color: #fff;
+}
+.plm-tab-pill.active {
+   background: var(--pink);
+   border-color: var(--pink);
+   color: #fff;
+   box-shadow: 0 4px 14px rgba(217, 111, 176, 0.35);
+}
+.plm-search-wrap {
+   min-width: 220px;
+}
+
+/* Tabel Lagu Mood & Aktivitas */
+.song-head.liked.plm-song-table-head,
+.song-row.liked.plm-song-row {
+   display: grid;
+   grid-template-columns: 44px minmax(0, 2.5fr) minmax(85px, 1fr) minmax(115px, 1.2fr) 36px 54px 36px;
+   align-items: center;
+   gap: 0.75rem;
+}
+.plm-table-badge {
+   display: inline-block;
+   background: rgba(255, 255, 255, 0.07);
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   border-radius: 2rem;
+   padding: 0.2rem 0.75rem;
+   font-size: 0.76rem;
+   font-weight: 600;
+   color: rgba(255, 255, 255, 0.9);
+   text-align: center;
+   white-space: nowrap;
+   max-width: fit-content;
+}
+.song-row.plm-song-row.is-playing .tt {
+   color: var(--pink) !important;
+}
+.song-row.plm-song-row .ibtn.like-on i,
+.song-row.plm-song-row .ibtn.on i {
+   color: var(--pink);
+}
+
+.plm-btn-more {
+   background: rgba(255, 255, 255, 0.06);
+   border: 1px solid rgba(255, 255, 255, 0.12);
+   border-radius: 0.6rem;
+   color: #fff;
+   padding: 0.65rem;
+   font-size: 0.88rem;
+   font-weight: 600;
+   transition: all 0.2s ease;
+}
+.plm-btn-more:hover {
+   background: var(--glass-hi);
+   border-color: rgba(217, 111, 176, 0.5);
+   color: #fff;
+}
+
+/* MoodCard Tersimpan */
+.plm-moodcard-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 1.15rem;
+}
+.plm-mcard {
+   background: rgba(45, 20, 75, 0.5);
+   border: 1px solid var(--glass-bd);
+   border-radius: 0.9rem;
+   padding: 1.15rem;
+   min-height: 145px;
+   display: flex;
+   flex-direction: column;
+   transition: all 0.2s ease;
+}
+.plm-mcard:hover {
+   transform: translateY(-2px);
+   border-color: rgba(217, 111, 176, 0.4);
+   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+.plm-mcard-quote {
+   font-size: 0.84rem;
+   font-style: italic;
+   color: rgba(255, 255, 255, 0.72);
+   line-height: 1.4;
+   margin-bottom: 0.85rem;
+}
+.plm-mcard-play {
+   width: 34px;
+   height: 34px;
+   border-radius: 50%;
+   background: var(--pink);
+   border: 0;
+   color: #fff;
+   display: grid;
+   place-items: center;
+   font-size: 1.1rem;
+   box-shadow: 0 4px 10px rgba(217, 111, 176, 0.4);
+   transition: transform 0.2s, background 0.2s;
+   cursor: pointer;
+}
+.plm-mcard-play:hover {
+   transform: scale(1.1);
+   background: #e583c0;
+}
+.plm-mcard-add {
+   border: 2px dashed rgba(255, 255, 255, 0.22);
+   border-radius: 0.9rem;
+   min-height: 145px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   color: rgba(255, 255, 255, 0.7);
+   cursor: pointer;
+   font-size: 0.88rem;
+   font-weight: 600;
+   transition: all 0.2s ease;
+}
+.plm-mcard-add:hover {
+   border-color: var(--pink);
+   color: var(--pink);
+   background: rgba(217, 111, 176, 0.05);
+}
+
+/* Responsif Mobile & Tablet */
+@media (max-width: 991.98px) {
+   .plm-pack-grid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+   .plm-moodcard-grid {
+      grid-template-columns: repeat(2, 1fr);
+   }
+}
+
+@media (max-width: 767.98px) {
+   .plm-pack-grid {
+      grid-template-columns: 1fr;
+   }
+   .plm-moodcard-grid {
+      grid-template-columns: 1fr;
+   }
+   .song-head.liked.plm-song-table-head,
+   .song-row.liked.plm-song-row {
+      grid-template-columns: 36px minmax(0, 1fr) 36px 50px 36px;
+   }
+   .song-head.liked.plm-song-table-head > div:nth-child(3),
+   .song-head.liked.plm-song-table-head > div:nth-child(4),
+   .song-row.liked.plm-song-row .c-mood,
+   .song-row.liked.plm-song-row .c-act-tag {
+      display: none;
+   }
+}
+
