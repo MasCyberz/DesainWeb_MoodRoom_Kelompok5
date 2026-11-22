@@ -1909,6 +1909,7 @@ a.round-btn {
    color: var(--pink);
 }
 
+<<<<<<< HEAD
 /* ========================================================================== */
 /* ===== FITUR TAMBAHAN PLAYLIST MOODROOM (REDESIGN PANEL TENGAH) ====== */
 /* ========================================================================== */
@@ -2584,3 +2585,522 @@ a.round-btn {
    }
 }
 
+=======
+/* ===== MOODCARD CREATOR MODAL & KOLEKSI ===== */
+.mc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(12, 4, 24, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  padding-bottom: calc(var(--player-h) + 1rem);
+  overflow-y: auto;
+}
+
+.mc-backdrop.d-none {
+  display: none !important;
+}
+
+.mc-modal {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  max-height: calc(100vh - var(--player-h) - 2.5rem);
+  background: linear-gradient(145deg, rgba(62, 27, 114, 0.88), rgba(34, 13, 66, 0.94));
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid var(--glass-bd);
+  border-radius: 1.4rem;
+  box-shadow: 0 24px 60px rgba(5, 0, 18, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #fff;
+}
+
+.mc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.15rem 1.5rem;
+  border-bottom: 1px solid var(--glass-bd);
+  flex: none;
+}
+
+.mc-head h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.mc-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  color: #2b1248;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.mc-close:hover {
+  background: var(--pink);
+  color: #fff;
+}
+
+.mc-body {
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+.mc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--glass-bd);
+  background: rgba(25, 10, 48, 0.45);
+  flex: none;
+}
+
+/* Pilih Lagu */
+.mc-search {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: rgba(28, 12, 54, 0.6);
+  border: 1px solid var(--glass-bd);
+  border-radius: 2rem;
+  padding: 0.5rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.mc-search input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #fff;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.mc-search input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.mc-chip {
+  padding: 0.35rem 1.1rem;
+  border-radius: 2rem;
+  border: 1px solid var(--glass-bd);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.mc-chip:hover {
+  background: var(--glass-hi);
+}
+
+.mc-chip.active {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 4px 12px rgba(217, 111, 176, 0.35);
+}
+
+.mc-song-list {
+  display: grid;
+  gap: 0.55rem;
+  max-height: 310px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.mc-song-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mc-song-item:hover {
+  background: rgba(150, 95, 230, 0.25);
+}
+
+.mc-song-item.selected {
+  background: linear-gradient(90deg, rgba(168, 85, 210, 0.45), rgba(110, 62, 180, 0.35));
+  border-color: rgba(217, 111, 176, 0.55);
+}
+
+.mc-song-num {
+  width: 24px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+
+.mc-song-cov {
+  width: 40px;
+  height: 40px;
+  border-radius: 0.45rem;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+
+.mc-check-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 0.4rem;
+  border: 1px solid var(--glass-bd);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.mc-song-item.selected .mc-check-btn {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+/* Pengaturan MoodCard */
+.mc-banner-editor {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(95, 50, 165, 0.45), rgba(45, 20, 85, 0.65));
+  border: 1px solid var(--glass-bd);
+  margin-bottom: 1.15rem;
+}
+
+.mc-art-box {
+  position: relative;
+  width: 175px;
+  height: 175px;
+  border-radius: 0.85rem;
+  flex: none;
+  overflow: hidden;
+  background: linear-gradient(180deg, #683b9e 0%, #b975b8 55%, #3a1a5e 100%);
+  border: 1px solid var(--glass-bd);
+  cursor: pointer;
+}
+
+.mc-art-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mc-art-add {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(20, 8, 38, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+}
+
+.mc-live-canvas {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mc-title-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  width: 100%;
+  outline: 0;
+  padding-bottom: 0.15rem;
+}
+
+.mc-title-input:focus {
+  border-bottom-color: var(--pink);
+}
+
+.mc-editor-card {
+  background: rgba(34, 14, 66, 0.55);
+  border: 1px solid var(--glass-bd);
+  border-radius: 0.85rem;
+  padding: 0.8rem 1rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-textarea {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  resize: none;
+  outline: 0;
+  font-size: 0.85rem;
+  width: 100%;
+  flex: 1;
+}
+
+.mc-song-pill-select {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(115, 65, 190, 0.45);
+  border: 1px solid var(--glass-bd);
+  border-radius: 0.55rem;
+  padding: 0.35rem 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.mc-song-pill-select select {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: 100%;
+  outline: 0;
+}
+
+.mc-song-pill-select select option {
+  background: #2b1248;
+  color: #fff;
+}
+
+.mc-align-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.45rem;
+  border: 1px solid var(--glass-bd);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.mc-align-btn.active {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+.mc-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.mc-swatch.active {
+  border-color: #fff;
+  transform: scale(1.18);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Preview MoodCard */
+.mc-preview-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.25rem;
+}
+
+.mc-card-preview {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1.35rem;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(180deg, rgba(45, 20, 82, 0.25) 0%, rgba(28, 11, 54, 0.92) 70%),
+    linear-gradient(135deg, #7444ad, #321559);
+  border: 1px solid var(--glass-bd);
+  overflow: hidden;
+}
+
+.mc-card-preview-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.45;
+  z-index: 0;
+}
+
+.mc-card-preview > *:not(.mc-card-preview-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.mc-mood-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
+  margin-bottom: 0.75rem;
+}
+
+.mc-settings-panel {
+  background: rgba(34, 14, 66, 0.55);
+  border: 1px solid var(--glass-bd);
+  border-radius: 1rem;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mc-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+}
+
+.mc-setting-row:last-of-type {
+  border-bottom: 0;
+}
+
+/* Overlay Konfirmasi */
+.mc-confirm-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(18, 6, 36, 0.72);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.mc-confirm-overlay.d-none {
+  display: none !important;
+}
+
+.mc-confirm-box {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(160deg, #472082, #270e4c);
+  border: 1px solid var(--glass-bd);
+  border-radius: 1.25rem;
+  padding: 2rem 1.75rem;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.mc-check-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c769b6, #8448c7);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 auto 1.15rem;
+  box-shadow: 0 8px 24px rgba(217, 111, 176, 0.45);
+}
+
+/* MoodCard Saya (Dipublikasikan & Draft) */
+.mc-collection-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-bd);
+  transition: 0.2s;
+}
+
+.mc-collection-item:hover {
+  background: rgba(150, 95, 230, 0.22);
+}
+
+.mc-collection-thumb {
+  width: 58px;
+  height: 58px;
+  border-radius: 0.65rem;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+  background-color: #5a35a0;
+}
+
+.mc-circle-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-bd);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  transition: 0.2s;
+}
+
+.mc-circle-icon-btn:hover {
+  background: var(--pink);
+  border-color: var(--pink);
+}
+
+@media (max-width: 767.98px) {
+  .mc-banner-editor {
+    flex-direction: column;
+  }
+  .mc-art-box {
+    width: 100%;
+    height: 150px;
+  }
+  .mc-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+>>>>>>> 6f52554eb8fbd99ae92a74ee236f08fc5c3b7bba
