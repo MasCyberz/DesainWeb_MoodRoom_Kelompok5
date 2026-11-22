@@ -1909,7 +1909,6 @@ a.round-btn {
    color: var(--pink);
 }
 
-<<<<<<< HEAD
 /* ========================================================================== */
 /* ===== FITUR TAMBAHAN PLAYLIST MOODROOM (REDESIGN PANEL TENGAH) ====== */
 /* ========================================================================== */
@@ -2585,7 +2584,6 @@ a.round-btn {
    }
 }
 
-=======
 /* ===== MOODCARD CREATOR MODAL & KOLEKSI ===== */
 .mc-backdrop {
   position: fixed;
@@ -3103,4 +3101,4 @@ a.round-btn {
     grid-template-columns: 1fr;
   }
 }
->>>>>>> 6f52554eb8fbd99ae92a74ee236f08fc5c3b7bba
+
