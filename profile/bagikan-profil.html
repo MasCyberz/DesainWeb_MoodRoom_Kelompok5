@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bagikan Profil | MoodRoom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <div class="search" role="search">
+      <i class="bi bi-search"></i>
+      <input type="search" placeholder="Cari Lagu, Artis, MoodCard, atau Profil User" aria-label="Cari">
+      <span class="filter"><i class="bi bi-chevron-down"></i> Filter</span>
+    </div>
+    <div class="page-head"><a class="back" href="index.html" aria-label="Kembali"><i class="bi bi-arrow-left"></i></a><h2>Bagikan Profil</h2></div>
+    <p class="page-sub">Bagikan profil kamu kepada teman-teman di luar MoodRoom.</p>
+
+    <section class="box share-profile">
+      <div class="avatar">D<img data-avatar src="img/avatar.jpg" alt="Foto profil" onerror="this.style.display='none'"></div>
+      <div>
+        <div class="profile-name" style="font-size:17px" data-bind="name"></div>
+        <div class="handle" style="font-size:11px" data-bind="handle"></div>
+        <span class="badge">Akun Gratis</span>
+        <div class="bio" style="font-size:11px;margin:0" data-bind="bio"></div>
+      </div>
+    </section>
+
+    <div class="field">
+      <label for="share-link">Link Profil</label>
+      <div class="copy-row">
+        <div class="input-wrap" style="flex:1"><input class="input" id="share-link" readonly aria-label="Link profil" style="padding-left:12px"></div>
+        <button class="btn btn-pink" id="btn-copy" type="button"><i class="bi bi-files"></i> Salin Link</button>
+      </div>
+    </div>
+
+    <label style="font-size:11.5px;font-weight:600">Bagikan ke</label>
+    <div class="share-opts">
+      <button class="btn btn-dark" id="btn-wa" type="button"><i class="bi bi-whatsapp" style="color:#4ade80"></i> WhatsApp</button>
+      <button class="btn btn-dark" id="btn-share" type="button"><i class="bi bi-share"></i> Bagikan</button>
+      <button class="btn btn-dark" id="btn-qr" type="button"><i class="bi bi-qr-code"></i> QR Code</button>
+    </div>
+
+    <section class="box qr-box" id="qr-box">
+      <div class="qr-frame" id="qr-target"></div>
+      Scan untuk melihat profil
+    </section>
+
+    <a class="btn btn-pink btn-block" href="index.html" style="padding:12px">Selesai</a>
+
+    <script>
+      /* isi kolom link dari username terbaru */
+      document.addEventListener('DOMContentLoaded', function () {
+        var p = {}; try { p = JSON.parse(localStorage.getItem('moodroom_profile') || '{}'); } catch (e) {}
+        document.getElementById('share-link').value = 'moodroom.id/@' + (p.username || 'dimas');
+      });
+    </script>
+  </main>
+  <aside class="rightbar" id="rightbar"></aside>
+  <footer class="player" id="player"></footer>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
