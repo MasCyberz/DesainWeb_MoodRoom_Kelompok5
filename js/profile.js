@@ -1,5 +1,5 @@
 /* ===== MoodRoom - Halaman Profil =====
-   Satu file JS untuk semua halaman di folder profile/.
+   Satu file JS untuk semua halaman profil.
    Sidebar, panel kanan, dan music player dibuat dari sini (renderLayout),
    jadi cukup diubah di satu tempat. */
 (function () {
@@ -7,22 +7,22 @@
 
   /* ---------- PENGATURAN YANG BISA DIUBAH TEMAN SATU KELOMPOK ---------- */
   var LINKS = {
-    home: '../index.html',      // Home kelompok (di folder utama repo)
-    jelajah: '../playlist.html',            // Jelajah Playlist
+    home: 'index.html',
+    jelajah: 'playlist.html',
     sirkel: 'sirkel.html',             // Sirkel
-    laguDisukai: '../lagu_disukai.html',
-    moodcardSaya: '#',       // MoodCard Saya
-    playlist: '../playlist.html'            // Playlistku
+    laguDisukai: 'lagu_disukai.html',
+    moodcardSaya: 'index.html#moodcard', // MoodCard Saya
+    playlist: 'playlist.html'            // Playlistku
   };
-  var LOGIN_URL = '';        // isi halaman login saat Keluar Akun, mis. '../login.html'
+  var LOGIN_URL = '';        // isi halaman login saat Keluar Akun, mis. 'login.html'
 
   /* ---------- Penyimpanan (localStorage) ---------- */
   var KEY = 'moodroom_profile', SKEY = 'moodroom_settings';
   var DEFAULTS = {
-    name: 'Dimas Alif', username: 'dimas',
+    name: 'Dimasss', username: 'dimas',
     bio: 'Mengumpulkan lagu dan MoodCard sesuai suasana hati',
     location: 'Indonesia', mood: 'Santai',
-    email: 'dimas@gmail.com', joined: '12 Jan 2025', avatar: ''
+    email: 'dimas@gmail.com', joined: '12 Jan 2025', avatar: 'img/dimas_avatar.png'
   };
   function load(key, def) {
     try { return Object.assign({}, def, JSON.parse(localStorage.getItem(key) || '{}')); }
@@ -56,51 +56,53 @@
   /* ---------- Layout bersama ---------- */
   function avatarHTML(cls) {
     return '<div class="avatar ' + (cls || '') + '">' + esc((profile.name || 'D').charAt(0).toUpperCase()) +
-      '<img data-avatar src="img/avatar.jpg" alt="Foto profil" onerror="this.style.display=\'none\'"></div>';
+      '<img data-avatar src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Foto profil"></div>';
   }
 
   function renderLayout() {
     var side = $('#sidebar');
     if (side) {
       side.innerHTML =
-        '<a class="brand" href="' + LINKS.home + '"><i class="bi bi-music-note-beamed"></i>MoodRoom</a>' +
+        '<a class="brand" href="' + LINKS.home + '"><i class="bi bi-music-note-beamed"></i><span>MoodRoom</span></a>' +
         '<div class="side-title">Menu utama</div>' +
-        '<a class="nav-item active" href="' + LINKS.home + '"><i class="bi bi-house"></i>Home</a>' +
-        '<a class="nav-item" href="' + LINKS.jelajah + '"><i class="bi bi-compass"></i>Jelajah Playlist</a>' +
-        '<a class="nav-item" href="' + LINKS.sirkel + '"><i class="bi bi-people"></i>Sirkel</a>' +
+        '<nav class="sidebar-nav"><a class="nav-item" href="' + LINKS.home + '"><i class="bi bi-house"></i><span>Home</span></a>' +
+        '<a class="nav-item" href="' + LINKS.jelajah + '"><i class="bi bi-compass"></i><span>Jelajah Playlist</span></a>' +
+        '<a class="nav-item" href="' + LINKS.sirkel + '"><i class="bi bi-people"></i><span>Sirkel</span></a></nav>' +
         '<div class="side-title">Koleksi Pribadi</div>' +
-        '<a class="nav-item" href="' + LINKS.laguDisukai + '"><i class="bi bi-heart"></i>Lagu disukai</a>' +
-        '<a class="nav-item" href="' + LINKS.moodcardSaya + '"><span class="heart-icon"><i class="bi bi-heart-fill"></i></span>MoodCard Saya</a>' +
-        '<div class="side-title">Playlistku <a class="add" href="' + LINKS.playlist + '" aria-label="Tambah playlist"><i class="bi bi-plus-circle-fill"></i></a></div>' +
-        '<a class="nav-item" href="' + LINKS.playlist + '">Rock n Roll</a>' +
-        '<a class="nav-item" href="' + LINKS.playlist + '">Dangdut</a>' +
-        '<a class="btn-free" href="free.html">Akun Gratis</a>';
+        '<nav class="sidebar-nav collection-nav"><a class="nav-item" href="' + LINKS.laguDisukai + '"><i class="bi bi-heart"></i><span>Lagu disukai</span></a>' +
+        '<a class="nav-item" href="' + LINKS.moodcardSaya + '"><i class="bi bi-suit-heart-fill"></i><span>MoodCard Saya</span></a></nav>' +
+        '<div class="side-title playlist-title">Playlistku <a class="add" href="' + LINKS.playlist + '" aria-label="Tambah playlist"><i class="bi bi-plus-circle-fill"></i></a></div>' +
+        '<nav class="sidebar-nav playlist-nav"><a class="nav-item" href="' + LINKS.playlist + '"><i class="bi bi-music-note-list"></i><span>Rock n Roll</span></a>' +
+        '<a class="nav-item" href="' + LINKS.playlist + '"><i class="bi bi-music-note-list"></i><span>Dangdut</span></a></nav>' +
+        '<div class="profile-sidebar-bottom"><a class="plan-badge" href="free-new.html"><i class="bi bi-person-badge"></i><span>Akun Gratis</span></a>' +
+        '<div class="premium"><i class="bi bi-star-fill premium-ico"></i><div class="premium-title"><i class="bi bi-star-fill"></i>MoodRoom Premium</div>' +
+        '<p>Nikmati audio kualitas HD tanpa iklan terputus.</p><a class="premium-button" href="premium-new.html">Upgrade Sekarang</a></div></div>';
     }
 
     var right = $('#rightbar');
     if (right) {
       right.innerHTML =
         '<div class="top-user">' +
-          '<button class="bell" aria-label="Notifikasi" data-toast="Belum ada notifikasi baru"><i class="bi bi-bell"></i></button>' +
-          '<a class="user-chip" href="index.html">' + avatarHTML('sm') +
-            '<div><b data-bind="handle"></b><small>akun gratis</small></div></a>' +
+        '<button class="bell" aria-label="Notifikasi" data-toast="Belum ada notifikasi baru"><i class="bi bi-bell"></i></button>' +
+        '<a class="user-chip" href="profile-new.html">' + avatarHTML('sm') +
+        '<div><b data-bind="handle"></b><small>akun gratis</small></div></a>' +
         '</div>' +
         '<section class="side-card"><h4>INFORMASI AKUN</h4>' +
-          '<div class="info-row"><span><i class="bi bi-envelope"></i>Email</span><span data-bind="email"></span></div>' +
-          '<div class="info-row"><span><i class="bi bi-person"></i>Username</span><span data-bind="handle"></span></div>' +
-          '<div class="info-row"><span><i class="bi bi-person-check"></i>Status Akun</span><span>Gratis</span></div>' +
-          '<div class="info-row"><span><i class="bi bi-calendar3"></i>Tanggal Bergabung</span><span data-bind="joined"></span></div>' +
-          '<a class="btn btn-purple btn-block" href="kelola-akun.html">Kelola Akun</a>' +
+        '<div class="info-row"><span><i class="bi bi-envelope"></i>Email</span><span data-bind="email"></span></div>' +
+        '<div class="info-row"><span><i class="bi bi-person"></i>Username</span><span data-bind="handle"></span></div>' +
+        '<div class="info-row"><span><i class="bi bi-person-check"></i>Status Akun</span><span>Gratis</span></div>' +
+        '<div class="info-row"><span><i class="bi bi-calendar3"></i>Tanggal Bergabung</span><span data-bind="joined"></span></div>' +
+        '<a class="btn btn-purple btn-block" href="account-settings-new.html">Kelola Akun</a>' +
         '</section>' +
         '<section class="side-card"><h4>STATUS AKUN</h4>' +
-          '<table class="fitur"><thead><tr><th>FITUR</th><th>FREE</th><th>PREMIUM</th></tr></thead><tbody>' +
-            '<tr><td>Simpan MoodCard</td><td>✓</td><td>✓</td></tr>' +
-            '<tr><td>Playlist Pribadi</td><td>✓</td><td>✓</td></tr>' +
-            '<tr><td>Batas MoodCard</td><td>✓</td><td>✓</td></tr>' +
-            '<tr><td>Tanpa Iklan</td><td>—</td><td>✓</td></tr>' +
-            '<tr><td>Fitur Eksklusif</td><td>✓</td><td>✓</td></tr>' +
-          '</tbody></table>' +
-          '<a class="btn btn-purple btn-block" href="premium.html">Lihat Premium</a>' +
+        '<table class="fitur"><thead><tr><th>FITUR</th><th>FREE</th><th>PREMIUM</th></tr></thead><tbody>' +
+        '<tr><td>Simpan MoodCard</td><td>✓</td><td>✓</td></tr>' +
+        '<tr><td>Playlist Pribadi</td><td>✓</td><td>✓</td></tr>' +
+        '<tr><td>Batas MoodCard</td><td>—</td><td>✓</td></tr>' +
+        '<tr><td>Tanpa Iklan</td><td>—</td><td>✓</td></tr>' +
+        '<tr><td>Fitur Eksklusif</td><td>—</td><td>✓</td></tr>' +
+        '</tbody></table>' +
+        '<a class="btn btn-purple btn-block" href="premium-new.html">Lihat Premium</a>' +
         '</section>';
     }
 
@@ -109,11 +111,11 @@
       if (cards[1]) cards[1].innerHTML =
         '<h4>PAKET FREE</h4>' +
         '<table class="fitur status"><thead><tr><th>FITUR</th><th>STATUS</th></tr></thead><tbody>' +
-          '<tr><td>Simpan MoodCard</td><td>Tersedia</td></tr>' +
-          '<tr><td>Playlist Pribadi</td><td>Tersedia</td></tr>' +
-          '<tr><td>Kualitas audio</td><td>Standar</td></tr>' +
-          '<tr><td>Pemutaran musik</td><td>Dengan iklan</td></tr>' +
-          '<tr><td>Konten eksklusif</td><td>Tidak termasuk</td></tr>' +
+        '<tr><td>Simpan MoodCard</td><td>Tersedia</td></tr>' +
+        '<tr><td>Playlist Pribadi</td><td>Tersedia</td></tr>' +
+        '<tr><td>Kualitas audio</td><td>Standar</td></tr>' +
+        '<tr><td>Pemutaran musik</td><td>Dengan iklan</td></tr>' +
+        '<tr><td>Konten eksklusif</td><td>Tidak termasuk</td></tr>' +
         '</tbody></table>' +
         '<span class="btn btn-purple btn-block" style="background:var(--grad)">Paket Free aktif</span>';
     }
@@ -126,19 +128,19 @@
         '<div class="progress" aria-hidden="true"><i></i></div>' +
         '<div class="np"><div class="cover"></div><b>Evaluasi - Hindia</b><span>3:31</span></div>' +
         '<div class="controls">' +
-          '<button id="p-shuffle" aria-label="Acak"><i class="bi bi-shuffle"></i></button>' +
-          '<button aria-label="Sebelumnya" data-toast="Lagu sebelumnya"><i class="bi bi-skip-start-fill"></i></button>' +
-          '<button id="p-play" class="play" aria-label="Jeda"><i class="bi bi-pause-fill"></i></button>' +
-          '<button aria-label="Berikutnya" data-toast="Lagu berikutnya"><i class="bi bi-skip-end-fill"></i></button>' +
-          '<button id="p-repeat" aria-label="Ulangi"><i class="bi bi-repeat"></i></button>' +
+        '<button id="p-shuffle" aria-label="Acak"><i class="bi bi-shuffle"></i></button>' +
+        '<button aria-label="Sebelumnya" data-toast="Lagu sebelumnya"><i class="bi bi-skip-start-fill"></i></button>' +
+        '<button id="p-play" class="play" aria-label="Jeda"><i class="bi bi-pause-fill"></i></button>' +
+        '<button aria-label="Berikutnya" data-toast="Lagu berikutnya"><i class="bi bi-skip-end-fill"></i></button>' +
+        '<button id="p-repeat" aria-label="Ulangi"><i class="bi bi-repeat"></i></button>' +
         '</div>' +
         '<div class="vol"><i class="bi bi-volume-up-fill"></i><div class="bars" id="p-bars">' + bars + '</div>' +
-          '<div class="react">' +
-            '<button aria-label="Senang" data-toast="Reaksi dikirim"><i class="bi bi-emoji-smile"></i></button>' +
-            '<button class="on" id="p-like" aria-label="Suka"><i class="bi bi-heart-fill"></i></button>' +
-            '<button aria-label="Semangat" data-toast="Reaksi dikirim"><i class="bi bi-fire"></i></button>' +
-          '</div>' +
-          '<button class="chat" aria-label="Komentar" data-toast="Komentar segera hadir"><i class="bi bi-chat-dots-fill"></i></button>' +
+        '<div class="react">' +
+        '<button aria-label="Senang" data-toast="Reaksi dikirim"><i class="bi bi-emoji-smile"></i></button>' +
+        '<button class="on" id="p-like" aria-label="Suka"><i class="bi bi-heart-fill"></i></button>' +
+        '<button aria-label="Semangat" data-toast="Reaksi dikirim"><i class="bi bi-fire"></i></button>' +
+        '</div>' +
+        '<button class="chat" aria-label="Komentar" data-toast="Komentar segera hadir"><i class="bi bi-chat-dots-fill"></i></button>' +
         '</div>';
       initPlayer();
     }
@@ -171,14 +173,19 @@
       el.textContent = v;
     });
     $$('input[data-field],textarea[data-field],select[data-field]').forEach(function (el) {
-      el.value = profile[el.dataset.field] || '';
+      var k = el.dataset.field;
+      if (k === 'name' && (el.id === 'f-name' || el.id === 'k-name')) {
+        el.value = (profile.name && profile.name !== 'Dimasss') ? profile.name : 'Dimas Alif';
+      } else {
+        el.value = profile[k] || '';
+      }
     });
     $$('img[data-avatar]').forEach(function (img) {
-      if (profile.avatar) { img.src = profile.avatar; }
+      img.src = profile.avatar || 'img/dimas_avatar.png';
       img.style.display = '';
     });
     $$('.chip[data-mood]').forEach(function (c) {
-      c.classList.toggle('on', c.dataset.mood === profile.mood);
+      c.classList.toggle('on', c.dataset.mood === (profile.mood || 'Santai'));
     });
   }
 
@@ -255,7 +262,7 @@
       window.open('https://wa.me/?text=' + encodeURIComponent('Lihat profil MoodRoom aku: ' + url()), '_blank', 'noopener');
     });
     $('#btn-share').addEventListener('click', function () {
-      if (navigator.share) navigator.share({ title: 'MoodRoom', text: 'Lihat profil MoodRoom aku', url: url() }).catch(function () {});
+      if (navigator.share) navigator.share({ title: 'MoodRoom', text: 'Lihat profil MoodRoom aku', url: url() }).catch(function () { });
       else copy.click();
     });
     var box = $('#qr-box'), target = $('#qr-target');
@@ -284,11 +291,11 @@
 
   /* ---------- Kelola Akun: tab, toggle, keluar ---------- */
   var TABS = {
-    info:        ['Kelola Akun', 'Atur informasi akun, keamanan, privasi, dan preferensi lainnya.'],
-    keamanan:    ['Keamanan', 'Atur informasi akun, keamanan, privasi, dan preferensi lainnya.'],
-    privasi:     ['Privasi', 'Atur siapa yang dapat melihat aktivitasmu dan kelola data pribadi.'],
-    notifikasi:  ['Notifikasi', 'Atur notifikasi yang ingin kamu terima dari MoodRoom.'],
-    keluar:      ['Keluar Akun', 'Kelola sesi akun MoodRoom kamu.']
+    info: ['Kelola Akun', 'Atur informasi akun, keamanan, privasi, dan preferensi lainnya.'],
+    keamanan: ['Keamanan', 'Atur informasi akun, keamanan, privasi, dan preferensi lainnya.'],
+    privasi: ['Privasi', 'Atur siapa yang dapat melihat aktivitasmu dan kelola data pribadi.'],
+    notifikasi: ['Notifikasi', 'Atur notifikasi yang ingin kamu terima dari MoodRoom.'],
+    keluar: ['Keluar Akun', 'Kelola sesi akun MoodRoom kamu.']
   };
   function showTab(name) {
     if (!TABS[name]) name = 'info';
@@ -304,7 +311,10 @@
     showTab(location.hash.replace('#', '') || 'info');
     window.addEventListener('hashchange', function () { showTab(location.hash.replace('#', '')); });
 
-    var s = load(SKEY, {});
+    var s = load(SKEY, {
+      privat: true, aktivitas: true, personalisasi: true,
+      push: true, email: false, sirkel: true, rilis: true, promo: false, twofa: true
+    });
     $$('.switch').forEach(function (sw) {
       var k = sw.dataset.setting;
       if (k in s) sw.setAttribute('aria-checked', String(!!s[k]));
@@ -320,7 +330,8 @@
     if (cancel) cancel.addEventListener('click', function () { showTab('info'); });
     if (yes) yes.addEventListener('click', function () {
       toast('Kamu berhasil keluar');
-      if (LOGIN_URL) setTimeout(function () { location.href = LOGIN_URL; }, 900);
+      try { localStorage.removeItem('moodroom_session'); } catch (_) { }
+      setTimeout(function () { location.href = 'login.html'; }, 900);
     });
     if (del) del.addEventListener('click', function () {
       if (confirm('Hapus akun secara permanen? Tindakan ini tidak bisa dibatalkan.')) toast('Permintaan hapus akun dikirim');

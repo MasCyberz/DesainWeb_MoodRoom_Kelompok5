@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daftar — MoodRoom</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/auth.css" rel="stylesheet">
+</head>
+<body class="auth-page" data-auth-page="guest">
+  <main class="auth-shell">
+    <section class="auth-showcase">
+      <div class="auth-brand"><i class="bi bi-music-note-beamed"></i> MoodRoom</div>
+      <div class="auth-showcase-content">
+        <h1>Temukan vibe milikmu.</h1>
+        <p>Buat akun, kumpulkan lagu favorit, dan bagikan MoodCard untuk teman-temanmu.</p>
+      </div>
+    </section>
+
+    <section class="auth-panel-wrap">
+      <form class="auth-card" id="registerForm">
+        <h2>Buat akun baru</h2>
+        <p class="auth-subtitle">Mulai perjalanan musikmu di MoodRoom</p>
+
+        <div class="auth-field">
+          <label for="registerName">Nama lengkap</label>
+          <input class="auth-input" id="registerName" type="text" placeholder="Masukkan nama lengkap" minlength="3" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="registerUsername">Username</label>
+          <input class="auth-input" id="registerUsername" type="text" placeholder="contoh: dimas" pattern="[A-Za-z0-9_.]{3,20}" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="registerEmail">Email</label>
+          <input class="auth-input" id="registerEmail" type="email" placeholder="nama@email.com" required>
+        </div>
+
+        <div class="auth-field">
+          <label for="registerPassword">Password</label>
+          <div class="auth-password">
+            <input class="auth-input" id="registerPassword" type="password" placeholder="Minimal 6 karakter" minlength="6" required>
+            <button class="auth-password-toggle" type="button" data-toggle-password="registerPassword" aria-label="Tampilkan password">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button class="auth-button" type="submit">Daftar</button>
+        <div class="auth-divider">atau</div>
+        <div class="auth-switch">Sudah punya akun? <a class="auth-link" href="login.html">Masuk sekarang</a></div>
+        <p class="auth-error" id="registerError" role="alert"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    (() => {
+      const form = document.getElementById('registerForm');
+      const error = document.getElementById('registerError');
+
+      document.querySelectorAll('[data-toggle-password]').forEach(button => {
+        button.addEventListener('click', () => {
+          const input = document.getElementById(button.dataset.togglePassword);
+          const icon = button.querySelector('i');
+          const show = input.type === 'password';
+          input.type = show ? 'text' : 'password';
+          icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+      });
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const name = document.getElementById('registerName').value.trim();
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+        const password = document.getElementById('registerPassword').value;
+        const users = MoodAuth.getUsers();
+
+        if (users.some(item => item.username.toLowerCase() === username.toLowerCase())) {
+          error.textContent = 'Username sudah digunakan.';
+          return;
+        }
+        if (users.some(item => item.email.toLowerCase() === email)) {
+          error.textContent = 'Email sudah terdaftar.';
+          return;
+        }
+
+        users.push({ name, username, email, password });
+        localStorage.setItem('moodroom_users', JSON.stringify(users));
+        MoodAuth.login({ name, username, email, remember: true });
+        localStorage.setItem('moodroom_profile', JSON.stringify({
+          name,
+          username,
+          email,
+          location: 'Indonesia',
+          bio: 'Mengumpulkan lagu dan MoodCard sesuai suasana hati',
+          joined: '12 Jan 2025',
+          avatar: 'img/dimas_avatar.png'
+        }));
+        location.replace('index.html');
+      });
+    })();
+  </script>
+</body>
+</html>

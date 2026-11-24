@@ -10,20 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
-  <link href="css/sirkel.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="sirkel-page">
   <div class="shell">
 
     <!-- Top bar (mobile/tablet) -->
     <header class="d-lg-none d-flex align-items-center justify-content-between p-3 mr-topbar">
       <button class="btn btn-mr" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu"><i
           class="bi bi-list fs-4"></i></button>
-      <span class="fw-bold fs-5"><img class="mr-brand-mark" src="assets/logo_moodroom.png" alt=""> MoodRoom</span>
+      <span class="fw-bold fs-5"><i class="bi bi-music-note-beamed text-pink"></i> MoodRoom</span>
       <div class="d-flex align-items-center gap-2"><button class="icon-btn" data-bell aria-label="Notifikasi"><i
-            class="bi bi-bell"></i><span class="dot"></span></button><span class="avatar"
-          style="width:38px;height:38px"></span></div>
+            class="bi bi-bell"></i><span class="dot"></span></button><button type="button" class="avatar profile-link mobile-profile"
+          aria-label="Buka akun" style="width:38px;height:38px"></button></div>
     </header>
 
     <div class="layout">
@@ -33,21 +32,21 @@
             data-bs-dismiss="offcanvas" aria-label="Tutup"></button></div>
         <div class="offcanvas-body d-flex flex-column">
           <div class="side-head mb-2">
-            <div class="logo"><img class="mr-brand-mark" src="assets/logo_moodroom.png" alt=""><span class="lbl"> MoodRoom</span></div>
+            <div class="logo"><i class="bi bi-music-note-beamed text-pink"></i><span class="lbl"> MoodRoom</span></div>
             <button class="side-toggle d-none d-lg-grid" id="sideToggle" aria-label="Ciutkan sidebar"
               aria-expanded="true"><i class="bi bi-chevron-double-left"></i></button>
           </div>
           <h6 class="side-title">Menu utama</h6>
           <nav class="d-grid gap-2 mb-4" id="mainNav">
             <a href="index.html" class="side-item"><i class="bi bi-house"></i><span class="lbl">Home</span></a>
-            <a href="#" class="side-item"><i class="bi bi-compass"></i><span class="lbl">Jelajah Playlist</span></a>
+            <a href="playlist.html" class="side-item"><i class="bi bi-compass"></i><span class="lbl">Jelajah Playlist</span></a>
             <a href="sirkel.html" class="side-item active"><i class="bi bi-people"></i><span class="lbl">Sirkel</span></a>
           </nav>
           <h6 class="side-title">Koleksi Pribadi</h6>
           <div class="d-grid gap-3 mb-4">
             <a href="lagu_disukai.html" class="side-item"><i class="bi bi-heart"></i><span class="lbl">Lagu
                 disukai</span></a>
-            <a href="#" class="side-item"><i class="bi bi-suit-heart-fill text-pink"></i><span class="lbl">MoodCard
+            <a href="#" class="side-item" id="openMoodCardModal"><i class="bi bi-suit-heart-fill text-pink"></i><span class="lbl">MoodCard
                 Saya</span></a>
           </div>
           <div class="d-flex justify-content-between align-items-center pl-head">
@@ -56,9 +55,9 @@
                 class="bi bi-plus-circle-fill" style="color:#6c4fe0"></i></button>
           </div>
           <div class="d-grid gap-2 my-2 pl-wrap" id="playlists">
-            <a href="#" class="side-item plain"><i class="bi bi-music-note-list"></i><span class="lbl">Rock n
+            <a href="playlist.html" class="side-item plain"><i class="bi bi-music-note-list"></i><span class="lbl">Rock n
                 Roll</span></a>
-            <a href="#" class="side-item plain"><i class="bi bi-music-note-list"></i><span
+            <a href="playlist.html" class="side-item plain"><i class="bi bi-music-note-list"></i><span
                 class="lbl">Dangdut</span></a>
           </div>
           <div class="mt-auto pt-3">
@@ -67,8 +66,8 @@
             <div class="premium"><i class="bi bi-star-fill premium-ico"></i>
               <div class="fw-semibold small pt"><i class="bi bi-star-fill me-1"></i>MoodRoom Premium</div>
               <p class="mb-2 mt-1" style="font-size:.7rem">Nikmati audio kualitas HD tanpa iklan terputus.</p>
-              <button class="btn btn-light btn-sm w-100 rounded-pill py-0" id="upgradeBtn"
-                style="font-size:.75rem">Upgrade Sekarang</button>
+              <a class="btn btn-light btn-sm w-100 rounded-pill py-0" id="upgradeBtn" href="premium-new.html"
+                style="font-size:.75rem">Upgrade Sekarang</a>
             </div>
           </div>
         </div>
@@ -76,25 +75,25 @@
 
       <!-- MAIN -->
       <main class="mr-main sirkel-main">
-  <div class="sirkel-topline">
-    <div>
-      <div class="eyebrow">DENGAR BARENG / PUBLIK</div>
-      <h1 class="sirkel-page-title">Sirkel Kita</h1>
-      <p class="sirkel-subtitle">Satu siaran, banyak cerita. Temukan host dan ikut nongkrong lewat musik.</p>
-    </div>
-    <div class="sirkel-actions">
-      <span class="live-pill"><i class="bi bi-broadcast"></i> LIVE NOW</span>
-      <span class="small text-white-50 sirkel-live-summary">8 siaran · 369 pendengar aktif</span>
-      <button class="btn btn-pink btn-sm" data-sirkel-view="choose"><i class="bi bi-plus-lg"></i> Sirkel Saya</button>
-    </div>
-  </div>
+  <div class="d-none d-lg-flex align-items-center justify-content-end gap-3 mb-4 top-actions"></div>
 
   <div class="sirkel-tabs d-none" role="tablist">
-    <button class="sirkel-tab active" data-sirkel-view="discover">Sirkel Kita</button>
-    <button class="sirkel-tab" data-sirkel-view="mine">Sirkel Sendiri</button>
+    <a class="sirkel-tab active" href="sirkel-kita.html">Sirkel Kita</a>
+    <a class="sirkel-tab" href="sirkel-sendiri.html">Sirkel Sendiri</a>
   </div>
 
-  <section id="sirkelDiscover" class="sirkel-view">
+  <section id="sirkelDiscover" class="sirkel-view d-none">
+    <div class="sirkel-topline">
+      <div>
+        <div class="eyebrow">DENGAR BARENG / PUBLIK</div>
+        <h1 class="sirkel-page-title">Sirkel Kita</h1>
+        <p class="sirkel-subtitle">Satu siaran, banyak cerita. Temukan host dan ikut nongkrong lewat musik.</p>
+      </div>
+      <div class="sirkel-actions">
+        <span class="live-pill"><i class="bi bi-broadcast"></i> LIVE NOW</span>
+        <span class="small text-white-50 sirkel-live-summary">8 siaran · 369 pendengar aktif</span>
+      </div>
+    </div>
     <div class="sirkel-search-row target-search-row">
       <div class="sirkel-search-main">
         <i class="bi bi-search"></i>
@@ -316,9 +315,9 @@
     <button type="button" id="backSirkel" class="d-none" aria-hidden="true">Kembali</button>
     <div class="room-reference-head">
       <div class="room-reference-title">
-        <div class="room-reference-kicker">DENGAR BARENG / ROOM PRIVAT</div>
+        <div class="room-reference-kicker" id="roomTypeLabel">DENGAR BARENG / ROOM LIVE</div>
         <h2><span id="roomName">Kost Mamang</span> <span class="room-active-badge"><i class="bi bi-broadcast"></i> AKTIF</span></h2>
-        <p>Kode: <b id="roomCodeLabel">#KOST-MAMANG</b> · <span id="roomMemberMeta">4 Member</span> · Pemilik: <b>@dimas (kamu)</b></p>
+        <p>Kode: <b id="roomCodeLabel">#KOST-MAMANG</b> · <span id="roomMemberMeta">4 Member</span> · Pemilik: <b id="roomOwnerLabel">@dimas (kamu)</b></p>
       </div>
       <div class="room-reference-actions">
         <button type="button" class="room-head-btn" id="roomMembersBtn"><i class="bi bi-people"></i> 4 anggota</button>
@@ -414,7 +413,7 @@
     </div>
   </section>
 
-  <section id="sirkelChoose" class="sirkel-view d-none sirkel-choose-reference">
+  <section id="sirkelChoose" class="sirkel-view sirkel-choose-reference">
     <div class="choose-intro">
       <p class="choose-kicker">DENGARKAN BARENG</p>
       <h2 class="choose-main-title">Sirkel</h2>
@@ -441,7 +440,7 @@
             <h3>Sirkel Kita</h3>
             <p>Room terbuka untuk semua. Musik dipilih host; kamu bisa mendengarkan dan ngobrol bareng komunitas.</p>
             <span class="choose-access"><i class="bi bi-globe2"></i> Terbuka untuk semua pendengar</span>
-            <button class="btn btn-pink w-100" data-sirkel-view="discover">Jelajahi Sirkel Kita</button>
+            <a class="btn btn-pink w-100" href="sirkel-kita.html">Jelajahi Sirkel Kita</a>
           </div>
         </article>
       </div>
@@ -463,7 +462,7 @@
             <h3>Sirkel Sendiri</h3>
             <p>Room khusus undangan. Buat atau gabung lewat kode, lalu ajukan lagu untuk diputar bergiliran.</p>
             <span class="choose-access"><i class="bi bi-people"></i> Hanya teman yang kamu undang</span>
-            <button class="btn btn-pink w-100" data-sirkel-view="mine">Buka Sirkel Sendiri</button>
+            <a class="btn btn-pink w-100" href="sirkel-sendiri.html">Buka Sirkel Sendiri</a>
           </div>
         </article>
       </div>
@@ -496,6 +495,7 @@
       <span class="target-room-avatar">BU</span>
       <div class="target-chat-room-title"><b>Warkop Jam 1 Malam</b><small>Host: @budil_prem</small></div>
       <span class="art-live"><i class="bi bi-broadcast"></i> LIVE</span>
+      <button type="button" class="target-chat-close" id="closeLiveChat" aria-label="Tutup chat"><i class="bi bi-x-lg"></i></button>
     </div>
     <div class="target-chat-meta"><span><i class="bi bi-people-fill"></i> <b id="listeners">42</b> pendengar</span><span>♪ Feast · Peradaban</span></div>
     <div class="target-pinned"><i class="bi bi-music-note-list"></i><span>Pratinjau live chat · Gabung untuk ikut mengirim</span></div>
@@ -625,8 +625,10 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/script.js"></script>
   <script src="js/sirkel.js"></script>
+  <script src="js/moodcard-modal.js"></script>
 </body>
 
 </html>
