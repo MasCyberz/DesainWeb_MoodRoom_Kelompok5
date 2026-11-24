@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MoodRoom Free</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="profile-v2-page plan-v2-page">
+  <div class="shell">
+    <header class="d-lg-none d-flex align-items-center justify-content-between p-3 mr-topbar">
+      <button class="btn btn-mr" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Buka menu"><i class="bi bi-list fs-4"></i></button>
+      <span class="fw-bold fs-5"><i class="bi bi-music-note-beamed text-pink"></i> MoodRoom</span>
+      <div class="d-flex align-items-center gap-2"><button class="icon-btn" data-bell aria-label="Notifikasi"><i class="bi bi-bell"></i><span class="dot"></span></button><button type="button" class="avatar profile-link mobile-profile" aria-label="Buka akun" style="width:38px;height:38px"></button></div>
+    </header>
+
+    <div class="layout">
+      <aside class="offcanvas-lg offcanvas-start mr-sidebar" tabindex="-1" id="sidebar">
+        <div class="offcanvas-header d-lg-none"><button class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Tutup"></button></div>
+        <div class="offcanvas-body d-flex flex-column">
+          <div class="side-head mb-2"><div class="logo"><i class="bi bi-music-note-beamed text-pink"></i><span class="lbl"> MoodRoom</span></div><button class="side-toggle d-none d-lg-grid" id="sideToggle" aria-expanded="true"><i class="bi bi-chevron-double-left"></i></button></div>
+          <h6 class="side-title">Menu utama</h6>
+          <nav class="d-grid gap-2 mb-4" id="mainNav"><a href="index.html" class="side-item"><i class="bi bi-house"></i><span class="lbl">Home</span></a><a href="playlist.html" class="side-item"><i class="bi bi-compass"></i><span class="lbl">Jelajah Playlist</span></a><a href="sirkel.html" class="side-item"><i class="bi bi-people"></i><span class="lbl">Sirkel</span></a></nav>
+          <h6 class="side-title">Koleksi Pribadi</h6>
+          <div class="d-grid gap-3 mb-4"><a href="lagu_disukai.html" class="side-item"><i class="bi bi-heart"></i><span class="lbl">Lagu disukai</span></a><a href="#" class="side-item" id="openMoodCardModal"><i class="bi bi-suit-heart-fill text-pink"></i><span class="lbl">MoodCard Saya</span></a></div>
+          <div class="d-flex justify-content-between align-items-center pl-head"><h6 class="side-title mb-0">Playlistku</h6><button class="btn p-0 text-white-50 fs-4" id="addPlaylist"><i class="bi bi-plus-circle-fill" style="color:#6c4fe0"></i></button></div>
+          <div class="d-grid gap-2 my-2 pl-wrap" id="playlists"><a href="playlist.html" class="side-item plain"><i class="bi bi-music-note-list"></i><span class="lbl">Rock n Roll</span></a><a href="playlist.html" class="side-item plain"><i class="bi bi-music-note-list"></i><span class="lbl">Dangdut</span></a></div>
+          <div class="mt-auto pt-3"><div class="plan-badge mb-3" role="status"><i class="bi bi-person-badge"></i><span class="lbl">Akun Gratis</span></div><div class="premium"><i class="bi bi-star-fill premium-ico"></i><div class="fw-semibold small pt"><i class="bi bi-star-fill me-1"></i>MoodRoom Premium</div><p class="mb-2 mt-1" style="font-size:.7rem">Nikmati audio kualitas HD tanpa iklan terputus.</p><a class="btn btn-light btn-sm w-100 rounded-pill py-0" href="premium-new.html" style="font-size:.75rem">Upgrade Sekarang</a></div></div>
+        </div>
+      </aside>
+
+      <main class="mr-main plan-v2-main">
+        <div class="search-box mb-4"><i class="bi bi-search text-white-50"></i><input type="search" class="form-control" placeholder="Cari Lagu, Artis, MoodCard, atau Profil User" aria-label="Cari"><div class="dropdown"><button class="btn btn-sm text-white dropdown-toggle fw-semibold" data-bs-toggle="dropdown">Filter</button></div></div>
+
+        <div class="plan-v2-heading"><a href="profile-new.html" aria-label="Kembali"><i class="bi bi-arrow-left"></i></a><div><h1>MoodRoom Free</h1><p>Musik favorit, playlist pribadi, dan MoodCard kamu — tanpa biaya langganan.</p></div></div>
+
+        <section class="free-v2-card free-v2-package">
+          <div class="free-v2-label">PAKET KAMU</div><span class="free-v2-active">AKTIF</span>
+          <h2>MoodRoom Free</h2><div class="free-v2-price">Rp 0 <small>/ selamanya</small></div>
+          <p>Tidak perlu berlangganan atau menambahkan metode pembayaran.</p>
+        </section>
+
+        <section class="free-v2-card">
+          <h2>Yang bisa kamu nikmati</h2>
+          <div class="free-v2-benefit"><i class="bi bi-check-lg"></i><div><b>Musik sesuai mood</b><small>Temukan lagu untuk menemani suasana hatimu.</small></div></div>
+          <div class="free-v2-benefit"><i class="bi bi-check-lg"></i><div><b>Playlist pribadi</b><small>Buat playlist dan simpan lagu yang kamu suka.</small></div></div>
+          <div class="free-v2-benefit"><i class="bi bi-check-lg"></i><div><b>MoodCard Saya</b><small>Simpan MoodCard untuk momen favoritmu.</small></div></div>
+        </section>
+
+        <section class="free-v2-card free-v2-listen">
+          <div><h2>Dengarkan dengan paket Free</h2><p>Audio standar dengan iklan. Konten eksklusif tidak termasuk dalam paket ini.</p></div>
+          <span class="free-v2-ready">Siap menemukan lagu berikutnya?</span>
+          <a href="playlist.html">Jelajahi Playlist</a>
+        </section>
+      </main>
+    </div>
+
+    <footer class="player"><div class="progress-line"><span id="progBar"></span><div class="scrub-tooltip" id="scrubTip">0:00</div></div><div class="player-in"><div class="p-left"><span class="cover sm"></span><div class="p-info"><div class="p-title" id="nowTitle">Evaluasi - Hindia</div><div class="p-time" id="timeNow">0:00 / 3:31</div></div></div><div class="p-ctrl"><button class="pbtn d-none d-sm-block" id="shuffleBtn"><i class="bi bi-shuffle"></i></button><button class="pbtn" id="prevBtn"><i class="bi bi-skip-start-fill"></i></button><button class="pbtn play-main" id="playBtn"><i class="bi bi-pause-fill"></i></button><button class="pbtn" id="nextBtn"><i class="bi bi-skip-end-fill"></i></button><button class="pbtn d-none d-sm-block" id="repeatBtn"><i class="bi bi-repeat"></i></button></div></div></footer>
+  </div>
+  <div class="toast-container position-fixed top-0 start-0 p-1" style="z-index:2000"><div id="toast" class="toast mr-toast" role="status"><div class="toast-body"><i class="bi bi-check-lg"></i><span id="toastMsg"></span></div></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/moodcard-modal.js"></script>
+</body>
+
+</html>
