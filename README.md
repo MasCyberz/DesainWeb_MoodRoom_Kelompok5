@@ -35,7 +35,7 @@ Platform streaming musik berbasis *mood* yang menggabungkan lagu, kurasi **MoodC
 - [Detail Teknis](#-detail-teknis)
 - [Desain & Design System](#-desain--design-system)
 - [Batasan & Catatan](#-batasan--catatan)
-- [Tim Pengembang](#-tim-pengembang)
+- [Tim & Dosen Pengampu](#-tim--dosen-pengampu)
 - [Kredit & Lisensi](#-kredit--lisensi)
 
 ---
@@ -577,21 +577,23 @@ Proyek ini merupakan **prototype front-end** untuk keperluan pembelajaran, sehin
 
 ---
 
-## 👥 Tim Pengembang
-
-**Kelompok 5 — Mata Kuliah Desain Web**
-
-| No | Nama | NIM |
-|:--:|---|---|
-| 1 | **Dimas Alif Ardiansyah** | K3525004 |
-| 2 | **Febriana Putri Qurrota’ayun** | K3525007 |
-| 3 | **Zahra Faizza Kuncoroningrum** | K3525017 |
-| 4 | **Muzni Mubarok Salim** | K3525036 |
-| 5 | **Aksya Nayla Fitriana** | K3525047 |
+## 🎓 Tim & Dosen Pengampu
 
 ### 👨‍🏫 Dosen Pengampu
 
 **Vearen Dika Sofirudin, S.Pd., M.Ed.**
+
+Mata Kuliah **Desain Web**
+
+### 👥 Tim Pengembang — Kelompok 5
+
+| No | Jobdesk | Nama | NIM |
+|:--:|---|---|---|
+| 1 | Ketua Kelompok · Music Player & Engine Bersama | **Dimas Alif Ardiansyah** | K3525004 |
+| 2 | UI/UX Designer · MoodCard Studio | **Febriana Putri Qurrota’ayun** | K3525007 |
+| 3 | Autentikasi & Halaman Profil | **Zahra Faizza Kuncoroningrum** | K3525017 |
+| 4 | Playlist, Lagu & Sirkel | **Muzni Mubarok Salim** | K3525036 |
+| 5 | Dokumentasi, Pengujian & Aset Visual | **Aksya Nayla Fitriana** | K3525047 |
 
 ---
 
