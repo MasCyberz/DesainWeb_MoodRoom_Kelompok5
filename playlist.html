@@ -79,6 +79,7 @@
 
             <!-- MAIN -->
             <main class="mr-main">
+                <!-- [BAWAAN KETUA - JANGAN DIUBAH] Search Bar Utama -->
                 <div class="search-box mb-4">
                     <i class="bi bi-search text-white-50"></i>
                     <input id="searchInput" type="search" class="form-control"
@@ -95,71 +96,254 @@
                     </div>
                 </div>
 
-
-
                 <div id="plView">
-                    <header class="liked-head">
-                        <div class="liked-cover" id="plCover" aria-hidden="true"><i class="bi bi-music-note-list"></i>
+                    <!-- [PATOKAN KETUA] Header Playlist (.liked-head) disesuaikan dengan Mockup -->
+                    <header class="liked-head plm-head">
+                        <div class="liked-cover plm-cover" id="plCover" aria-hidden="true">
+                            <i class="bi bi-music-note-list"></i>
                         </div>
                         <div class="min-w-0">
-                            <div class="liked-eyebrow">Playlist</div>
-                            <h1 class="liked-title" id="plTitle">Playlist</h1>
-                            <p class="text-white-50 mb-2" id="plDesc"></p>
-                            <div class="liked-meta"><span class="avatar"
-                                    style="width:26px;height:26px"></span><b>@dimas</b><span>·</span><span><span
-                                        id="plCount">0</span> lagu</span><span>·</span><span><span id="plMin">0</span>
-                                    menit</span><span>·</span><span><i class="bi bi-lock"></i> Hanya kamu</span></div>
+                            <div class="liked-eyebrow">PLAYLISTKU</div>
+                            <h1 class="liked-title" id="plTitle">Rock n Roll</h1>
+                            <p class="text-white-50 mb-2 small" id="plDesc">Lagu rock yang nemenin dari SMA sampai skripsi.</p>
+                            <div class="liked-meta">
+                                <span class="avatar" style="width:26px;height:26px"></span>
+                                <b>@dimas</b>
+                                <span>·</span>
+                                <span><span id="plCount">0</span> lagu</span>
+                                <span>·</span>
+                                <span><span id="plMin">0</span> menit</span>
+                                <span>·</span>
+                                <span><span id="plMoodCardCount">2</span> MoodCard</span>
+                                <span>·</span>
+                                <span><i class="bi bi-lock"></i> Privat</span>
+                            </div>
                         </div>
                     </header>
 
-                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4 mb-3">
-                        <div class="d-flex align-items-center gap-3" id="plActions">
-                            <button class="btn btn-pink px-4 py-2 fw-semibold rounded-3" id="playAll"><i
-                                    class="bi bi-play"></i> Putar semua</button>
-                            <button class="round-btn" id="shuffleAll" aria-label="Acak" title="Acak"><i
-                                    class="bi bi-shuffle"></i></button>
-                            <a class="round-btn" href="lagu-populer.html" aria-label="Tambah lagu"
-                                title="Tambah lagu"><i class="bi bi-plus-lg"></i></a>
-                            <button class="round-btn" id="deletePl" aria-label="Hapus playlist"
-                                title="Hapus playlist"><i class="bi bi-trash3"></i></button>
-                        </div>
-                        <div class="d-flex flex-wrap align-items-center gap-3">
-                            <div class="pop-search"><i class="bi bi-search text-white-50"></i><input id="plSearch"
-                                    type="search" placeholder="Cari di playlist" aria-label="Cari di playlist"></div>
-                            <div class="dropdown pop-dd plain" data-dd="sort">
-                                <button class="btn" data-bs-toggle="dropdown"><span class="dd-label">Urutan
-                                        playlist</span><i class="bi bi-chevron-down small"></i></button>
-                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                                    <li><a class="dropdown-item active" href="#" data-v="new"
-                                            data-l="Urutan playlist">Urutan playlist</a></li>
-                                    <li><a class="dropdown-item" href="#" data-v="az" data-l="Judul A–Z">Judul A–Z</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#" data-v="artist" data-l="Artis A–Z">Artis
-                                            A–Z</a></li>
-                                    <li><a class="dropdown-item" href="#" data-v="dur" data-l="Durasi terlama">Durasi
-                                            terlama</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                    <!-- [PATOKAN KETUA + FITUR TAMBAHAN] Baris Aksi Utama Playlist -->
+                    <div class="d-flex flex-wrap align-items-center gap-2 mt-4 mb-3" id="plActions">
+                        <button class="btn btn-pink px-4 py-2 fw-semibold rounded-pill d-inline-flex align-items-center gap-1" id="playAll">
+                            <i class="bi bi-play-fill fs-5"></i> Putar semua
+                        </button>
+                        <button class="round-btn" id="shuffleAll" aria-label="Acak" title="Acak">
+                            <i class="bi bi-shuffle"></i>
+                        </button>
+                        <a class="round-btn" href="lagu-populer.html" aria-label="Tambah lagu" title="Tambah lagu">
+                            <i class="bi bi-plus-lg"></i>
+                        </a>
+                        <button class="round-btn" id="deletePl" aria-label="Hapus playlist" title="Hapus playlist">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+
+                        <!-- Tombol Offline Toggle -->
+                        <button type="button" class="plm-pill-btn plm-offline-pill" id="plmOfflineBtn" aria-pressed="true">
+                            <i class="bi bi-download"></i>
+                            <span>Offline</span>
+                            <span class="plm-switch is-on" id="plmOfflineSwitch"></span>
+                        </button>
+
+                        <!-- Tombol Share MoodCard -->
+                        <button type="button" class="plm-pill-btn plm-btn-share" id="plmShareCardBtn">
+                            <i class="bi bi-upload"></i>
+                            <span>Share MoodCard</span>
+                        </button>
+
+                        <!-- Tombol Dengar Bareng Teman -->
+                        <button type="button" class="plm-pill-btn plm-btn-room" id="plmListenRoomBtn">
+                            <i class="bi bi-headphones"></i>
+                            <span>Dengar Bareng Teman</span>
+                        </button>
                     </div>
 
-                    <div class="song-head liked" id="plHead" aria-hidden="true">
-                        <div>#</div>
-                        <div>Judul</div>
-                        <div class="c-album">Album</div>
-                        <div class="c-added">Ditambahkan</div>
-                        <div></div>
-                        <div class="c-dur"><i class="bi bi-clock"></i></div>
-                        <div></div>
+                    <!-- [TOOLBAR COMPACT] Minimize Toggle untuk Filter Mood & Mini Mood Pack + Logo Search & Sort -->
+                    <div class="plm-compact-toolbar d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <!-- Tombol Minimize/Toggle Filter Mood -->
+                        <button type="button" class="plm-toggle-btn" id="plmFilterToggle"
+                            data-bs-toggle="collapse" data-bs-target="#plmFilterCollapse"
+                            aria-expanded="false" aria-controls="plmFilterCollapse" title="Buka/Tutup Filter Mood">
+                            <i class="bi bi-funnel-fill"></i>
+                            <span>Filter Mood</span>
+                            <span class="plm-count-badge is-zero" id="plmFilterBadge">0</span>
+                            <i class="bi bi-chevron-down plm-chev"></i>
+                        </button>
+
+                        <!-- Tombol Minimize/Toggle Mini Mood Pack -->
+                        <button type="button" class="plm-toggle-btn" id="plmPackToggle"
+                            data-bs-toggle="collapse" data-bs-target="#plmPackCollapse"
+                            aria-expanded="false" aria-controls="plmPackCollapse" title="Buka/Tutup Mini Mood Pack">
+                            <i class="bi bi-collection-play-fill"></i>
+                            <span>Mini Mood Pack</span>
+                            <span class="plm-count-badge" id="plmPackBadge">3</span>
+                            <i class="bi bi-chevron-down plm-chev"></i>
+                        </button>
+
+                        <!-- Logo Tombol Cari di Playlist (Expandable) di sebelah Mini Mood Pack -->
+                        <div class="plm-search-compact" id="plmSearchCompact">
+                            <button type="button" class="plm-icon-btn" id="plmSearchBtn" aria-label="Cari di playlist" title="Cari di playlist">
+                                <i class="bi bi-search"></i>
+                            </button>
+                            <input id="plSearch" type="search" placeholder="Cari di playlist..." aria-label="Cari di playlist">
+                        </div>
+
+                        <!-- Logo Tombol Urutan Playlist (Dropdown Icon) di sebelah Cari -->
+                        <div class="dropdown pop-dd plain plm-sort-dropdown" data-dd="sort">
+                            <button class="plm-icon-btn" data-bs-toggle="dropdown" aria-label="Urutan playlist" title="Urutan playlist" id="plmSortBtn">
+                                <i class="bi bi-arrow-down-up"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                <li><a class="dropdown-item active" href="#" data-v="new" data-l="Urutan playlist"><i class="bi bi-list-ol me-2"></i>Urutan playlist</a></li>
+                                <li><a class="dropdown-item" href="#" data-v="az" data-l="Judul A–Z"><i class="bi bi-sort-alpha-down me-2"></i>Judul A–Z</a></li>
+                                <li><a class="dropdown-item" href="#" data-v="artist" data-l="Artis A–Z"><i class="bi bi-person me-2"></i>Artis A–Z</a></li>
+                                <li><a class="dropdown-item" href="#" data-v="dur" data-l="Durasi terlama"><i class="bi bi-clock me-2"></i>Durasi terlama</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Ringkasan Filter Aktif Saat Diminimize -->
+                        <div class="plm-filter-mini-summary d-flex align-items-center gap-1 ms-auto" id="plmMiniSummary"></div>
                     </div>
-                    <div id="plRows"></div>
-                    <div class="text-center py-5 d-none" id="plEmpty">
-                        <i class="bi bi-music-note-list display-4 text-pink"></i>
-                        <p class="fs-5 fw-bold mt-2 mb-1">Playlist masih kosong</p>
-                        <p class="text-white-50">Tambahkan lagu lewat menu titik tiga di halaman lagu.</p>
-                        <a href="lagu-populer.html" class="btn btn-pink rounded-3 px-4 fw-semibold">Cari lagu</a>
+
+                    <!-- [COLLAPSIBLE 1] Panel Filter Multi-Tag (Bisa Diminimize agar Tidak Menutupi List Lagu) -->
+                    <div class="collapse mb-3" id="plmFilterCollapse">
+                        <section class="plm-filter-panel" aria-label="Filter Multi Tag Playlist">
+                            <div class="plm-filter-row plm-active-filter-row">
+                                <span class="plm-filter-lbl">Filter aktif</span>
+                                <div class="plm-active-chips" id="plmActiveChips"></div>
+                                <button type="button" class="plm-reset-btn ms-auto" id="plmResetFilters">Reset</button>
+                            </div>
+                            <div class="plm-filter-row">
+                                <span class="plm-filter-lbl">Mood</span>
+                                <div class="plm-chip-group" id="plmMoodChips" data-group="mood">
+                                    <button type="button" class="plm-chip active" data-v="all">Semua</button>
+                                    <button type="button" class="plm-chip" data-v="Santai">Santai</button>
+                                    <button type="button" class="plm-chip" data-v="Galau">Galau</button>
+                                    <button type="button" class="plm-chip" data-v="Fokus">Fokus</button>
+                                    <button type="button" class="plm-chip" data-v="Semangat">Semangat</button>
+                                    <button type="button" class="plm-chip" data-v="Sedih">Sedih</button>
+                                </div>
+                            </div>
+                            <div class="plm-filter-row">
+                                <span class="plm-filter-lbl">Aktivitas</span>
+                                <div class="plm-chip-group" id="plmActivityChips" data-group="activity">
+                                    <button type="button" class="plm-chip" data-v="Nugas Malam">Nugas Malam</button>
+                                    <button type="button" class="plm-chip" data-v="Olahraga">Olahraga</button>
+                                    <button type="button" class="plm-chip" data-v="Perjalanan">Perjalanan</button>
+                                    <button type="button" class="plm-chip" data-v="Nongkrong">Nongkrong</button>
+                                    <button type="button" class="plm-chip" data-v="Tidur">Tidur</button>
+                                </div>
+                            </div>
+                            <div class="plm-filter-row">
+                                <span class="plm-filter-lbl">Genre</span>
+                                <div class="plm-chip-group" id="plmGenreChips" data-group="genre">
+                                    <button type="button" class="plm-chip" data-v="Rock">Rock</button>
+                                    <button type="button" class="plm-chip" data-v="Pop">Pop</button>
+                                    <button type="button" class="plm-chip" data-v="Lo-fi">Lo-fi</button>
+                                    <button type="button" class="plm-chip" data-v="Indie">Indie</button>
+                                    <button type="button" class="plm-chip" data-v="Dangdut">Dangdut</button>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <p class="text-center text-white-50 py-5 d-none" id="plNoMatch">Tidak ada lagu yang cocok.</p>
+
+                    <!-- [COLLAPSIBLE 2] Panel Mini Mood Pack (Bisa Diminimize & Dibuat Dinamis Berdasarkan List Lagu Ketua) -->
+                    <div class="collapse mb-3" id="plmPackCollapse">
+                        <section class="plm-pack-box" aria-label="Mini Mood Pack">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                                <div>
+                                    <h2 class="plm-sec-title">Mini Mood Pack</h2>
+                                    <p class="plm-sec-sub">Paket pendek 1-3 lagu otomatis dari daftar lagu playlist ini. Klik play, langsung nyala.</p>
+                                </div>
+                            </div>
+                            <div class="plm-pack-grid" id="plmPackGrid">
+                                <!-- Kartu Mini Mood Pack diisi dinamis oleh JS dari lagu yang ada di playlist ketua -->
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- [VIEW TABS] Tab Switcher (Lagu vs MoodCard) -->
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <button type="button" class="plm-tab-pill active" id="tabSongs" role="tab" aria-selected="true">
+                            Lagu (<span id="plCountTab">0</span>)
+                        </button>
+                        <button type="button" class="plm-tab-pill" id="tabMoodCards" role="tab" aria-selected="false">
+                            MoodCard tersimpan (<span id="plMoodCardTabCount">2</span>)
+                        </button>
+                    </div>
+
+                    <!-- [PATOKAN KETUA] Tabel Daftar Lagu (.song-head.liked + #plRows + #plEmpty + #plNoMatch) -->
+                    <div id="songsViewArea">
+                        <div class="song-head liked plm-song-table-head" id="plHead" aria-hidden="true">
+                            <div>#</div>
+                            <div>JUDUL</div>
+                            <div>MOOD</div>
+                            <div>AKTIVITAS</div>
+                            <div></div>
+                            <div class="c-dur"><i class="bi bi-clock"></i></div>
+                            <div></div>
+                        </div>
+                        <div id="plRows" class="plm-song-rows"></div>
+
+                        <!-- Tombol Tampilkan Lebih Banyak (jika lagu > 6) -->
+                        <div class="text-center mt-3 mb-4 d-none" id="plmLoadMoreWrap">
+                            <button type="button" class="btn plm-btn-more w-100" id="plmLoadMoreBtn">Tampilkan lebih banyak</button>
+                        </div>
+
+                        <div class="text-center py-5 d-none" id="plEmpty">
+                            <i class="bi bi-music-note-list display-4 text-pink"></i>
+                            <p class="fs-5 fw-bold mt-2 mb-1">Playlist masih kosong</p>
+                            <p class="text-white-50">Tambahkan lagu lewat menu titik tiga di halaman lagu.</p>
+                            <a href="lagu-populer.html" class="btn btn-pink rounded-3 px-4 fw-semibold">Cari lagu</a>
+                        </div>
+                        <p class="text-center text-white-50 py-5 d-none" id="plNoMatch">Tidak ada lagu yang cocok dengan filter atau kata kunci.</p>
+                    </div>
+
+                    <!-- [FITUR TAMBAHAN MOODROOM] MoodCard Tersimpan di Playlist Ini -->
+                    <section class="mt-4 pt-3 border-top border-white border-opacity-10" id="plmSavedMoodCardSection" aria-label="MoodCard tersimpan di playlist ini">
+                        <h2 class="plm-sec-title mb-3">MoodCard tersimpan di playlist ini</h2>
+                        <div class="plm-moodcard-grid" id="plmMoodCardGrid">
+                            <!-- Card 1: Usia-Usia Dewasa -->
+                            <div class="plm-mcard" data-title="MoodCard: Usia-Usia Dewasa">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center gap-2 fw-bold fs-6">
+                                        <i class="bi bi-card-text text-pink"></i>
+                                        <span>Usia-Usia Dewasa</span>
+                                    </div>
+                                    <button type="button" class="plm-mcard-play" aria-label="Putar MoodCard" title="Putar">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                </div>
+                                <p class="plm-mcard-quote">Dengerin pas jam 1 malam revisi belum kelar..</p>
+                                <div class="mt-auto d-flex align-items-center justify-content-between">
+                                    <span class="plm-badge-pill">Galau</span>
+                                    <small class="text-white-50">3 lagu · @kurator_senja</small>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Revisi jam 1 -->
+                            <div class="plm-mcard" data-title="MoodCard: Revisi jam 1">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center gap-2 fw-bold fs-6">
+                                        <i class="bi bi-card-text text-pink"></i>
+                                        <span>Revisi jam 1</span>
+                                    </div>
+                                    <button type="button" class="plm-mcard-play" aria-label="Putar MoodCard" title="Putar">
+                                        <i class="bi bi-play-fill"></i>
+                                    </button>
+                                </div>
+                                <p class="plm-mcard-quote">Kutipan lirik utama tampil 1 baris</p>
+                                <div class="mt-auto d-flex align-items-center justify-content-between">
+                                    <span class="plm-badge-pill">Fokus</span>
+                                    <small class="text-white-50">2 lagu · @kurator_senja</small>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Simpan MoodCard ke sini (Slot Tambah Dashed) -->
+                            <div class="plm-mcard-add" id="plmAddMoodCardSlot" role="button" tabindex="0">
+                                <i class="bi bi-plus-lg fs-4 mb-2"></i>
+                                <span>Simpan MoodCard ke sini</span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
 
                 <div id="plMissing" class="text-center py-5 d-none">
@@ -168,6 +352,7 @@
                     <a href="index.html" class="btn btn-pink rounded-3 px-4 fw-semibold">Kembali ke beranda</a>
                 </div>
             </main>
+
 
             <!-- RIGHT -->
             <aside class="mr-right">
