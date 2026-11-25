@@ -3500,6 +3500,54 @@ a.round-btn {
    background: rgba(217, 111, 176, 0.05);
 }
 
+.plm-modal-content {
+   background: #23103c;
+   border: 1px solid rgba(217, 111, 176, 0.45);
+   border-radius: 1rem;
+   color: #fff;
+}
+
+.plm-mood-tag-btn {
+   cursor: pointer;
+   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.plm-mood-tag-btn:hover {
+   border-color: var(--pink);
+   background: rgba(217, 111, 176, 0.2);
+   color: #fff;
+}
+
+.plm-pack-card.is-playing,
+.plm-mcard.is-playing {
+   border-color: var(--pink);
+   box-shadow: 0 0 0 1px rgba(217, 111, 176, 0.35), 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.plm-mcard-remove {
+   width: 28px;
+   height: 28px;
+   border-radius: 50%;
+   border: 0;
+   background: rgba(255, 255, 255, 0.08);
+   color: rgba(255, 255, 255, 0.65);
+   display: inline-grid;
+   place-items: center;
+   font-size: 0.85rem;
+   transition: background 0.2s ease, color 0.2s ease;
+}
+
+.plm-mcard-remove:hover {
+   background: rgba(220, 53, 69, 0.25);
+   color: #ff9aa5;
+}
+
+#shuffleAll.is-active {
+   background: rgba(217, 111, 176, 0.22);
+   border-color: var(--pink);
+   color: var(--pink);
+}
+
 /* Responsif Mobile & Tablet */
 @media (max-width: 991.98px) {
    .plm-pack-grid {

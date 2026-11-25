@@ -410,7 +410,7 @@
 
 
     // =========================================================================
-    // MASTER TRACKS & AUDIO ENGINE (Web Audio API Synthesizer)
+    // MASTER TRACKS & AUDIO ENGINE (HTML5 Audio Player)
     // =========================================================================
     const ALBUM_COVERS = {
         'Back in Black': 'img/covers/semangat_concert.jpg',
@@ -445,26 +445,36 @@
 
     const MASTER_TRACKS = [
         { title: 'Evaluasi - Hindia', dur: '3:31', sec: 211, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg', src: 'music/Hindia-Evaluasi.mp3' },
-        { title: 'Bergema Sampai Selamanya - Nadhif Basalamah', dur: '3:26', sec: 206, grad: ['#a8b878', '#3a5a2c'], cover: 'img/covers/santai_nature.jpg' },
-        { title: 'Satu Bulan - Bernadya', dur: '3:19', sec: 199, grad: ['#4a3a38', '#0c0a0c'], cover: 'img/covers/galau_room.jpg' },
-        { title: 'Nina - .Feast', dur: '4:37', sec: 277, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg' },
-        { title: 'Secukupnya - Hindia', dur: '3:27', sec: 207, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg' },
-        { title: 'Usai - Tiara Andini', dur: '3:37', sec: 217, grad: ['#f4f0f4', '#a8c0e0'], cover: 'img/covers/galau_city.jpg' },
-        { title: 'Peradaban - .Feast', dur: '4:02', sec: 242, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg' },
-        { title: 'Cincin - Hindia', dur: '3:45', sec: 225, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/santai_sunset.jpg' },
-        { title: 'Blinding Lights - The Weeknd', dur: '3:20', sec: 200, grad: ['#e0405a', '#3a0a1a'], cover: 'img/covers/semangat_neon.jpg' },
-        { title: 'Hati-Hati di Jalan - Tulus', dur: '4:12', sec: 252, grad: ['#6a8ac0', '#1a2a50'], cover: 'img/covers/santai_coffee.jpg' },
-        { title: 'Rainy Window - Lo-fi Collective', dur: '2:48', sec: 168, grad: ['#4a7a9a', '#14304a'], cover: 'img/covers/fokus_desk.jpg' }
+        { title: 'Bergema Sampai Selamanya - Nadhif Basalamah', dur: '3:26', sec: 206, grad: ['#a8b878', '#3a5a2c'], cover: 'img/covers/santai_nature.jpg', src: 'music/NadhifBasalamah-BergemaSampaiSelamanya.mp3' },
+        { title: 'Satu Bulan - Bernadya', dur: '3:19', sec: 199, grad: ['#4a3a38', '#0c0a0c'], cover: 'img/covers/galau_room.jpg', src: 'music/Bernadya-SatuBulan.mp3' },
+        { title: 'Nina - .Feast', dur: '4:37', sec: 277, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg', src: 'music/Feast-Nina.mp3' },
+        { title: 'Secukupnya - Hindia', dur: '3:27', sec: 207, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg', src: 'music/Hindia-Secukupnya.mp3' },
+        { title: 'Usai - Tiara Andini', dur: '3:37', sec: 217, grad: ['#f4f0f4', '#a8c0e0'], cover: 'img/covers/galau_city.jpg', src: 'music/TiaraAndini-Usai.mp3' },
+        { title: 'Peradaban - .Feast', dur: '4:02', sec: 242, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg', src: 'music/Feast-Peradaban.mp3' },
+        { title: 'Cincin - Hindia', dur: '3:45', sec: 225, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/santai_sunset.jpg', src: 'music/Hindia-Cincin.mp3' },
+        { title: 'Blinding Lights - The Weeknd', dur: '3:20', sec: 200, grad: ['#e0405a', '#3a0a1a'], cover: 'img/covers/semangat_neon.jpg', src: 'music/The Weeknd-BlindingLights.mp3' },
+        { title: 'Hati-Hati di Jalan - Tulus', dur: '4:12', sec: 252, grad: ['#6a8ac0', '#1a2a50'], cover: 'img/covers/santai_coffee.jpg', src: 'music/TULUS-Hati-HatidiJalan.mp3' },
+        { title: 'Rainy Window - Lo-fi Collective', dur: '2:48', sec: 168, grad: ['#4a7a9a', '#14304a'], cover: 'img/covers/fokus_desk.jpg', src: 'music/LoFiCollective-RainyWindow.mp3' }
     ];
 
-    let currentTrackIdx = 0;
+    const findTrackIdx = title => {
+        if (!title) return -1;
+        const q = title.toLowerCase().trim();
+        const exact = MASTER_TRACKS.findIndex(x => x.title.toLowerCase() === q);
+        if (exact !== -1) return exact;
+        return MASTER_TRACKS.findIndex(x => {
+            const xt = x.title.toLowerCase();
+            return q.includes(xt) || q === xt.split(' - ')[0];
+        });
+    };
+
     const playerAudio = new Audio();
     const saved = store.get('mr-player', { title: 'Evaluasi - Hindia', playing: true, pct: 40 });
     let playing = !!saved.playing, pct = +saved.pct || 0, timer, currentEl = null, playingTitle = saved.title;
-
-    // Temukan track index saat ini
-    const foundIdx = MASTER_TRACKS.findIndex(t => t.title.toLowerCase() === playingTitle.toLowerCase() || playingTitle.toLowerCase().includes(t.title.toLowerCase()));
-    if (foundIdx !== -1) currentTrackIdx = foundIdx;
+    let currentTrackIdx = findTrackIdx(playingTitle);
+    let currentAudioSrc = '';
+    let pendingSeekPct = null;
+    let scrubDragging = false;
 
     // Audio Visualizer Spectrum injector
     const ensureVisualizer = () => {
@@ -504,58 +514,68 @@
 
     const updateTimeDisplay = () => {
         const t = getCurTrack();
-        const curSec = (pct / 100) * t.sec;
+        const hasDur = Number.isFinite(playerAudio.duration) && playerAudio.duration > 0;
+        const totalSec = hasDur ? playerAudio.duration : t.sec;
+        const totalStr = hasDur ? fmtTime(totalSec) : t.dur;
+        const curSec = (pct / 100) * totalSec;
         const curStr = fmtTime(curSec);
         const timeNow = $('#timeNow');
-        if (timeNow) timeNow.textContent = `${curStr} / ${t.dur}`;
+        if (timeNow) timeNow.textContent = `${curStr} / ${totalStr}`;
         const timeCur = $('#timeCur');
-        if (timeCur) timeCur.textContent = curStr;
+        if (timeCur) {
+            timeCur.textContent = curStr;
+            if (timeCur.nextElementSibling) timeCur.nextElementSibling.textContent = totalStr;
+        }
         const nowTitleEl = $('#nowTitle');
         if (nowTitleEl && nowTitleEl.textContent !== playingTitle) nowTitleEl.textContent = playingTitle;
     };
 
-    let isDragging = false;
-    const seek = (clientX) => {
-        const line = $('.progress-line');
-        if (!line) return;
-        const rect = line.getBoundingClientRect();
-        const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-        const pctX = (rect.width ? (x / rect.width) : 0) * 100;
-        pct = Math.max(0, Math.min(100, pctX));
-        if (progBar) progBar.style.width = pct + '%';
-        if (progThumb) progThumb.style.left = pct + '%';
-        if (playerAudio.duration) playerAudio.currentTime = Math.min(playerAudio.duration, Math.max(0, playerAudio.duration * (pct / 100)));
-        if (playing && playerAudio.duration) playerAudio.play().catch(() => {});
-        const scrubTip = $('#scrubTip, .scrub-tooltip');
-        if (scrubTip) {
-            const track = getCurTrack();
-            scrubTip.textContent = fmtTime((pct / 100) * (track.sec || 211));
-            scrubTip.style.display = 'block';
+    const loadTrackAudio = (src, initialPct = 0) => {
+        if (!src) {
+            currentAudioSrc = '';
+            pendingSeekPct = null;
+            playerAudio.pause();
+            playerAudio.removeAttribute('src');
+            playerAudio.load();
+            return;
+        }
+        if (currentAudioSrc !== src) {
+            currentAudioSrc = src;
+            pendingSeekPct = initialPct > 0 ? initialPct : null;
+            playerAudio.src = src;
+            playerAudio.load();
+        }
+    };
+
+    playerAudio.addEventListener('loadedmetadata', () => {
+        if (pendingSeekPct !== null && Number.isFinite(playerAudio.duration) && playerAudio.duration > 0) {
+            playerAudio.currentTime = Math.min(playerAudio.duration, Math.max(0, playerAudio.duration * (pendingSeekPct / 100)));
+            pendingSeekPct = null;
         }
         updateTimeDisplay();
-        save();
-    };
-    const hideScrubTip = () => { const tip = $('#scrubTip, .scrub-tooltip'); if (tip) tip.style.display = 'none'; };
-    const line = $('.progress-line');
-    if (line) {
-        line.classList.toggle('can-seek', true);
-        line.addEventListener('pointerdown', e => {
-            e.preventDefault();
-            isDragging = true;
-            line.classList.add('is-dragging');
-            seek(e.clientX);
-        });
-        line.addEventListener('pointermove', e => {
-            if (isDragging) { e.preventDefault(); seek(e.clientX); }
-        });
-        const endDrag = () => { isDragging = false; line.classList.remove('is-dragging'); hideScrubTip(); };
-        line.addEventListener('pointerup', endDrag);
-        document.addEventListener('pointerup', () => { if (isDragging) line.classList.remove('is-dragging'); isDragging = false; });
-    }
+    });
+
+    playerAudio.addEventListener('ended', () => {
+        if ($('#repeatBtn')?.classList.contains('on')) {
+            pct = 0;
+            playerAudio.currentTime = 0;
+            playerAudio.play().catch(() => {});
+            updateTimeDisplay();
+            save();
+        } else {
+            nextTrack();
+        }
+    });
+
+    playerAudio.addEventListener('error', () => {
+        currentAudioSrc = '';
+        pendingSeekPct = null;
+    });
 
     const nowTitleEl = $('#nowTitle');
     if (nowTitleEl) nowTitleEl.textContent = playingTitle;
     const progLine = $('.progress-line');
+    if (progLine) progLine.classList.toggle('can-seek', true);
     const progBar = $('#progBar');
     if (progBar) progBar.style.width = pct + '%';
     const progThumb = document.createElement('i');
@@ -586,10 +606,11 @@
                 return;
             }
         }
-        if (!isDragging) {
-            if (playerAudio.readyState >= 1 && playerAudio.duration) {
-                pct = Math.max(0, (playerAudio.currentTime / playerAudio.duration) * 100);
-            } else {
+        if (!scrubDragging) {
+            const hasDur = playerAudio.readyState >= 1 && Number.isFinite(playerAudio.duration) && playerAudio.duration > 0;
+            if (hasDur && !playerAudio.paused) {
+                pct = Math.max(0, Math.min(100, (playerAudio.currentTime / playerAudio.duration) * 100));
+            } else if (!getCurTrack()?.src) {
                 pct = pct >= 100 ? 0 : pct + 0.5;
             }
         }
@@ -605,14 +626,23 @@
     const setPlaying = p => {
         playing = p;
         if (playIcon) playIcon.className = 'bi ' + (p ? 'bi-pause-fill' : 'bi-play-fill');
+        const detailPlayBtn = $('#songDetailPlay');
+        if (detailPlayBtn) detailPlayBtn.innerHTML = `<i class="bi bi-${p ? 'pause' : 'play'}-fill"></i> ${p ? 'Jeda' : 'Putar'}`;
         clearInterval(timer);
         if (p) {
-            timer = setInterval(tick, 1000);
             const src = getCurTrack()?.src;
             if (src) {
-                if (playerAudio.src !== src) playerAudio.src = src;
-                playerAudio.play().catch(() => {});
+                loadTrackAudio(src, pct);
+                const playPromise = playerAudio.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(err => {
+                        if (err && err.name === 'NotAllowedError') {
+                            setPlaying(false);
+                        }
+                    });
+                }
             }
+            timer = setInterval(tick, 1000);
         } else {
             playerAudio.pause();
         }
@@ -633,17 +663,11 @@
             setPlaying(!playing);
             return;
         }
-        playerAudio.pause();
-        playerAudio.src = '';
-        playerAudio.load();
         playingTitle = t;
-        const found = MASTER_TRACKS.findIndex(x => x.title.toLowerCase() === t.toLowerCase() || t.toLowerCase().includes(x.title.toLowerCase()));
-        if (found !== -1) currentTrackIdx = found;
+        currentTrackIdx = findTrackIdx(t);
         const track = getCurTrack();
-        if (track?.src) {
-            playerAudio.src = track.src;
-            playerAudio.load();
-        }
+        currentAudioSrc = '';
+        loadTrackAudio(track?.src || '', 0);
         if (nowTitleEl) nowTitleEl.textContent = t;
         pct = 0;
         if (progBar) progBar.style.width = '0%';
@@ -696,24 +720,36 @@
 
     // Pindah ke lagu berikutnya
     const nextTrack = () => {
-        playerAudio.pause();
-        currentTrackIdx = (currentTrackIdx + 1) % MASTER_TRACKS.length;
+        if ($('#shuffleBtn')?.classList.contains('on') && MASTER_TRACKS.length > 1) {
+            let randIdx = currentTrackIdx;
+            while (randIdx === currentTrackIdx) {
+                randIdx = Math.floor(Math.random() * MASTER_TRACKS.length);
+            }
+            currentTrackIdx = randIdx;
+        } else {
+            currentTrackIdx = (currentTrackIdx + 1) % MASTER_TRACKS.length;
+        }
         const next = MASTER_TRACKS[currentTrackIdx];
         playTitle(next.title);
     };
 
     // Pindah ke lagu sebelumnya
     const prevTrack = () => {
-        playerAudio.pause();
         if (pct > 6) {
             pct = 0;
+            pendingSeekPct = null;
+            if (Number.isFinite(playerAudio.duration) && playerAudio.duration > 0) {
+                playerAudio.currentTime = 0;
+            }
             if (progBar) progBar.style.width = '0%';
             if (progThumb) progThumb.style.left = '0%';
             updateTimeDisplay();
             save();
             say('Ulangi lagu dari awal ⏪');
         } else {
-            currentTrackIdx = (currentTrackIdx - 1 + MASTER_TRACKS.length) % MASTER_TRACKS.length;
+            currentTrackIdx = currentTrackIdx <= 0
+                ? MASTER_TRACKS.length - 1
+                : currentTrackIdx - 1;
             const prev = MASTER_TRACKS[currentTrackIdx];
             playTitle(prev.title);
         }
@@ -759,17 +795,20 @@
     }
 
     if (progLine) {
-        let scrubDragging = false;
         let scrubMoved = false;
         let suppressScrubClick = false;
         const getScrubPct = clientX => {
             const r = progLine.getBoundingClientRect();
+            if (!r.width) return 0;
             return Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100));
         };
+        const getTotalSec = () => (Number.isFinite(playerAudio.duration) && playerAudio.duration > 0)
+            ? playerAudio.duration
+            : getCurTrack().sec;
         const previewScrub = clientX => {
             const hoverPct = getScrubPct(clientX);
             const r = progLine.getBoundingClientRect();
-            const hoverSec = (hoverPct / 100) * getCurTrack().sec;
+            const hoverSec = (hoverPct / 100) * getTotalSec();
             if (scrubTip) {
                 scrubTip.style.left = (clientX - r.left) + 'px';
                 scrubTip.textContent = fmtTime(hoverSec);
@@ -781,9 +820,16 @@
             pct = previewScrub(clientX);
             if (progBar) progBar.style.width = pct + '%';
             if (progThumb) progThumb.style.left = pct + '%';
+            const hasDur = Number.isFinite(playerAudio.duration) && playerAudio.duration > 0;
+            if (hasDur) {
+                playerAudio.currentTime = Math.min(playerAudio.duration, Math.max(0, playerAudio.duration * (pct / 100)));
+                pendingSeekPct = null;
+            } else if (getCurTrack()?.src) {
+                pendingSeekPct = pct;
+            }
             updateTimeDisplay();
             save();
-            if (announce) say('Posisi: ' + fmtTime((pct / 100) * getCurTrack().sec));
+            if (announce) say('Posisi: ' + fmtTime((pct / 100) * getTotalSec()));
         };
         progLine.addEventListener('mousemove', e => {
             if (!scrubDragging) previewScrub(e.clientX);
@@ -855,13 +901,16 @@
     let level = +store.get('mr-vol', 7), last = level || 7;
     $$('.vol').forEach(v => v.innerHTML = Array.from({ length: 10 }, (_, i) => `<span data-i="${i}"></span>`).join(''));
     const setVol = n => {
-        level = n;
-        store.set('mr-vol', n);
-        $$('.vol').forEach(v => $$('span', v).forEach((x, i) => x.classList.toggle('on', i < n)));
+        const clamped = Math.max(0, Math.min(10, Number(n) || 0));
+        level = clamped;
+        playerAudio.volume = clamped / 10;
+        playerAudio.muted = clamped === 0;
+        store.set('mr-vol', clamped);
+        $$('.vol').forEach(v => $$('span', v).forEach((x, i) => x.classList.toggle('on', i < clamped)));
         const muteIco = $('#muteBtn i');
-        if (muteIco) muteIco.className = 'bi ' + (n === 0 ? 'bi-volume-mute-fill' : n < 4 ? 'bi-volume-down-fill' : 'bi-volume-up-fill');
+        if (muteIco) muteIco.className = 'bi ' + (clamped === 0 ? 'bi-volume-mute-fill' : clamped < 4 ? 'bi-volume-down-fill' : 'bi-volume-up-fill');
         const sMuteIco = $('#sMute i');
-        if (sMuteIco) sMuteIco.className = 'bi ' + (n === 0 ? 'bi-volume-mute-fill' : n < 4 ? 'bi-volume-down-fill' : 'bi-volume-up-fill');
+        if (sMuteIco) sMuteIco.className = 'bi ' + (clamped === 0 ? 'bi-volume-mute-fill' : clamped < 4 ? 'bi-volume-down-fill' : 'bi-volume-up-fill');
     };
     setVol(level);
     document.addEventListener('click', e => {

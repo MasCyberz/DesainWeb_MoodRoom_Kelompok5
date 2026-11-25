@@ -198,7 +198,6 @@
                             <i class="bi bi-chevron-down plm-chev"></i>
                         </button>
 
-                        <!-- Tombol Minimize/Toggle Mini Mood Pack -->
                         <button type="button" class="plm-toggle-btn" id="plmPackToggle"
                             data-bs-toggle="collapse" data-bs-target="#plmPackCollapse"
                             aria-expanded="false" aria-controls="plmPackCollapse" title="Buka/Tutup Mini Mood Pack">
@@ -208,7 +207,6 @@
                             <i class="bi bi-chevron-down plm-chev"></i>
                         </button>
 
-                        <!-- Logo Tombol Cari di Playlist (Expandable) di sebelah Mini Mood Pack -->
                         <div class="plm-search-compact" id="plmSearchCompact">
                             <button type="button" class="plm-icon-btn" id="plmSearchBtn" aria-label="Cari di playlist" title="Cari di playlist">
                                 <i class="bi bi-search"></i>
@@ -229,11 +227,9 @@
                             </ul>
                         </div>
 
-                        <!-- Ringkasan Filter Aktif Saat Diminimize -->
                         <div class="plm-filter-mini-summary d-flex align-items-center gap-1 ms-auto" id="plmMiniSummary"></div>
                     </div>
 
-                    <!-- [COLLAPSIBLE 1] Panel Filter Multi-Tag (Bisa Diminimize agar Tidak Menutupi List Lagu) -->
                     <div class="collapse mb-3" id="plmFilterCollapse">
                         <section class="plm-filter-panel" aria-label="Filter Multi Tag Playlist">
                             <div class="plm-filter-row plm-active-filter-row">
@@ -270,12 +266,12 @@
                                     <button type="button" class="plm-chip" data-v="Lo-fi">Lo-fi</button>
                                     <button type="button" class="plm-chip" data-v="Indie">Indie</button>
                                     <button type="button" class="plm-chip" data-v="Dangdut">Dangdut</button>
+                                    <button type="button" class="plm-chip" data-v="Jazz">Jazz</button>
                                 </div>
                             </div>
                         </section>
                     </div>
 
-                    <!-- [COLLAPSIBLE 2] Panel Mini Mood Pack (Bisa Diminimize & Dibuat Dinamis Berdasarkan List Lagu Ketua) -->
                     <div class="collapse mb-3" id="plmPackCollapse">
                         <section class="plm-pack-box" aria-label="Mini Mood Pack">
                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
@@ -285,12 +281,11 @@
                                 </div>
                             </div>
                             <div class="plm-pack-grid" id="plmPackGrid">
-                                <!-- Kartu Mini Mood Pack diisi dinamis oleh JS dari lagu yang ada di playlist ketua -->
+                                
                             </div>
                         </section>
                     </div>
 
-                    <!-- [VIEW TABS] Tab Switcher (Lagu vs MoodCard) -->
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <button type="button" class="plm-tab-pill active" id="tabSongs" role="tab" aria-selected="true">
                             Lagu (<span id="plCountTab">0</span>)
@@ -300,7 +295,6 @@
                         </button>
                     </div>
 
-                    <!-- [PATOKAN KETUA] Tabel Daftar Lagu (.song-head.liked + #plRows + #plEmpty + #plNoMatch) -->
                     <div id="songsViewArea">
                         <div class="song-head liked plm-song-table-head" id="plHead" aria-hidden="true">
                             <div>#</div>
@@ -520,6 +514,18 @@
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index:2000">
         <div id="toast" class="toast mr-toast" role="status" aria-live="polite" aria-atomic="true">
             <div class="toast-body"><i class="bi bi-check-lg"></i><span id="toastMsg"></span></div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="plmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content plm-modal-content">
+                <div class="modal-header border-0 pb-1">
+                    <h5 class="modal-title fw-bold fs-6" id="plmModalTitle">MoodRoom</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body pt-2" id="plmModalBody"></div>
+            </div>
         </div>
     </div>
 
