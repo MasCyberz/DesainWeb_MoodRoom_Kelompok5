@@ -173,10 +173,11 @@
   <script src="js/script.js"></script>
   <script>
     (() => {
-      const getProfile = () => {
+      const readProfile = () => {
         try {
           return Object.assign(
             { name: '', username: '', email: '', bio: '', location: 'Indonesia', joined: '', avatar: '' },
+            JSON.parse(localStorage.getItem('moodroom_profile') || '{}') || {},
             window.MoodAuth?.getProfile?.() || {},
             JSON.parse(localStorage.getItem('moodroom_session') || 'null') || {}
           );
@@ -184,8 +185,9 @@
           return { name: '', username: '', email: '', bio: '', location: 'Indonesia', joined: '', avatar: '' };
         }
       };
-      const profile = getProfile();
+      let profile = readProfile();
       const sync = () => {
+        profile = readProfile();
         const name = document.querySelector('.profile-v2-main .profile-v2-info h3');
         const id = document.querySelector('.profile-v2-main .profile-v2-id');
         const bio = document.querySelector('.profile-v2-main .profile-v2-info p');
@@ -231,6 +233,11 @@
         if (topUser) topUser.textContent = profile.username ? '@' + profile.username : '@';
       };
       sync();
+      document.addEventListener('DOMContentLoaded', sync);
+      document.addEventListener('mrauth:profile-changed', sync);
+      window.MoodAuth?.refreshProfileUI?.();
+      window.addEventListener('load', sync);
+      setTimeout(sync, 100);
     })();
   </script>
   <script src="js/moodcard-modal.js"></script>

@@ -329,6 +329,7 @@
       document.getElementById('accountInfoForm').addEventListener('submit', event => {
         event.preventDefault(); profile.name = document.getElementById('accountName').value.trim(); profile.username = document.getElementById('accountUsername').value.trim(); profile.location = document.getElementById('accountLocation').value;
         try { localStorage.setItem(key, JSON.stringify(profile)); } catch (_) { }
+        window.MoodAuth?.refreshProfileUI?.();
         setTimeout(() => location.href = 'profile-new.html', 300);
       });
       document.getElementById('accountLogoutCancel').addEventListener('click', () => document.querySelector('[data-tab="info"]').click());
