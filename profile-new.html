@@ -169,7 +169,70 @@
 
   <div class="toast-container position-fixed top-0 start-0 p-1" style="z-index:2000"><div id="toast" class="toast mr-toast" role="status"><div class="toast-body"><i class="bi bi-check-lg"></i><span id="toastMsg"></span></div></div></div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    (() => {
+      const getProfile = () => {
+        try {
+          return Object.assign(
+            { name: '', username: '', email: '', bio: '', location: 'Indonesia', joined: '', avatar: '' },
+            window.MoodAuth?.getProfile?.() || {},
+            JSON.parse(localStorage.getItem('moodroom_session') || 'null') || {}
+          );
+        } catch (_) {
+          return { name: '', username: '', email: '', bio: '', location: 'Indonesia', joined: '', avatar: '' };
+        }
+      };
+      const profile = getProfile();
+      const sync = () => {
+        const name = document.querySelector('.profile-v2-main .profile-v2-info h3');
+        const id = document.querySelector('.profile-v2-main .profile-v2-id');
+        const bio = document.querySelector('.profile-v2-main .profile-v2-info p');
+        const meta = document.querySelector('.profile-v2-main .profile-v2-meta');
+        const avatarWrap = document.querySelector('.profile-v2-main .profile-v2-avatar');
+        const topAvatar = document.querySelector('.top-actions .avatar');
+        const topUser = document.querySelector('.top-actions b');
+
+        if (name) name.textContent = profile.name || '';
+        if (id) id.textContent = profile.username ? '@' + profile.username : '';
+        if (bio) bio.textContent = profile.bio || 'Mengumpulkan lagu dan MoodCard sesuai suasana hati';
+        if (meta) meta.textContent = `${profile.location || 'Indonesia'} · Bergabung sejak ${profile.joined || '12 Jan 2025'}`;
+
+        // Info akun
+        document.querySelectorAll('.profile-v2-main .profile-v2-info-row').forEach(row => {
+          const label = row.querySelector('span');
+          const strong = row.querySelector('b') || row.lastElementChild;
+          if (strong && label) {
+            const key = (label.textContent || '').toLowerCase();
+            if (key.includes('email')) strong.textContent = profile.email || '';
+            if (key.includes('username')) strong.textContent = profile.username ? '@' + profile.username : '';
+            if (key.includes('bergabung')) strong.textContent = profile.joined || '';
+          }
+        });
+
+        const renderAvatar = el => {
+          if (!el) return;
+          el.textContent = '';
+          el.classList.toggle('has-image', Boolean(profile.avatar));
+          if (profile.avatar) {
+            el.style.setProperty('--avatar-image', `url("${profile.avatar}")`);
+            const icon = el.querySelector('i.bi-person-fill');
+            if (icon) icon.remove();
+          } else {
+            const i = document.createElement('i');
+            i.className = 'bi bi-person-fill';
+            el.appendChild(i);
+          }
+        };
+        renderAvatar(avatarWrap);
+        document.querySelectorAll('.mobile-profile').forEach(renderAvatar);
+        renderAvatar(topAvatar);
+        if (topUser) topUser.textContent = profile.username ? '@' + profile.username : '@';
+      };
+      sync();
+    })();
+  </script>
   <script src="js/moodcard-modal.js"></script>
 </body>
 

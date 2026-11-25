@@ -114,10 +114,10 @@
 
     // ===== Status Vibe Teman (Interaktif & Real-Time) =====
     const friendData = [
-        { name: 'Andi', quote: '“Revisi jam 1..”', song: 'Evaluasi - Hindia', avatar: '#e0709e' },
-        { name: 'Rina', quote: '“Lagi santai kawan”', song: 'Bergema Sampai Selamanya - Nadhif Basalamah', avatar: '#6c4fe0' },
-        { name: 'Budi', quote: '“Alamak capeknyo”', song: 'Nina - .Feast', avatar: '#20c997' },
-        { name: 'Siti', quote: '“Hapis kok bgtu sih”', song: 'Satu Bulan - Bernadya', avatar: '#fd7e14' }
+        { name: 'Andi', quote: '“Revisi jam 1..”', song: 'Evaluasi - Hindia', avatar: 'img/avatars/andi.jpg' },
+        { name: 'Rina', quote: '“Lagi santai kawan”', song: 'Bergema Sampai Selamanya - Nadhif Basalamah', avatar: 'img/avatars/rina.jpg' },
+        { name: 'Budi', quote: '“Alamak capeknyo”', song: 'Nina - .Feast', avatar: 'img/avatars/budi.jpg' },
+        { name: 'Siti', quote: '“Hapis kok bgtu sih”', song: 'Satu Bulan - Bernadya', avatar: 'img/avatars/siti.jpg' }
     ];
 
     const waveHtml = '<span class="wave" aria-hidden="true">' + [10, 22, 30, 16, 26, 12, 20].map(h => `<i style="height:${h}px"></i>`).join('') + '</span>';
@@ -128,7 +128,7 @@
         fl.innerHTML = friendData.map((f, idx) => `
             <button type="button" class="friend" data-idx="${idx}" title="Klik untuk dengar bareng ${f.name}" aria-label="Dengar bersama ${f.name}">
                 <div class="friend-avatar-wrap">
-                    <span class="avatar s" style="background:${f.avatar}"></span>
+                    <span class="avatar s" style="background:url('${f.avatar}') center/cover"></span>
                 </div>
                 <div class="min-w-0 flex-grow-1">
                     <div class="n">${f.name}</div>
@@ -347,25 +347,6 @@
     });
 
     // ===== Sirkel Kita Widget (Dinamis Fluktuasi Pendengar & Stream Reaksi) =====
-    let joined = false;
-    const joinBtn = $('#joinBtn');
-    if (joinBtn) {
-        joinBtn.addEventListener('click', e => {
-            joined = !joined;
-            e.currentTarget.innerHTML = joined ? '<i class="bi bi-box-arrow-right"></i> Keluar Nongkrong' : '<i class="bi bi-play-fill"></i> Gabung Nongkrong';
-            const baseCount = joined ? 43 : 42;
-            const lEl = $('#listeners');
-            if (lEl) {
-                lEl.textContent = baseCount;
-                lEl.classList.add('sirkel-counter-pulse');
-                setTimeout(() => lEl.classList.remove('sirkel-counter-pulse'), 400);
-            }
-            const r = e.currentTarget.getBoundingClientRect();
-            burstLikes(r.left + r.width / 2, r.top);
-            say(joined ? 'Kamu bergabung ke room! 🎉' : 'Kamu keluar dari nongkrong');
-            if (joined) playTitle('Peradaban - .Feast');
-        });
-    }
     $('#shareBtn')?.addEventListener('click', async () => {
         try { await navigator.clipboard.writeText('#Kamar_Hapis'); say('Kode room disalin: #Kamar_Hapis 🔗'); } catch { say('Kode: #Kamar_Hapis'); }
     });
@@ -401,18 +382,49 @@
     // =========================================================================
     // MASTER TRACKS & AUDIO ENGINE (Web Audio API Synthesizer)
     // =========================================================================
+    const ALBUM_COVERS = {
+        'Back in Black': 'img/covers/semangat_concert.jpg',
+        'Highway to Hell': 'img/covers/semangat_concert.jpg',
+        'Appetite for Destruction': 'img/covers/semangat_concert.jpg',
+        'A Night at the Opera': 'img/covers/playlist_pop.jpg',
+        'Nevermind': 'img/covers/semangat_concert.jpg',
+        'Minoritas': 'img/covers/semangat_concert.jpg',
+        'Sayang': 'img/covers/playlist_dangdut.jpg',
+        'Single': 'img/covers/playlist_pop.jpg',
+        'Kopi Dangdut': 'img/covers/playlist_dangdut.jpg',
+        'Manusia': 'img/covers/santai_coffee.jpg',
+        'Sialnya, Hidup Harus Tetap Berjalan': 'img/covers/galau_room.jpg',
+        'Usai': 'img/covers/galau_city.jpg',
+        'Mantra Mantra': 'img/covers/santai_nature.jpg',
+        'Selamat Ulang Tahun': 'img/covers/santai_sunset.jpg',
+        'Menari Dengan Bayangan': 'img/covers/galau_night.jpg',
+        'Runtuh': 'img/covers/galau_night.jpg',
+        'Time Out': 'img/covers/fokus_jazz.jpg',
+        'Kind of Blue': 'img/covers/fokus_jazz.jpg',
+        'Empyrean Isles': 'img/covers/fokus_jazz.jpg',
+        "Moanin'": 'img/covers/fokus_jazz.jpg',
+        'Study Beats Vol. 1': 'img/covers/fokus_desk.jpg',
+        'Pagi Pelan': 'img/covers/fokus_desk.jpg',
+        'Fokus Dulu': 'img/covers/fokus_desk.jpg',
+        'Bergema Sampai Selamanya': 'img/covers/santai_nature.jpg',
+        "Short n' Sweet": 'img/covers/playlist_pop.jpg',
+        'Membangun & Menghancurkan': 'img/covers/semangat_concert.jpg',
+        'After Hours': 'img/covers/semangat_neon.jpg'
+    };
+    const albumCover = title => ALBUM_COVERS[title] || '';
+
     const MASTER_TRACKS = [
-        { title: 'Evaluasi - Hindia', dur: '3:31', sec: 211, grad: ['#8a6a40', '#2c1a0c'] },
-        { title: 'Bergema Sampai Selamanya - Nadhif Basalamah', dur: '3:26', sec: 206, grad: ['#a8b878', '#3a5a2c'] },
-        { title: 'Satu Bulan - Bernadya', dur: '3:19', sec: 199, grad: ['#4a3a38', '#0c0a0c'] },
-        { title: 'Nina - .Feast', dur: '4:37', sec: 277, grad: ['#d4553a', '#5a1a14'] },
-        { title: 'Secukupnya - Hindia', dur: '3:27', sec: 207, grad: ['#8a6a40', '#2c1a0c'] },
-        { title: 'Usai - Tiara Andini', dur: '3:37', sec: 217, grad: ['#f4f0f4', '#a8c0e0'] },
-        { title: 'Peradaban - .Feast', dur: '4:02', sec: 242, grad: ['#d4553a', '#5a1a14'] },
-        { title: 'Cincin - Hindia', dur: '3:45', sec: 225, grad: ['#8a6a40', '#2c1a0c'] },
-        { title: 'Blinding Lights - The Weeknd', dur: '3:20', sec: 200, grad: ['#e0405a', '#3a0a1a'] },
-        { title: 'Hati-Hati di Jalan - Tulus', dur: '4:12', sec: 252, grad: ['#6a8ac0', '#1a2a50'] },
-        { title: 'Rainy Window - Lo-fi Collective', dur: '2:48', sec: 168, grad: ['#4a7a9a', '#14304a'] }
+        { title: 'Evaluasi - Hindia', dur: '3:31', sec: 211, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg' },
+        { title: 'Bergema Sampai Selamanya - Nadhif Basalamah', dur: '3:26', sec: 206, grad: ['#a8b878', '#3a5a2c'], cover: 'img/covers/santai_nature.jpg' },
+        { title: 'Satu Bulan - Bernadya', dur: '3:19', sec: 199, grad: ['#4a3a38', '#0c0a0c'], cover: 'img/covers/galau_room.jpg' },
+        { title: 'Nina - .Feast', dur: '4:37', sec: 277, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg' },
+        { title: 'Secukupnya - Hindia', dur: '3:27', sec: 207, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg' },
+        { title: 'Usai - Tiara Andini', dur: '3:37', sec: 217, grad: ['#f4f0f4', '#a8c0e0'], cover: 'img/covers/galau_city.jpg' },
+        { title: 'Peradaban - .Feast', dur: '4:02', sec: 242, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg' },
+        { title: 'Cincin - Hindia', dur: '3:45', sec: 225, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/santai_sunset.jpg' },
+        { title: 'Blinding Lights - The Weeknd', dur: '3:20', sec: 200, grad: ['#e0405a', '#3a0a1a'], cover: 'img/covers/semangat_neon.jpg' },
+        { title: 'Hati-Hati di Jalan - Tulus', dur: '4:12', sec: 252, grad: ['#6a8ac0', '#1a2a50'], cover: 'img/covers/santai_coffee.jpg' },
+        { title: 'Rainy Window - Lo-fi Collective', dur: '2:48', sec: 168, grad: ['#4a7a9a', '#14304a'], cover: 'img/covers/fokus_desk.jpg' }
     ];
 
     let currentTrackIdx = 0;
@@ -443,7 +455,10 @@
     // Update Cover Gradient & Art
     const updatePlayerCover = (trackObj) => {
         const covers = $$('.player .cover.sm, #playerSheet .cover.sm');
-        if (trackObj && trackObj.grad) {
+        if (!trackObj) return;
+        if (trackObj.cover) {
+            covers.forEach(c => c.style.background = `url('${trackObj.cover}') center/cover`);
+        } else if (trackObj.grad) {
             covers.forEach(c => c.style.background = `linear-gradient(135deg, ${trackObj.grad[0]}, ${trackObj.grad[1]})`);
         }
     };
@@ -558,9 +573,12 @@
             || getCurTrack();
         const parts = title.split(' - ');
         const artist = parts.length > 1 ? parts.slice(1).join(' - ') : 'MoodRoom Artist';
-        const cover = source?.querySelector('.cover');
         const detailCover = $('#songDetailCover');
-        if (detailCover) detailCover.style.background = cover?.style.background || `linear-gradient(135deg, ${track.grad[0]}, ${track.grad[1]})`;
+        if (detailCover) {
+            detailCover.style.background = track.cover
+                ? `linear-gradient(180deg, rgba(15,4,27,.05) 30%, rgba(15,4,27,.68)), url('${track.cover}') center/cover`
+                : `linear-gradient(135deg, ${track.grad[0]}, ${track.grad[1]})`;
+        }
         if ($('#songDetailTitle')) $('#songDetailTitle').textContent = parts[0];
         if ($('#songDetailArtist')) $('#songDetailArtist').textContent = artist;
         if ($('#songDetailMeta')) $('#songDetailMeta').innerHTML = `<span><i class="bi bi-disc"></i> MoodRoom Vibes</span><span><i class="bi bi-clock"></i> ${track.dur}</span>`;
@@ -867,7 +885,7 @@
     // Global MR API
     window.MR = {
         playlists, savePlaylists, getSongs, setSongs, addToPlaylist, removePlaylist, $, $$, say, store,
-        playTitle, refreshCards, restoreMark, setPlaying, nextTrack, prevTrack, burstLikes, spawnParticle,
+        playTitle, refreshCards, restoreMark, setPlaying, nextTrack, prevTrack, burstLikes, spawnParticle, albumCover,
         isPlayingTitle: t => {
             if (!t || !playingTitle) return false;
             const a = t.toLowerCase().trim(), b = playingTitle.toLowerCase().trim();

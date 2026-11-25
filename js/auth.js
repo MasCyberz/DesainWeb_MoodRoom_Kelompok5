@@ -30,14 +30,24 @@
     }
   };
 
+  const getProfile = () => {
+    try {
+      return Object.assign({}, JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}'));
+    } catch {
+      return {};
+    }
+  };
+
   window.MoodAuth = {
     getUsers,
     getSession,
+    getProfile,
     login(user) {
       localStorage.setItem(SESSION_KEY, JSON.stringify(user));
     },
     logout() {
       localStorage.removeItem(SESSION_KEY);
+      updateGuestInterface();
     },
     requireLogin() {
       if (!getSession() && !/login\.html$|register\.html$/.test(location.pathname)) {
@@ -84,10 +94,19 @@
       return;
     }
     const session = getSession();
-    let profile = session;
-    try {
-      profile = Object.assign({}, session, JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}'));
-    } catch (_) { }
+    const profile = Object.assign({}, session, getProfile());
+    const hasAvatar = Boolean(profile.avatar);
+
+    // Tampilkan foto profil yang sesuai, atau ikon manusia kalau belum ada profile
+    const renderAvatar = (el) => {
+      if (!el) return;
+      el.textContent = '';
+      el.innerHTML = hasAvatar ? '' : '<i class="bi bi-person-fill"></i>';
+      if (hasAvatar) el.style.setProperty('--avatar-image', `url("${profile.avatar}")`);
+      else el.style.removeProperty('--avatar-image');
+      if (!hasAvatar) el.classList.remove('has-image'); else el.classList.add('has-image');
+    };
+    document.querySelectorAll('.top-actions .avatar, .mobile-profile').forEach(renderAvatar);
 
     const mobileLogin = document.querySelector('.guest-login-btn');
     if (mobileLogin) {
@@ -97,6 +116,7 @@
       mobileLogin.textContent = '';
       mobileLogin.href = 'profile-new.html';
       mobileLogin.setAttribute('aria-label', 'Buka profil');
+      renderAvatar(mobileLogin);
     };
 
     const sidebarMenu = document.getElementById('mainNav');

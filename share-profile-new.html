@@ -133,13 +133,18 @@
   <script src="js/script.js"></script>
   <script>
     (() => {
-      let profile = { name:'Dimasss', username:'dimas', bio:'Mengumpulkan lagu dan MoodCard sesuai suasana hati', avatar:'img/dimas_avatar.png' };
-      try { profile = Object.assign(profile, JSON.parse(localStorage.getItem('moodroom_profile') || '{}')); } catch (_) {}
+      let profile = Object.assign(
+        { name:'Dimasss', username:'dimas', bio:'Mengumpulkan lagu dan MoodCard sesuai suasana hati', avatar:'' },
+        window.MoodAuth?.getProfile?.() || {},
+        (() => { try { return JSON.parse(localStorage.getItem('moodroom_profile') || '{}'); } catch (_) { return {}; } })()
+      );
       const url = 'moodroom.id/@' + (profile.username || 'dimas');
       document.getElementById('shareName').textContent = profile.name || 'Dimasss';
       document.getElementById('shareHandle').textContent = '@' + (profile.username || 'dimas');
       document.getElementById('shareBio').textContent = profile.bio || 'Mengumpulkan lagu dan MoodCard sesuai suasana hati';
-      document.getElementById('shareAvatar').src = profile.avatar || 'img/dimas_avatar.png';
+      const shareAvatarEl = document.getElementById('shareAvatar');
+      if (profile.avatar) { shareAvatarEl.src = profile.avatar; shareAvatarEl.style.display = ''; shareAvatarEl.previousElementSibling?.style.setProperty('display', 'none'); }
+      else { shareAvatarEl.style.setProperty('display', 'none'); const icon = shareAvatarEl.parentElement.querySelector('i.bi-person-fill') || (() => { const i = document.createElement('i'); i.className = 'bi bi-person-fill'; shareAvatarEl.parentElement.appendChild(i); return i; })(); icon.style.display = ''; }
       document.getElementById('shareLink').value = url;
       window.addEventListener('load', () => {
         if (window.QRCode) new QRCode(document.getElementById('shareQrTarget'), { text:url, width:82, height:82, colorDark:'#241044', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M });

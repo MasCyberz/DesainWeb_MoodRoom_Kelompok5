@@ -14,7 +14,7 @@
         return `
           <div class="mc-song-item ${sel ? 'selected' : ''}" data-song-id="${s.id}">
             <span class="mc-song-num">${String(idx + 1).padStart(2, '0')}</span>
-            <span class="mc-song-cov" style="background:${s.grad}"></span>
+            <span class="mc-song-cov" style="background:${s.cover ? `url('${s.cover}') center/cover` : s.grad}"></span>
             <div class="min-w-0 flex-grow-1">
               <div class="fw-bold small text-truncate">${s.title}</div>
               <div class="text-white-50" style="font-size:.75rem">${s.artist}</div>

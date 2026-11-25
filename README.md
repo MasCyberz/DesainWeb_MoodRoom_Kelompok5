@@ -297,7 +297,10 @@ DesainWeb_MoodRoom_Kelompok5/
 │   ├── mood_senja.png          # Sampul MoodCard "Senja Tenang"
 │   ├── mood_bulan.png          # Sampul MoodCard "Bulan Malam"
 │   ├── mood_ruang.png          # Sampul MoodCard "Ruang Sendiri"
-│   └── galeri_1.png … galeri_4.png
+│   ├── galeri_1.png … galeri_4.png
+│   ├── auth-showcase.jpg       # Foto asli jalur login/register
+│   ├── covers/                 # 18 foto asli (Unsplash) untuk lagu/album/playlist/sirkel
+│   └── avatars/                # Foto asli Andi, Rina, Budi, Siti
 │
 ├── .gitignore
 └── README.md
