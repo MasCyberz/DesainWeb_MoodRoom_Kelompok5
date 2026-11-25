@@ -1,6 +1,16 @@
 /* Halaman Playlist (dinamis: playlist.html?nama=Rock%20n%20Roll) */
 (() => {
-    const { $, $$, say, isPlayingTitle, isPlaying, playTitle, setPlaying, playlists, getSongs, setSongs, removePlaylist } = MR;
+    const { $, $$, say, isPlayingTitle, isPlaying, playTitle, setPlaying, playlists, getSongs, setSongs, removePlaylist, albumCover } = MR;
+    const PLAYLIST_COVERS = {
+        'Rock n Roll': 'img/covers/semangat_concert.jpg',
+        'Dangdut': 'img/covers/playlist_dangdut.jpg',
+        'Pop Indo': 'img/covers/playlist_pop.jpg',
+        'Indie Senja': 'img/covers/playlist_indie.jpg',
+        'Jazz Malam': 'img/covers/fokus_jazz.jpg',
+        'Lo-fi Belajar': 'img/covers/fokus_desk.jpg',
+        'Akustik Santai': 'img/covers/playlist_akustik.jpg',
+        'Workout Mix': 'img/covers/playlist_workout.jpg'
+    };
     const name = new URLSearchParams(location.search).get('nama');
     const ADDED = ['Hari ini', 'Hari ini', 'Kemarin', 'Kemarin', '3 hari lalu', 'Minggu lalu', 'Minggu lalu', 'Bulan lalu'];
     const hue = str => [...str].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
@@ -13,14 +23,14 @@
         document.title = 'Jelajah Playlist — MoodRoom';
 
         const exploreData = [
-            { name: 'Rock n Roll', genre: 'Rock', mood: 'Semangat', activity: 'Olahraga', desc: 'Gitar keras untuk energi penuh', icon: 'bi-lightning-charge-fill', color: ['#ec6a4c', '#561b39'] },
-            { name: 'Dangdut', genre: 'Dangdut', mood: 'Santai', activity: 'Nongkrong', desc: 'Dangdut ceria untuk menemani hari', icon: 'bi-music-note-beamed', color: ['#ef9f5d', '#71314f'] },
-            { name: 'Pop Indo', genre: 'Pop', mood: 'Santai', activity: 'Perjalanan', desc: 'Lagu pop Indonesia paling disukai', icon: 'bi-stars', color: ['#62a9df', '#4d2d91'] },
-            { name: 'Indie Senja', genre: 'Indie', mood: 'Galau', activity: 'Perjalanan', desc: 'Pilihan tenang untuk senja', icon: 'bi-sunset-fill', color: ['#b97491', '#49306f'] },
-            { name: 'Jazz Malam', genre: 'Jazz', mood: 'Santai', activity: 'Nugas Malam', desc: 'Saxophone lembut untuk malam', icon: 'bi-disc-fill', color: ['#6870a8', '#2c1d53'] },
-            { name: 'Lo-fi Belajar', genre: 'Lo-fi', mood: 'Fokus', activity: 'Nugas Malam', desc: 'Beat pelan untuk fokus lebih lama', icon: 'bi-headphones', color: ['#6aa7a1', '#37306b'] },
-            { name: 'Akustik Santai', genre: 'Pop', mood: 'Santai', activity: 'Nongkrong', desc: 'Petikan akustik yang hangat', icon: 'bi-tree-fill', color: ['#76b57d', '#4a3b72'] },
-            { name: 'Workout Mix', genre: 'Rock', mood: 'Semangat', activity: 'Olahraga', desc: 'Temani olahraga dan deadline', icon: 'bi-fire', color: ['#f07676', '#54295f'] }
+            { name: 'Rock n Roll', genre: 'Rock', mood: 'Semangat', activity: 'Olahraga', desc: 'Gitar keras untuk energi penuh', icon: 'bi-lightning-charge-fill', color: ['#ec6a4c', '#561b39'], cover: 'img/covers/semangat_concert.jpg' },
+            { name: 'Dangdut', genre: 'Dangdut', mood: 'Santai', activity: 'Nongkrong', desc: 'Dangdut ceria untuk menemani hari', icon: 'bi-music-note-beamed', color: ['#ef9f5d', '#71314f'], cover: 'img/covers/playlist_dangdut.jpg' },
+            { name: 'Pop Indo', genre: 'Pop', mood: 'Santai', activity: 'Perjalanan', desc: 'Lagu pop Indonesia paling disukai', icon: 'bi-stars', color: ['#62a9df', '#4d2d91'], cover: 'img/covers/playlist_pop.jpg' },
+            { name: 'Indie Senja', genre: 'Indie', mood: 'Galau', activity: 'Perjalanan', desc: 'Pilihan tenang untuk senja', icon: 'bi-sunset-fill', color: ['#b97491', '#49306f'], cover: 'img/covers/playlist_indie.jpg' },
+            { name: 'Jazz Malam', genre: 'Jazz', mood: 'Santai', activity: 'Nugas Malam', desc: 'Saxophone lembut untuk malam', icon: 'bi-disc-fill', color: ['#6870a8', '#2c1d53'], cover: 'img/covers/fokus_jazz.jpg' },
+            { name: 'Lo-fi Belajar', genre: 'Lo-fi', mood: 'Fokus', activity: 'Nugas Malam', desc: 'Beat pelan untuk fokus lebih lama', icon: 'bi-headphones', color: ['#6aa7a1', '#37306b'], cover: 'img/covers/fokus_desk.jpg' },
+            { name: 'Akustik Santai', genre: 'Pop', mood: 'Santai', activity: 'Nongkrong', desc: 'Petikan akustik yang hangat', icon: 'bi-tree-fill', color: ['#76b57d', '#4a3b72'], cover: 'img/covers/playlist_akustik.jpg' },
+            { name: 'Workout Mix', genre: 'Rock', mood: 'Semangat', activity: 'Olahraga', desc: 'Temani olahraga dan deadline', icon: 'bi-fire', color: ['#f07676', '#54295f'], cover: 'img/covers/playlist_workout.jpg' }
         ];
 
         let exploreGenre = 'Semua';
@@ -34,9 +44,7 @@
             $('#plExploreEmpty').classList.toggle('d-none', filtered.length !== 0);
             $('#plExploreGrid').innerHTML = filtered.map(item => `
                 <a class="pl-explore-card" href="playlist.html?nama=${encodeURIComponent(item.name)}">
-                    <div class="pl-explore-cover" style="background:linear-gradient(145deg,${item.color[0]},${item.color[1]})">
-                        <i class="bi ${item.icon}"></i>
-                    </div>
+                    <div class="pl-explore-cover" style="background:linear-gradient(160deg,rgba(24,9,43,.08),rgba(24,9,43,.62)),url('${item.cover}') center/cover"></div>
                     <h3 class="text-truncate">${item.name}</h3>
                     <p class="text-truncate">${item.desc}</p>
                     <p class="mt-1"><span class="text-pink">${item.mood}</span> · ${item.genre}</p>
@@ -62,7 +70,16 @@
     document.title = name + ' — MoodRoom';
     $('#plTitle').textContent = name;
     $('#plDesc').textContent = 'Koleksi lagu ' + name + ' pilihanmu.';
-    $('#plCover').style.background = grad(name);
+    const plCover = $('#plCover');
+    if (plCover) {
+        const plCoverSrc = PLAYLIST_COVERS[name];
+        if (plCoverSrc) {
+            plCover.style.background = `linear-gradient(160deg, rgba(24,9,43,.08), rgba(24,9,43,.62)), url('${plCoverSrc}') center/cover`;
+            plCover.innerHTML = '';
+        } else {
+            plCover.style.background = grad(name);
+        }
+    }
 
     const st = { q: '', sort: 'new' };
     const rowsEl = $('#plRows');
@@ -80,11 +97,14 @@
         $('#plEmpty').classList.toggle('d-none', all.length > 0);
         $('#plNoMatch').classList.toggle('d-none', !(all.length && !list.length));
         $$('#plActions .btn-pink, #shuffleAll').forEach(b => b.disabled = !all.length);
-        rowsEl.innerHTML = list.map(({ s, i }, n) => `
+        rowsEl.innerHTML = list.map(({ s, i }, n) => {
+            const albumSrc = albumCover(s[2]);
+            const covBackground = albumSrc ? `url('${albumSrc}') center/cover` : grad(s[2]);
+            return `
       <div class="song-row liked${isPlayingTitle(s[0] + ' - ' + s[1]) ? ' is-playing' : ''}" data-title="${s[0]} - ${s[1]}" tabindex="0" role="button" aria-label="Putar ${s[0]}">
         <div class="c-num"><span class="rownum">${n + 1}</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
         <div class="c-title d-flex align-items-center gap-3 min-w-0">
-          <span class="cov" style="background:${grad(s[2])}"></span>
+          <span class="cov" style="background:${covBackground}"></span>
           <div class="min-w-0"><div class="tt text-truncate">${s[0]}</div><div class="sub text-truncate">${s[1]}</div></div>
         </div>
         <div class="c-album sub text-truncate">${s[2]}</div>
@@ -95,7 +115,8 @@
           <div class="dropdown"><button class="ibtn" data-bs-toggle="dropdown" data-bs-strategy="fixed" aria-label="Menu lagu"><i class="bi bi-three-dots"></i></button>
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"><li><button class="dropdown-item row-act" data-remove="${i}">Hapus dari playlist</button></li><li><button class="dropdown-item row-act">Bagikan</button></li></ul></div>
         </div>
-      </div>`).join('');
+      </div>`;
+        }).join('');
         MR.refreshCards();
     }
 

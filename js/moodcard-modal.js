@@ -9,13 +9,13 @@
   ];
 
   const songs = [
-    { title: 'Bulan Memen', artist: 'Nadin Amizah', genre: 'Indie', duration: '3:44', cover: 'img/mood_bulan.png' },
-    { title: 'Bergema Sampai Selamanya', artist: 'Nadhif Basalamah', genre: 'Pop', duration: '3:26', cover: 'img/mood_senja.png' },
-    { title: 'Satu Bulan', artist: 'Bernadya', genre: 'Pop', duration: '3:19', cover: 'img/mood_ruang.png' },
-    { title: 'Nina', artist: 'Feast', genre: 'Rock', duration: '4:37', cover: 'img/mood_senja.png' },
-    { title: 'Secukupnya', artist: 'Hindia', genre: 'Indie', duration: '3:27', cover: 'img/mood_bulan.png' },
-    { title: 'Usai', artist: 'Tiara Andini', genre: 'Pop', duration: '3:37', cover: 'img/mood_ruang.png' },
-    { title: 'Untuk Perempuan yang Sedang Dalam Pelukan', artist: 'Payung Teduh', genre: 'R&B', duration: '4:41', cover: 'img/mood_senja.png' }
+    { title: 'Bulan Memen', artist: 'Nadin Amizah', genre: 'Indie', duration: '3:44', cover: 'img/covers/galau_room.jpg' },
+    { title: 'Bergema Sampai Selamanya', artist: 'Nadhif Basalamah', genre: 'Pop', duration: '3:26', cover: 'img/covers/santai_nature.jpg' },
+    { title: 'Satu Bulan', artist: 'Bernadya', genre: 'Pop', duration: '3:19', cover: 'img/covers/galau_room.jpg' },
+    { title: 'Nina', artist: 'Feast', genre: 'Rock', duration: '4:37', cover: 'img/covers/semangat_concert.jpg' },
+    { title: 'Secukupnya', artist: 'Hindia', genre: 'Indie', duration: '3:27', cover: 'img/covers/galau_night.jpg' },
+    { title: 'Usai', artist: 'Tiara Andini', genre: 'Pop', duration: '3:37', cover: 'img/covers/galau_city.jpg' },
+    { title: 'Untuk Perempuan yang Sedang Dalam Pelukan', artist: 'Payung Teduh', genre: 'R&B', duration: '4:41', cover: 'img/covers/santai_coffee.jpg' }
   ];
 
   let selectedSongs = [1, 2, 3];
@@ -69,7 +69,7 @@
         <div class="mc-banner-editor">
           <label class="mc-art-box" title="Ganti Gambar Sampul">
             <img id="mcCoverPreview"
-              src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80"
+              src="img/covers/santai_coffee.jpg"
               alt="Sampul MoodCard">
             <span class="mc-art-add"><i class="bi bi-plus-lg"></i></span>
             <input type="file" id="mcCoverInput" accept="image/*" class="d-none">

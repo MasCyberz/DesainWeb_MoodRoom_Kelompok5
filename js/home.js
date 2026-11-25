@@ -105,6 +105,43 @@
     }
   ];
 
+  // Cover art per lagu & album (foto asli, tersimpan lokal di img/covers)
+  const COVER_BY_TITLE = {
+    'Evaluasi - Hindia': 'img/covers/galau_night.jpg',
+    'Satu Bulan - Bernadya': 'img/covers/galau_room.jpg',
+    'Usai - Tiara Andini': 'img/covers/galau_city.jpg',
+    'Pilu Membiru - Kunto Aji': 'img/covers/galau_night.jpg',
+    'Bergema Sampai Selamanya - Nadhif Basalamah': 'img/covers/santai_nature.jpg',
+    'Hati-Hati di Jalan - Tulus': 'img/covers/santai_coffee.jpg',
+    'Cincin - Hindia': 'img/covers/santai_sunset.jpg',
+    'Komang - Raim Laode': 'img/covers/santai_coffee.jpg',
+    'Rainy Window - Lo-fi Collective': 'img/covers/fokus_desk.jpg',
+    'Take Five - Dave Brubeck': 'img/covers/fokus_jazz.jpg',
+    'Desk Lamp - Kopi Tenang': 'img/covers/fokus_desk.jpg',
+    'Kata Mereka Ini Berlebihan - Bernadya': 'img/covers/galau_city.jpg',
+    'Peradaban - .Feast': 'img/covers/semangat_concert.jpg',
+    'Blinding Lights - The Weeknd': 'img/covers/semangat_neon.jpg',
+    'Back In Black - AC/DC': 'img/covers/semangat_concert.jpg',
+    'Secukupnya - Hindia': 'img/covers/galau_night.jpg',
+    'Menari Dengan Bayangan': 'img/covers/galau_night.jpg',
+    'Sialnya, Hidup Harus Tetap Berjalan': 'img/covers/galau_room.jpg',
+    'Mantra Mantra': 'img/covers/santai_nature.jpg',
+    'Selamat Ulang Tahun': 'img/covers/santai_sunset.jpg',
+    'Manusia': 'img/covers/santai_coffee.jpg',
+    'Bergema Sampai Selamanya': 'img/covers/santai_nature.jpg',
+    'Pagi Pelan': 'img/covers/santai_coffee.jpg',
+    'Minoritas': 'img/covers/semangat_concert.jpg',
+    'Study Beats Vol. 1': 'img/covers/fokus_desk.jpg',
+    'Time Out': 'img/covers/fokus_jazz.jpg',
+    'Fokus Dulu': 'img/covers/fokus_desk.jpg',
+    'Kind of Blue': 'img/covers/fokus_jazz.jpg',
+    'Membangun & Menghancurkan': 'img/covers/semangat_concert.jpg',
+    'After Hours': 'img/covers/semangat_neon.jpg',
+    'Back in Black': 'img/covers/semangat_concert.jpg',
+    'Appetite for Destruction': 'img/covers/semangat_concert.jpg'
+  };
+  const coverFor = title => COVER_BY_TITLE[title] || 'img/covers/santai_coffee.jpg';
+
   let currentMoodIdx = 0;
 
   // Render konten berdasarkan mood
@@ -135,7 +172,7 @@
     $('#songList').innerHTML = data.songs.map(s => `
       <div class="col-12 col-md-6 item fade-scale-in" data-type="song">
         <div class="track${isPlayingTitle(s.title) ? ' is-playing' : ''}" tabindex="0" role="button" data-title="${s.title}" title="Putar ${s.title}">
-          <span class="cover xs" style="background:linear-gradient(135deg, ${s.grad[0]}, ${s.grad[1]})"></span>
+          <span class="cover xs" style="background:url('${coverFor(s.title)}') center/cover"></span>
           <div class="min-w-0 flex-grow-1">
             <div class="t text-truncate">${s.title}</div>
             <small class="text-white-50" style="font-size:.7rem">${s.tag}</small>
@@ -148,7 +185,7 @@
     // Trending Albums
     $('#albumList').innerHTML = data.albums.map(a => `
       <div class="col-6 col-md-3 item fade-scale-in" data-type="album">
-        <div class="album" tabindex="0" role="button" data-title="${a.title} - ${a.sub}" style="background:${a.grad}" title="Putar Album ${a.title}">
+        <div class="album" tabindex="0" role="button" data-title="${a.title} - ${a.sub}" style="background:linear-gradient(180deg, rgba(15,6,28,.05) 30%, rgba(22,8,40,.94)), url('${coverFor(a.title)}') center/cover" title="Putar Album ${a.title}">
           ${EQ.replace('class="eq"', 'class="eq album-eq"')}
           <div class="cap">
             <span><b>${a.title}</b>${a.sub}</span>

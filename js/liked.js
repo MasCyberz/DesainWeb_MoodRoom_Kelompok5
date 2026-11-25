@@ -1,6 +1,6 @@
 /* Halaman Lagu Disukai */
 (() => {
-    const { $, $$, say, store, isPlayingTitle, isPlaying, playTitle, setPlaying } = MR;
+    const { $, $$, say, store, isPlayingTitle, isPlaying, playTitle, setPlaying, albumCover } = MR;
     const DEFAULT = [
         ['Evaluasi', 'Hindia', 'Menari Dengan Bayangan', 'Hari ini', '3:31', ['#8a6a40', '#2c1a0c']],
         ['Secukupnya', 'Hindia', 'Menari Dengan Bayangan', 'Hari ini', '3:25', ['#8a6a40', '#2c1a0c']],
@@ -30,11 +30,14 @@
         $('#likedMin').textContent = Math.round(liked.reduce((t, s) => t + secs(s[4]), 0) / 60);
         $('#likedEmpty').classList.toggle('d-none', list.length > 0);
         $('#likedEmpty').textContent = liked.length ? 'Tidak ada lagu yang cocok.' : 'Belum ada lagu yang kamu sukai.';
-        rowsEl.innerHTML = list.map((s, n) => `
+        rowsEl.innerHTML = list.map((s, n) => {
+          const albumSrc = albumCover(s[2]);
+          const covBackground = albumSrc ? `url('${albumSrc}') center/cover` : `linear-gradient(135deg,${s[5][0]},${s[5][1]})`;
+          return `
       <div class="song-row liked${isPlayingTitle(s[0] + ' - ' + s[1]) ? ' is-playing' : ''}" data-title="${s[0]} - ${s[1]}" data-song="${encodeURIComponent(JSON.stringify([s[0], s[1], s[2], s[4]]))}" tabindex="0" role="button" aria-label="Putar ${s[0]}">
         <div class="c-num"><span class="rownum">${n + 1}</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
         <div class="c-title d-flex align-items-center gap-3 min-w-0">
-          <span class="cov" style="background:linear-gradient(135deg,${s[5][0]},${s[5][1]})"></span>
+          <span class="cov" style="background:${covBackground}"></span>
           <div class="min-w-0"><div class="tt text-truncate">${s[0]}</div><div class="sub text-truncate">${s[1]}</div></div>
         </div>
         <div class="c-album sub text-truncate">${s[2]}</div>
@@ -45,7 +48,8 @@
           <div class="dropdown"><button class="ibtn" data-bs-toggle="dropdown" data-bs-strategy="fixed" aria-label="Menu lagu"><i class="bi bi-three-dots"></i></button>
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"><li><button class="dropdown-item row-act" data-act="add">Tambah ke playlist</button></li><li><button class="dropdown-item row-act">Bagikan</button></li></ul></div>
         </div>
-      </div>`).join('');
+      </div>`;
+        }).join('');
         MR.refreshCards();
     }
 

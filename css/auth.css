@@ -42,8 +42,8 @@ body.auth-page {
   overflow: hidden;
   border-right: 1px solid var(--auth-line);
   background:
-    linear-gradient(180deg, rgba(23, 7, 42, 0.1), rgba(23, 7, 42, 0.82)),
-    linear-gradient(135deg, #2c1550, #160727);
+    linear-gradient(180deg, rgba(23, 7, 42, 0.08), rgba(23, 7, 42, 0.94)),
+    url("../img/auth-showcase.jpg") center/cover no-repeat;
 }
 
 .auth-showcase::before,

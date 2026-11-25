@@ -1,13 +1,13 @@
 window.MCState = {
   CATALOG: [
-    { id: 1, title: 'Ribuan Memori', artist: 'Lomba Sihir', genre: 'Indie', dur: '4:14', grad: 'linear-gradient(135deg,#e2b068,#4a2e16)' },
-    { id: 2, title: 'Bergema Sampai Selamanya', artist: 'Nadhif Basalamah', genre: 'Pop', dur: '3:26', grad: 'linear-gradient(135deg,#a8b878,#3a5a2c)' },
-    { id: 3, title: 'Satu Bulan', artist: 'Bernadya', genre: 'Pop', dur: '3:19', grad: 'linear-gradient(135deg,#5a4642,#161014)' },
-    { id: 4, title: 'Nina', artist: '.Feast', genre: 'Rock', dur: '4:37', grad: 'linear-gradient(135deg,#d4553a,#5a1a14)' },
-    { id: 5, title: 'Secukupnya', artist: 'Hindia', genre: 'Indie', dur: '3:27', grad: 'linear-gradient(135deg,#8a6a40,#2c1a0c)' },
-    { id: 6, title: 'Usai', artist: 'Tiara Andini', genre: 'Pop', dur: '3:37', grad: 'linear-gradient(135deg,#e0c8e8,#786098)' },
-    { id: 7, title: 'Untuk Perempuan yang Sedang Dalam Pelukan', artist: 'Payung Teduh', genre: 'Indie', dur: '5:43', grad: 'linear-gradient(135deg,#4f7a58,#182e1e)' },
-    { id: 8, title: 'Sial', artist: 'Mahalini', genre: 'R&B', dur: '4:03', grad: 'linear-gradient(135deg,#a85590,#381430)' }
+    { id: 1, title: 'Ribuan Memori', artist: 'Lomba Sihir', genre: 'Indie', dur: '4:14', grad: 'linear-gradient(135deg,#e2b068,#4a2e16)', cover: 'img/covers/galau_city.jpg' },
+    { id: 2, title: 'Bergema Sampai Selamanya', artist: 'Nadhif Basalamah', genre: 'Pop', dur: '3:26', grad: 'linear-gradient(135deg,#a8b878,#3a5a2c)', cover: 'img/covers/santai_nature.jpg' },
+    { id: 3, title: 'Satu Bulan', artist: 'Bernadya', genre: 'Pop', dur: '3:19', grad: 'linear-gradient(135deg,#5a4642,#161014)', cover: 'img/covers/galau_room.jpg' },
+    { id: 4, title: 'Nina', artist: '.Feast', genre: 'Rock', dur: '4:37', grad: 'linear-gradient(135deg,#d4553a,#5a1a14)', cover: 'img/covers/semangat_concert.jpg' },
+    { id: 5, title: 'Secukupnya', artist: 'Hindia', genre: 'Indie', dur: '3:27', grad: 'linear-gradient(135deg,#8a6a40,#2c1a0c)', cover: 'img/covers/galau_night.jpg' },
+    { id: 6, title: 'Usai', artist: 'Tiara Andini', genre: 'Pop', dur: '3:37', grad: 'linear-gradient(135deg,#e0c8e8,#786098)', cover: 'img/covers/galau_city.jpg' },
+    { id: 7, title: 'Untuk Perempuan yang Sedang Dalam Pelukan', artist: 'Payung Teduh', genre: 'Indie', dur: '5:43', grad: 'linear-gradient(135deg,#4f7a58,#182e1e)', cover: 'img/covers/santai_coffee.jpg' },
+    { id: 8, title: 'Sial', artist: 'Mahalini', genre: 'R&B', dur: '4:03', grad: 'linear-gradient(135deg,#a85590,#381430)', cover: 'img/covers/galau_room.jpg' }
   ],
   MOODS: [
     { name: 'Galau', emoji: '🥺' },
@@ -16,9 +16,9 @@ window.MCState = {
     { name: 'Semangat', emoji: '🔥' }
   ],
   DEFAULT_COVERS: [
-    'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80'
+    'img/covers/santai_coffee.jpg',
+    'img/covers/santai_nature.jpg',
+    'img/covers/galau_night.jpg'
   ],
   current: {
     step: 5,
@@ -37,15 +37,15 @@ window.MCState = {
     colorName: 'Putih',
     font: 'Montserrat',
     fontSize: '1.15rem',
-    cover: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80'
+    cover: 'img/covers/santai_coffee.jpg'
   }
 };
 
 window.MCStore = {
   getCards() {
     const DEFAULT_CARDS = [
-      { id: 101, status: 'published', title: 'Hal-Hal Kecil', songCount: 3, date: '20 Okt 2026, 23:15', cover: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80', mood: 0, lyric: 'Tentang kita yang pernah tertawa...', note: 'Waktu cepat banget...', featuredSongId: 1, songIds: [1, 2, 3], align: 'left', color: '#ffffff', colorName: 'Putih', font: 'Montserrat', fontSize: '1.15rem' },
-      { id: 201, status: 'draft', title: 'Kita yang Dulu', songCount: 3, date: '20 Okt 2026, 23:15', cover: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80', mood: 0, lyric: 'Tentang kita yang pernah tertawa...', note: 'Waktu cepat banget...', featuredSongId: 1, songIds: [1, 2, 3], align: 'left', color: '#ffffff', colorName: 'Putih', font: 'Montserrat', fontSize: '1.15rem' }
+      { id: 101, status: 'published', title: 'Hal-Hal Kecil', songCount: 3, date: '20 Okt 2026, 23:15', cover: 'img/covers/galau_night.jpg', mood: 0, lyric: 'Tentang kita yang pernah tertawa...', note: 'Waktu cepat banget...', featuredSongId: 1, songIds: [1, 2, 3], align: 'left', color: '#ffffff', colorName: 'Putih', font: 'Montserrat', fontSize: '1.15rem' },
+      { id: 201, status: 'draft', title: 'Kita yang Dulu', songCount: 3, date: '20 Okt 2026, 23:15', cover: 'img/covers/galau_city.jpg', mood: 0, lyric: 'Tentang kita yang pernah tertawa...', note: 'Waktu cepat banget...', featuredSongId: 1, songIds: [1, 2, 3], align: 'left', color: '#ffffff', colorName: 'Putih', font: 'Montserrat', fontSize: '1.15rem' }
     ];
     return MR.store.get('mr-moodcards', DEFAULT_CARDS);
   },

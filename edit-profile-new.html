@@ -169,8 +169,11 @@
   <script>
     (() => {
       const key = 'moodroom_profile';
-      let profile = { name:'Dimasss', username:'dimas', bio:'Mengumpulkan lagu dan MoodCard sesuai suasana hati', location:'Indonesia', mood:'Santai', avatar:'img/dimas_avatar.png' };
-      try { profile = Object.assign(profile, JSON.parse(localStorage.getItem(key) || '{}')); } catch (_) {}
+      let profile = Object.assign(
+        { name:'Dimasss', username:'dimas', bio:'Mengumpulkan lagu dan MoodCard sesuai suasana hati', location:'Indonesia', mood:'Santai', avatar:'' },
+        window.MoodAuth?.getProfile?.() || {},
+        (() => { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) { return {}; } })()
+      );
 
       const name = document.getElementById('editName');
       const username = document.getElementById('editUsername');
@@ -180,7 +183,22 @@
       username.value = profile.username || 'dimas';
       bio.value = profile.bio || '';
       locationInput.value = profile.location || '';
-      document.getElementById('editAvatarPreview').src = profile.avatar || 'img/dimas_avatar.png';
+
+      const preview = document.getElementById('editAvatarPreview');
+      const renderAvatarPreview = () => {
+        if (profile.avatar) {
+          preview.src = profile.avatar;
+          preview.style.display = '';
+          preview.previousElementSibling?.style.setProperty('display', 'none');
+        } else {
+          preview.style.setProperty('display', 'none');
+          const icon = preview.parentElement.querySelector('i.bi-person-fill') || (() => {
+            const i = document.createElement('i'); i.className = 'bi bi-person-fill'; preview.parentElement.appendChild(i); return i;
+          })();
+          icon.style.display = '';
+        }
+      };
+      renderAvatarPreview();
 
       const counters = [
         [name, document.getElementById('editNameCount')],
@@ -211,7 +229,7 @@
         const reader = new FileReader();
         reader.onload = () => {
           profile.avatar = reader.result;
-          document.getElementById('editAvatarPreview').src = reader.result;
+          renderAvatarPreview();
         };
         reader.readAsDataURL(file);
       });

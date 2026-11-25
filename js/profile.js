@@ -55,8 +55,12 @@
 
   /* ---------- Layout bersama ---------- */
   function avatarHTML(cls) {
-    return '<div class="avatar ' + (cls || '') + '">' + esc((profile.name || 'D').charAt(0).toUpperCase()) +
-      '<img data-avatar src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Foto profil"></div>';
+    const hasAvatar = Boolean(profile.avatar);
+    const label = hasAvatar ? '' : esc((profile.name || 'D').charAt(0).toUpperCase());
+    const inner = hasAvatar
+      ? '<img data-avatar src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Foto profil">'
+      : '<i class="bi bi-person-fill"></i>';
+    return '<div class="avatar ' + (cls || '') + '">' + label + inner + '</div>';
   }
 
   function renderLayout() {
@@ -181,8 +185,21 @@
       }
     });
     $$('img[data-avatar]').forEach(function (img) {
-      img.src = profile.avatar || 'img/dimas_avatar.png';
-      img.style.display = '';
+      const hasAvatar = Boolean(profile.avatar);
+      img.style.display = hasAvatar ? '' : 'none';
+      img.src = hasAvatar ? profile.avatar : 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+    });
+    $$('.avatar').forEach(function (av) {
+      const hasAvatar = Boolean(profile.avatar);
+      av.classList.toggle('has-image', hasAvatar);
+      const icon = av.querySelector('i.bi-person-fill');
+      if (hasAvatar) {
+        if (icon) icon.remove();
+      } else if (!icon) {
+        const i = document.createElement('i');
+        i.className = 'bi bi-person-fill';
+        av.appendChild(i);
+      }
     });
     $$('.chip[data-mood]').forEach(function (c) {
       c.classList.toggle('on', c.dataset.mood === (profile.mood || 'Santai'));

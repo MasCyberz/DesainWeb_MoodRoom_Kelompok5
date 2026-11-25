@@ -297,13 +297,18 @@
   <script src="js/script.js"></script>
   <script>
     (() => {
-      const key = 'moodroom_profile'; let profile = { name: 'Dimasss', username: 'dimas', email: 'dimas@gmail.com', location: 'Indonesia', avatar: 'img/dimas_avatar.png' };
-      try { profile = Object.assign(profile, JSON.parse(localStorage.getItem(key) || '{}')); } catch (_) { }
+      const key = 'moodroom_profile'; let profile = Object.assign(
+        { name: 'Dimasss', username: 'dimas', email: 'dimas@gmail.com', location: 'Indonesia', avatar: '' },
+        window.MoodAuth?.getProfile?.() || {},
+        (() => { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (_) { return {}; } })()
+      );
       document.getElementById('accountName').value = profile.name || 'Dimasss';
       document.getElementById('accountUsername').value = profile.username || 'dimas';
       document.getElementById('accountEmail').value = profile.email || 'dimas@gmail.com';
       document.getElementById('accountLocation').value = profile.location || 'Indonesia';
-      document.getElementById('accountAvatar').src = profile.avatar || 'img/dimas_avatar.png';
+      const accountAvatarEl = document.getElementById('accountAvatar');
+      if (profile.avatar) { accountAvatarEl.src = profile.avatar; accountAvatarEl.style.display = ''; accountAvatarEl.previousElementSibling?.style.setProperty('display', 'none'); }
+      else { accountAvatarEl.style.setProperty('display', 'none'); const icon = accountAvatarEl.parentElement.querySelector('i.bi-person-fill') || (() => { const i = document.createElement('i'); i.className = 'bi bi-person-fill'; accountAvatarEl.parentElement.appendChild(i); return i; })(); icon.style.display = ''; }
       document.querySelectorAll('.account-settings-v2-tabs button').forEach(button => button.addEventListener('click', () => {
         document.querySelectorAll('.account-settings-v2-tabs button').forEach(item => item.classList.remove('active'));
         button.classList.add('active');
