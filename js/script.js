@@ -9,11 +9,6 @@
         document.querySelectorAll('a[href="sirkel.html"], a[href="sirkel-kita.html"], a[href="sirkel-sendiri.html"]')
             .forEach(link => link.remove());
 
-        const rightBar = document.querySelector('.mr-right');
-        if (rightBar) {
-            rightBar.querySelectorAll('.side-h, .panel').forEach(element => element.remove());
-        }
-
         const sidebar = document.querySelector('.mr-sidebar');
         if (sidebar) {
             [...sidebar.querySelectorAll('.side-title')].forEach(title => {
