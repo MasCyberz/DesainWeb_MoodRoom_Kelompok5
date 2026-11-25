@@ -444,7 +444,7 @@
     const albumCover = title => ALBUM_COVERS[title] || '';
 
     const MASTER_TRACKS = [
-        { title: 'Evaluasi - Hindia', dur: '3:31', sec: 211, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg' },
+        { title: 'Evaluasi - Hindia', dur: '3:31', sec: 211, grad: ['#8a6a40', '#2c1a0c'], cover: 'img/covers/galau_night.jpg', src: 'music/Hindia-Evaluasi.mp3' },
         { title: 'Bergema Sampai Selamanya - Nadhif Basalamah', dur: '3:26', sec: 206, grad: ['#a8b878', '#3a5a2c'], cover: 'img/covers/santai_nature.jpg' },
         { title: 'Satu Bulan - Bernadya', dur: '3:19', sec: 199, grad: ['#4a3a38', '#0c0a0c'], cover: 'img/covers/galau_room.jpg' },
         { title: 'Nina - .Feast', dur: '4:37', sec: 277, grad: ['#d4553a', '#5a1a14'], cover: 'img/covers/semangat_concert.jpg' },
@@ -458,6 +458,7 @@
     ];
 
     let currentTrackIdx = 0;
+    const playerAudio = new Audio();
     const saved = store.get('mr-player', { title: 'Evaluasi - Hindia', playing: true, pct: 40 });
     let playing = !!saved.playing, pct = +saved.pct || 0, timer, currentEl = null, playingTitle = saved.title;
 
@@ -509,7 +510,48 @@
         if (timeNow) timeNow.textContent = `${curStr} / ${t.dur}`;
         const timeCur = $('#timeCur');
         if (timeCur) timeCur.textContent = curStr;
+        const nowTitleEl = $('#nowTitle');
+        if (nowTitleEl && nowTitleEl.textContent !== playingTitle) nowTitleEl.textContent = playingTitle;
     };
+
+    let isDragging = false;
+    const seek = (clientX) => {
+        const line = $('.progress-line');
+        if (!line) return;
+        const rect = line.getBoundingClientRect();
+        const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+        const pctX = (rect.width ? (x / rect.width) : 0) * 100;
+        pct = Math.max(0, Math.min(100, pctX));
+        if (progBar) progBar.style.width = pct + '%';
+        if (progThumb) progThumb.style.left = pct + '%';
+        if (playerAudio.duration) playerAudio.currentTime = Math.min(playerAudio.duration, Math.max(0, playerAudio.duration * (pct / 100)));
+        if (playing && playerAudio.duration) playerAudio.play().catch(() => {});
+        const scrubTip = $('#scrubTip, .scrub-tooltip');
+        if (scrubTip) {
+            const track = getCurTrack();
+            scrubTip.textContent = fmtTime((pct / 100) * (track.sec || 211));
+            scrubTip.style.display = 'block';
+        }
+        updateTimeDisplay();
+        save();
+    };
+    const hideScrubTip = () => { const tip = $('#scrubTip, .scrub-tooltip'); if (tip) tip.style.display = 'none'; };
+    const line = $('.progress-line');
+    if (line) {
+        line.classList.toggle('can-seek', true);
+        line.addEventListener('pointerdown', e => {
+            e.preventDefault();
+            isDragging = true;
+            line.classList.add('is-dragging');
+            seek(e.clientX);
+        });
+        line.addEventListener('pointermove', e => {
+            if (isDragging) { e.preventDefault(); seek(e.clientX); }
+        });
+        const endDrag = () => { isDragging = false; line.classList.remove('is-dragging'); hideScrubTip(); };
+        line.addEventListener('pointerup', endDrag);
+        document.addEventListener('pointerup', () => { if (isDragging) line.classList.remove('is-dragging'); isDragging = false; });
+    }
 
     const nowTitleEl = $('#nowTitle');
     if (nowTitleEl) nowTitleEl.textContent = playingTitle;
@@ -544,7 +586,13 @@
                 return;
             }
         }
-        pct = pct >= 100 ? 0 : pct + 0.5;
+        if (!isDragging) {
+            if (playerAudio.readyState >= 1 && playerAudio.duration) {
+                pct = Math.max(0, (playerAudio.currentTime / playerAudio.duration) * 100);
+            } else {
+                pct = pct >= 100 ? 0 : pct + 0.5;
+            }
+        }
         if (progBar) progBar.style.width = pct + '%';
         if (progThumb) progThumb.style.left = pct + '%';
         updateTimeDisplay();
@@ -558,7 +606,16 @@
         playing = p;
         if (playIcon) playIcon.className = 'bi ' + (p ? 'bi-pause-fill' : 'bi-play-fill');
         clearInterval(timer);
-        if (p) timer = setInterval(tick, 1000);
+        if (p) {
+            timer = setInterval(tick, 1000);
+            const src = getCurTrack()?.src;
+            if (src) {
+                if (playerAudio.src !== src) playerAudio.src = src;
+                playerAudio.play().catch(() => {});
+            }
+        } else {
+            playerAudio.pause();
+        }
         document.body.classList.toggle('is-paused', !p);
         refreshCards();
         save();
@@ -576,14 +633,22 @@
             setPlaying(!playing);
             return;
         }
+        playerAudio.pause();
+        playerAudio.src = '';
+        playerAudio.load();
         playingTitle = t;
         const found = MASTER_TRACKS.findIndex(x => x.title.toLowerCase() === t.toLowerCase() || t.toLowerCase().includes(x.title.toLowerCase()));
         if (found !== -1) currentTrackIdx = found;
+        const track = getCurTrack();
+        if (track?.src) {
+            playerAudio.src = track.src;
+            playerAudio.load();
+        }
         if (nowTitleEl) nowTitleEl.textContent = t;
         pct = 0;
         if (progBar) progBar.style.width = '0%';
         if (progThumb) progThumb.style.left = '0%';
-        updatePlayerCover(getCurTrack());
+        updatePlayerCover(track);
         setPlaying(true);
         $$('.is-playing').forEach(x => x.classList.remove('is-playing'));
         if (el) { el.classList.add('is-playing'); currentEl = el; }
@@ -631,6 +696,7 @@
 
     // Pindah ke lagu berikutnya
     const nextTrack = () => {
+        playerAudio.pause();
         currentTrackIdx = (currentTrackIdx + 1) % MASTER_TRACKS.length;
         const next = MASTER_TRACKS[currentTrackIdx];
         playTitle(next.title);
@@ -638,6 +704,7 @@
 
     // Pindah ke lagu sebelumnya
     const prevTrack = () => {
+        playerAudio.pause();
         if (pct > 6) {
             pct = 0;
             if (progBar) progBar.style.width = '0%';
