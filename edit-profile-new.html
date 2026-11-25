@@ -255,6 +255,8 @@
         profile.location = locationInput.value.trim();
         profile.mood = document.querySelector('.edit-profile-v2-moods button.active')?.dataset.mood || 'Santai';
         try { localStorage.setItem(key, JSON.stringify(profile)); } catch (_) {}
+        renderAvatarPreview();
+        window.MoodAuth?.refreshProfileUI?.();
         setTimeout(() => location.href = 'profile-new.html', 350);
       });
     })();

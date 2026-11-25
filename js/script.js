@@ -325,18 +325,48 @@
                 closeActionMenu();
                 return;
             }
-            let session = null;
-            try { session = JSON.parse(localStorage.getItem('moodroom_session') || 'null'); } catch (_) { }
-            const username = session?.username || 'dimas';
+            const getProfile = () => {
+                try {
+                    return Object.assign(
+                        { name: '', username: '', avatar: '' },
+                        window.MoodAuth?.getProfile?.() || {},
+                        JSON.parse(localStorage.getItem('moodroom_session') || 'null') || {}
+                    );
+                } catch (_) { return { name: '', username: '', avatar: '' }; }
+            };
+            const profileData = getProfile();
+            const renderProfileMenu = () => {
+                const menu = actionMenu.querySelector('.mr-profile-modal');
+                const avatar = menu?.querySelector('.avatar');
+                const title = menu?.querySelector('h2');
+                const current = getProfile();
+                if (avatar) {
+                    avatar.textContent = '';
+                    if (current.avatar) {
+                        avatar.classList.add('has-image');
+                        avatar.style.setProperty('--avatar-image', `url("${current.avatar}")`);
+                    } else {
+                        avatar.classList.remove('has-image');
+                        avatar.style.removeProperty('--avatar-image');
+                        const i = document.createElement('i');
+                        i.className = 'bi bi-person-fill';
+                        avatar.appendChild(i);
+                    }
+                }
+                if (title) title.textContent = current.username ? '@' + current.username : '@';
+            };
             closeActionModal();
             openActionMenu(profile, `
               <div class="mr-profile-modal">
                 <span class="avatar"></span>
-                <h2>@${username}</h2><p class="mr-action-subtitle">Akun Gratis</p>
+                <h2>@${profileData.username ? '@' + profileData.username : '@'}</h2><p class="mr-action-subtitle">Akun Gratis</p>
                 <a class="btn btn-pink w-100 rounded-pill fw-semibold" href="profile-new.html">Lihat Profil</a>
                 <a class="btn btn-outline-light w-100 rounded-pill mt-2" href="account-settings-new.html">Kelola Akun</a>
                 <button type="button" class="btn btn-dark w-100 rounded-pill mt-2" id="mrLogoutBtn">Keluar</button>
               </div>`, 'profile');
+            renderProfileMenu();
+            window.addEventListener('mrauth:profile-changed', renderProfileMenu);
+            document.addEventListener('mrauth:profile-changed', renderProfileMenu);
         }
     });
 
